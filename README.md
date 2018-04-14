@@ -1,6 +1,6 @@
 # Memory Game
 
-We just wanted a simple memory game for kids 4+ age. No ads, no complicated screens, but a straightforward nice looking, working and open source game.
+We just wanted a simple memory game for kids 4+ age. No ads, no complicated screens, but a straightforward nice looking, working and open source game. - This is what the wonderful creator of this project, Roman Kushnarenko, had to say. I will take this beautiful and simple base and use it on a research about adaptive UIs for people with permanent or temporary visual impairment.
 
 ### Features
 
