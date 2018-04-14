@@ -29,11 +29,8 @@ public class ThemeSelectFragment extends Fragment {
 		View emoji = view.findViewById(R.id.theme_emoji_container);
 
 		final Theme themeAnimals = Themes.createAnimalsTheme();
-		setStars((ImageView) animals.findViewById(R.id.theme_animals), themeAnimals, "animals");
 		final Theme themeMonsters = Themes.createMosterTheme();
-		setStars((ImageView) monsters.findViewById(R.id.theme_monsters), themeMonsters, "monsters");
 		final Theme themeEmoji = Themes.createEmojiTheme();
-		setStars((ImageView) emoji.findViewById(R.id.theme_emoji), themeEmoji, "emoji");
 
 		animals.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -77,6 +74,9 @@ public class ThemeSelectFragment extends Fragment {
 		animatorSet.start();
 	}
 
+	/**
+	 * For now I don't really need to show stars here, I may add it later.
+	 */
 	private void setStars(ImageView imageView, Theme theme, String type) {
 		int sum = 0;
 		for (int difficulty = 1; difficulty <= 6; difficulty++) {

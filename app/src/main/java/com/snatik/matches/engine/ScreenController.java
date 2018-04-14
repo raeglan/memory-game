@@ -1,8 +1,5 @@
 package com.snatik.matches.engine;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,10 +12,13 @@ import com.snatik.matches.fragments.GameFragment;
 import com.snatik.matches.fragments.MenuFragment;
 import com.snatik.matches.fragments.ThemeSelectFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ScreenController {
 
 	private static ScreenController mInstance = null;
-	private static List<Screen> openedScreens = new ArrayList<Screen>();
+	private static List<Screen> openedScreens = new ArrayList<>();
 	private FragmentManager mFragmentManager;
 
 	private ScreenController() {
@@ -31,7 +31,7 @@ public class ScreenController {
 		return mInstance;
 	}
 
-	public static enum Screen {
+	public enum Screen {
 		MENU,
 		GAME,
 		DIFFICULTY,

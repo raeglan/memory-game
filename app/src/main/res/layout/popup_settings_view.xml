@@ -34,7 +34,7 @@
             android:shadowDx="4"
             android:shadowDy="4"
             android:shadowRadius="4"
-            android:text="Sound ON"
+            android:text="@string/sound_on"
             android:textColor="#FFFFFF"
             android:textSize="@dimen/popup_settings_sound_text_size" />
     </LinearLayout>
@@ -66,7 +66,7 @@
             android:shadowDx="4"
             android:shadowDy="4"
             android:shadowRadius="4"
-            android:text="Rate this"
+            android:text="@string/information"
             android:textColor="#FFFFFF"
             android:textSize="@dimen/popup_settings_sound_text_size" />
     </LinearLayout>

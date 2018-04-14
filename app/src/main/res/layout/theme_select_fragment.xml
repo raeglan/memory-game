@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:src="@drawable/animals_theme_star_0" />
+            android:src="@drawable/theme_animal_normal" />
 
     </RelativeLayout>
 
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:src="@drawable/monsters_theme_star_0" />
+            android:src="@drawable/theme_animal_auditory" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:src="@drawable/emoji_theme_star_0" />
+            android:src="@drawable/theme_animal_visual" />
     </RelativeLayout>
 
 </LinearLayout>
