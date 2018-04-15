@@ -4,6 +4,7 @@ package com.snatik.matches;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,7 +18,7 @@ import com.snatik.matches.events.ui.BackGameEvent;
 import com.snatik.matches.ui.PopupManager;
 import com.snatik.matches.utils.Utils;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements TextToSpeech.OnInitListener {
 
     private ImageView mBackgroundImage;
 
@@ -35,6 +36,7 @@ public class MainActivity extends FragmentActivity {
         Shared.activity = this;
         Shared.engine.start();
         Shared.engine.setBackgroundImageView(mBackgroundImage);
+        Shared.tts = new TextToSpeech(this, this);
 
         // makes sure we have that precious real state by hiding the soft keys
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -75,4 +77,13 @@ public class MainActivity extends FragmentActivity {
         mBackgroundImage.setImageBitmap(bitmap);
     }
 
+    /**
+     * called when the TextToSpeech finished initializing.
+     * @param status can be SUCCESS or ERROR
+     */
+    @Override
+    public void onInit(int status) {
+        if(status == TextToSpeech.ERROR)
+            Shared.tts = null;
+    }
 }

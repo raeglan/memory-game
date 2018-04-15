@@ -18,7 +18,7 @@ public class Memory {
                     Context.MODE_PRIVATE);
             SharedPreferences.Editor edit = sharedPreferences.edit();
             String key = String.format(highStartKey, theme, difficulty);
-            edit.putInt(key, stars).commit();
+            edit.putInt(key, stars).apply();
         }
     }
 
@@ -32,7 +32,7 @@ public class Memory {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             String timeKey = String.format(bestTimeKey, theme, difficulty);
             editor.putInt(timeKey, passedSecs);
-            editor.commit();
+            editor.apply();
         }
     }
 

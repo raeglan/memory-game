@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.snatik.matches.R;
 import com.snatik.matches.common.Memory;
+import com.snatik.matches.common.MemoryDb;
 import com.snatik.matches.common.Music;
 import com.snatik.matches.common.Shared;
 import com.snatik.matches.engine.ScreenController.Screen;
@@ -40,6 +41,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import kotlin.Pair;
+
 public class Engine extends EventObserverAdapter {
 
     private static Engine mInstance = null;
@@ -50,6 +53,14 @@ public class Engine extends EventObserverAdapter {
     private Theme mSelectedTheme;
     private ImageView mBackgroundImage;
     private Handler mHandler;
+
+    /**
+     * The log of each chosen card in this game, this will be saved in a form of pairId.cardNumber in
+     * the order it was chosen.
+     * The first of the pair is a timestamp of when the move was made, and the second the move
+     * itself
+     */
+    private final ArrayList<Pair<Long, String>> gameLog = new ArrayList<>();
 
     private Engine() {
         mScreenController = ScreenController.getInstance();
@@ -164,6 +175,11 @@ public class Engine extends EventObserverAdapter {
         task.execute();
     }
 
+    /**
+     * This is the event that notifies a game starting.
+     *
+     * @param event the difficulty event with the level chosen.
+     */
     @Override
     public void onEvent(DifficultySelectedEvent event) {
         mFlippedCard = null;
@@ -180,8 +196,11 @@ public class Engine extends EventObserverAdapter {
     }
 
     private void arrangeBoard() {
+        // setting up the necessary stuff
         BoardConfiguration boardConfiguration = mPlayingGame.boardConfiguration;
         BoardArrangment boardArrangment = new BoardArrangment();
+        // the game log should be empty starting a new game.
+        gameLog.clear();
 
         // build pairs
         // result {0,1,2,...n} // n-number of tiles
@@ -209,11 +228,11 @@ public class Engine extends EventObserverAdapter {
             int firstCardPlacement = placementIds.get(i);
             int secondCardPlacement = placementIds.get(i + 1);
 
-            Card firstCard = new Card(firstCardPlacement, pairId, 0);
+            Card firstCard = new Card(firstCardPlacement, pairId, 1);
             boardArrangment.cards.put(firstCardPlacement, firstCard);
             boardArrangment.tileUrls.put(firstCardPlacement, tileImageUrls.get(pairId));
 
-            Card secondCard = new Card(secondCardPlacement, pairId, 1);
+            Card secondCard = new Card(secondCardPlacement, pairId, 2);
             boardArrangment.cards.put(secondCardPlacement, secondCard);
             boardArrangment.tileUrls.put(secondCardPlacement, tileImageUrls.get(pairId));
 
@@ -227,20 +246,28 @@ public class Engine extends EventObserverAdapter {
     public void onEvent(FlipCardEvent event) {
         Card card = event.card;
 
+        // adding the event to the log
+        long timestamp = System.currentTimeMillis();
+        String move = card.getPairId() + "." + card.getCardNumber();
+        gameLog.add(new Pair<>(timestamp, move));
+
+
+
         if (mFlippedCard == null) {
             mFlippedCard = card;
         } else {
             if (mPlayingGame.boardArrangment.isPair(mFlippedCard, card)) {
 
                 // send event - hide id1, id2
-                Shared.eventBus.notify(new HidePairCardsEvent(mFlippedId, id), 1000);
+                Shared.eventBus.notify(new HidePairCardsEvent(mFlippedCard.getPlacementId(),
+                        card.getPlacementId()), 1000);
 
                 // play music
                 mHandler.postDelayed(new Runnable() {
 
                     @Override
                     public void run() {
-                        Music.playCorrent();
+                        Music.playCorrect();
                     }
                 }, 1000);
                 mToFlip -= 2;
@@ -271,7 +298,9 @@ public class Engine extends EventObserverAdapter {
                     // save to memory
                     Memory.save(mPlayingGame.theme.id, mPlayingGame.boardConfiguration.difficulty, gameState.achievedStars);
                     Memory.saveTime(mPlayingGame.theme.id, mPlayingGame.boardConfiguration.difficulty, gameState.passedSeconds);
-
+                    // and save the logs as well
+                    MemoryDb.INSTANCE.addGameLog(Shared.context, mPlayingGame.theme.id,
+                            mPlayingGame.boardConfiguration.difficulty, gameLog);
 
                     Shared.eventBus.notify(new GameWonEvent(gameState), 1200);
                 }
@@ -280,8 +309,7 @@ public class Engine extends EventObserverAdapter {
                 // send event - flip all down
                 Shared.eventBus.notify(new FlipDownCardsEvent(), 1000);
             }
-            mFlippedId = -1;
-            // Log.i("my_tag", "Flip: mFlippedId: " + mFlippedId);
+            mFlippedCard = null;
         }
     }
 
