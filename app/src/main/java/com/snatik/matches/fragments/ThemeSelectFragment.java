@@ -21,72 +21,72 @@ import java.util.Locale;
 
 public class ThemeSelectFragment extends Fragment {
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = LayoutInflater.from(Shared.context).inflate(R.layout.theme_select_fragment, container, false);
-		View animals = view.findViewById(R.id.theme_animals_container);
-		View monsters = view.findViewById(R.id.theme_monsters_container);
-		View emoji = view.findViewById(R.id.theme_emoji_container);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = LayoutInflater.from(Shared.context).inflate(R.layout.theme_select_fragment, container, false);
+        View normal = view.findViewById(R.id.theme_animals_container);
+        View auditory = view.findViewById(R.id.theme_monsters_container);
+        View visual = view.findViewById(R.id.theme_emoji_container);
 
-		final Theme themeAnimals = Themes.createAnimalsTheme();
-		final Theme themeMonsters = Themes.createMosterTheme();
-		final Theme themeEmoji = Themes.createEmojiTheme();
+        final Theme themeNormal = Themes.createTheme(Theme.ID_ANIMAL);
+        final Theme themeAuditory = Themes.createTheme(Theme.ID_ANIMAL_AUDITORY);
+        final Theme themeVisual = Themes.createTheme(Theme.ID_ANIMAL_VISUAL);
 
-		animals.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Shared.eventBus.notify(new ThemeSelectedEvent(themeAnimals));
-			}
-		});
+        normal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Shared.eventBus.notify(new ThemeSelectedEvent(themeNormal));
+            }
+        });
 
-		monsters.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Shared.eventBus.notify(new ThemeSelectedEvent(themeMonsters));
-			}
-		});
+        auditory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Shared.eventBus.notify(new ThemeSelectedEvent(themeAuditory));
+            }
+        });
 
-		emoji.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Shared.eventBus.notify(new ThemeSelectedEvent(themeEmoji));
-			}
-		});
+        visual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Shared.eventBus.notify(new ThemeSelectedEvent(themeVisual));
+            }
+        });
 
-		/**
-		 * Imporove performance first!!!
-		 */
-		animateShow(animals);
-		animateShow(monsters);
-		animateShow(emoji);
+        /*
+         * Improve performance first!!!
+         */
+        animateShow(normal);
+        animateShow(auditory);
+        animateShow(visual);
 
-		return view;
-	}
+        return view;
+    }
 
-	private void animateShow(View view) {
-		ObjectAnimator animatorScaleX = ObjectAnimator.ofFloat(view, "scaleX", 0.5f, 1f);
-		ObjectAnimator animatorScaleY = ObjectAnimator.ofFloat(view, "scaleY", 0.5f, 1f);
-		AnimatorSet animatorSet = new AnimatorSet();
-		animatorSet.setDuration(300);
-		animatorSet.playTogether(animatorScaleX, animatorScaleY);
-		animatorSet.setInterpolator(new DecelerateInterpolator(2));
-		view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-		animatorSet.start();
-	}
+    private void animateShow(View view) {
+        ObjectAnimator animatorScaleX = ObjectAnimator.ofFloat(view, "scaleX", 0.5f, 1f);
+        ObjectAnimator animatorScaleY = ObjectAnimator.ofFloat(view, "scaleY", 0.5f, 1f);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.setDuration(300);
+        animatorSet.playTogether(animatorScaleX, animatorScaleY);
+        animatorSet.setInterpolator(new DecelerateInterpolator(2));
+        view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        animatorSet.start();
+    }
 
-	/**
-	 * For now I don't really need to show stars here, I may add it later.
-	 */
-	private void setStars(ImageView imageView, Theme theme, String type) {
-		int sum = 0;
-		for (int difficulty = 1; difficulty <= 6; difficulty++) {
-			sum += Memory.getHighStars(theme.id, difficulty);
-		}
-		int num = sum / 6;
-		if (num != 0) {
-			String drawableResourceName = String.format(Locale.US, type + "_theme_star_%d", num);
-			int drawableResourceId = Shared.context.getResources().getIdentifier(drawableResourceName, "drawable", Shared.context.getPackageName());
-			imageView.setImageResource(drawableResourceId);
-		}
-	}
+    /**
+     * For now I don't really need to show stars here, I may add it later.
+     */
+    private void setStars(ImageView imageView, Theme theme, String type) {
+        int sum = 0;
+        for (int difficulty = 1; difficulty <= 6; difficulty++) {
+            sum += Memory.getHighStars(theme.id, difficulty);
+        }
+        int num = sum / 6;
+        if (num != 0) {
+            String drawableResourceName = String.format(Locale.US, type + "_theme_star_%d", num);
+            int drawableResourceId = Shared.context.getResources().getIdentifier(drawableResourceName, "drawable", Shared.context.getPackageName());
+            imageView.setImageResource(drawableResourceId);
+        }
+    }
 }
