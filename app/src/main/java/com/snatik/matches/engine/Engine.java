@@ -251,7 +251,10 @@ public class Engine extends EventObserverAdapter {
         String move = card.getPairId() + "." + card.getCardNumber();
         gameLog.add(new Pair<>(timestamp, move));
 
-
+        // if auditory obstacles were chosen then say a random number out loud
+        if(mSelectedTheme.id == Theme.ID_ANIMAL_AUDITORY) {
+            Music.playRandomNumber();
+        }
 
         if (mFlippedCard == null) {
             mFlippedCard = card;

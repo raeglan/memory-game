@@ -7,7 +7,7 @@ import android.provider.BaseColumns
  */
 object MemoryContract {
 
-    const val DB_VERSION = 1
+    const val DB_VERSION = 2
     const val DB_NAME = "MemoryGame"
 
     object LogTable : BaseColumns {

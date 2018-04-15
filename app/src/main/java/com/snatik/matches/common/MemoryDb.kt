@@ -23,7 +23,23 @@ class MemoryDbHelper(context: Context) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        TODO("Implement an upgrade function when needed.")
+        if (oldVersion == 1 && newVersion == 2) {
+            val cursor = db?.query(LogTable.TABLE_NAME,
+                    null, null,
+                    null, null,
+                    null, null)
+
+            val gameTypeIndex = cursor?.getColumnIndex(LogTable.COLUMN_GAME_TYPE)
+            val gameTypeIndex = cursor?.getColumnIndex(LogTable.COLUMN_GAME_TYPE)
+            val gameTypeIndex = cursor?.getColumnIndex(LogTable.COLUMN_GAME_TYPE)
+            val gameTypeIndex = cursor?.getColumnIndex(LogTable.COLUMN_GAME_TYPE)
+            val gameTypeIndex = cursor?.getColumnIndex(LogTable.COLUMN_GAME_TYPE)
+
+
+            while (cursor?.moveToNext() == true) {
+
+            }
+        }
     }
 }
 
