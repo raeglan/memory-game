@@ -26,7 +26,7 @@ import com.snatik.matches.events.ui.NextGameEvent;
 import com.snatik.matches.events.ui.ResetBackgroundEvent;
 import com.snatik.matches.events.ui.StartEvent;
 import com.snatik.matches.events.ui.ThemeSelectedEvent;
-import com.snatik.matches.model.BoardArrangment;
+import com.snatik.matches.model.BoardArrangement;
 import com.snatik.matches.model.BoardConfiguration;
 import com.snatik.matches.model.Card;
 import com.snatik.matches.model.Game;
@@ -198,7 +198,7 @@ public class Engine extends EventObserverAdapter {
     private void arrangeBoard() {
         // setting up the necessary stuff
         BoardConfiguration boardConfiguration = mPlayingGame.boardConfiguration;
-        BoardArrangment boardArrangment = new BoardArrangment();
+        BoardArrangement boardArrangement = new BoardArrangement();
         // the game log should be empty starting a new game.
         gameLog.clear();
 
@@ -219,8 +219,8 @@ public class Engine extends EventObserverAdapter {
                 mPlayingGame.theme.tileImageUrls.subList(0, boardConfiguration.numTiles / 2);
         Collections.shuffle(tileImageUrls);
 
-        boardArrangment.cards = new SparseArray<>();
-        boardArrangment.tileUrls = new SparseArray<>();
+        boardArrangement.cards = new SparseArray<>();
+        boardArrangement.tileUrls = new SparseArray<>();
 
         int pairId = 0;
         for (int i = 0; i + 1 < placementIds.size(); i += 2) {
@@ -229,17 +229,17 @@ public class Engine extends EventObserverAdapter {
             int secondCardPlacement = placementIds.get(i + 1);
 
             Card firstCard = new Card(firstCardPlacement, pairId, 1);
-            boardArrangment.cards.put(firstCardPlacement, firstCard);
-            boardArrangment.tileUrls.put(firstCardPlacement, tileImageUrls.get(pairId));
+            boardArrangement.cards.put(firstCardPlacement, firstCard);
+            boardArrangement.tileUrls.put(firstCardPlacement, tileImageUrls.get(pairId));
 
             Card secondCard = new Card(secondCardPlacement, pairId, 2);
-            boardArrangment.cards.put(secondCardPlacement, secondCard);
-            boardArrangment.tileUrls.put(secondCardPlacement, tileImageUrls.get(pairId));
+            boardArrangement.cards.put(secondCardPlacement, secondCard);
+            boardArrangement.tileUrls.put(secondCardPlacement, tileImageUrls.get(pairId));
 
             pairId++;
         }
 
-        mPlayingGame.boardArrangment = boardArrangment;
+        mPlayingGame.boardArrangement = boardArrangement;
     }
 
     @Override
@@ -256,7 +256,7 @@ public class Engine extends EventObserverAdapter {
         if (mFlippedCard == null) {
             mFlippedCard = card;
         } else {
-            if (mPlayingGame.boardArrangment.isPair(mFlippedCard, card)) {
+            if (mPlayingGame.boardArrangement.isPair(mFlippedCard, card)) {
 
                 // send event - hide id1, id2
                 Shared.eventBus.notify(new HidePairCardsEvent(mFlippedCard.getPlacementId(),

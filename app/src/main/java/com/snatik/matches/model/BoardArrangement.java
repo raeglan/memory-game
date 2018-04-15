@@ -13,7 +13,7 @@ import com.snatik.matches.utils.Utils;
  *
  * @author sromku
  */
-public class BoardArrangment {
+public class BoardArrangement {
 
     /**
      * Maps a placement id to a tile image.

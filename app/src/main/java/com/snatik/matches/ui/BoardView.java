@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import com.snatik.matches.R;
 import com.snatik.matches.common.Shared;
 import com.snatik.matches.events.ui.FlipCardEvent;
-import com.snatik.matches.model.BoardArrangment;
+import com.snatik.matches.model.BoardArrangement;
 import com.snatik.matches.model.BoardConfiguration;
 import com.snatik.matches.model.Card;
 import com.snatik.matches.model.Game;
@@ -35,7 +35,7 @@ public class BoardView extends LinearLayout {
     private int mScreenWidth;
     private int mScreenHeight;
     private BoardConfiguration mBoardConfiguration;
-    private BoardArrangment mBoardArrangment;
+    private BoardArrangement mBoardArrangement;
     private SparseArray<TileView> mViewReference;
     private List<Integer> flippedUp = new ArrayList<>();
     private boolean mLocked = false;
@@ -68,7 +68,7 @@ public class BoardView extends LinearLayout {
 
     public void setBoard(Game game) {
         mBoardConfiguration = game.boardConfiguration;
-        mBoardArrangment = game.boardArrangment;
+        mBoardArrangement = game.boardArrangement;
         // calc prefered tiles in width and height
         int singleMargin = getResources().getDimensionPixelSize(R.dimen.card_margin);
         float density = getResources().getDisplayMetrics().density;
@@ -127,7 +127,7 @@ public class BoardView extends LinearLayout {
 
             @Override
             protected Bitmap doInBackground(Void... params) {
-                return mBoardArrangment.getTileBitmap(placementId, mSize);
+                return mBoardArrangement.getTileBitmap(placementId, mSize);
             }
 
             @Override
@@ -146,7 +146,7 @@ public class BoardView extends LinearLayout {
                     if (flippedUp.size() == 2) {
                         mLocked = true;
                     }
-                    Card chosenCard = mBoardArrangment.cards.get(placementId);
+                    Card chosenCard = mBoardArrangement.cards.get(placementId);
                     Shared.eventBus.notify(new FlipCardEvent(chosenCard));
                 }
             }

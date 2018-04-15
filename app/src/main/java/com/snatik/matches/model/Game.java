@@ -17,7 +17,7 @@ public class Game {
 	/**
 	 * The board arrangment
 	 */
-	public BoardArrangment boardArrangment;
+	public BoardArrangement boardArrangement;
 
 	/**
 	 * The selected theme
