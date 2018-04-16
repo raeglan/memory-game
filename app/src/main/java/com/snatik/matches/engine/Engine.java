@@ -31,6 +31,7 @@ import com.snatik.matches.model.BoardConfiguration;
 import com.snatik.matches.model.Card;
 import com.snatik.matches.model.Game;
 import com.snatik.matches.model.GameState;
+import com.snatik.matches.model.Impairment;
 import com.snatik.matches.themes.Theme;
 import com.snatik.matches.themes.Themes;
 import com.snatik.matches.ui.PopupManager;
@@ -134,7 +135,7 @@ public class Engine extends EventObserverAdapter {
     @Override
     public void onEvent(NextGameEvent event) {
         PopupManager.closePopup();
-        int difficulty = mPlayingGame.boardConfiguration.difficulty;
+        int difficulty = mPlayingGame.boardConfiguration.getDifficulty();
         if (mPlayingGame.gameState.achievedStars == 3 && difficulty < 6) {
             difficulty++;
         }
@@ -184,9 +185,9 @@ public class Engine extends EventObserverAdapter {
     public void onEvent(DifficultySelectedEvent event) {
         mFlippedCard = null;
         mPlayingGame = new Game();
-        mPlayingGame.boardConfiguration = new BoardConfiguration(event.difficulty);
+        mPlayingGame.boardConfiguration = new BoardConfiguration(event.difficulty, mSelectedTheme.id);
         mPlayingGame.theme = mSelectedTheme;
-        mToFlip = mPlayingGame.boardConfiguration.numTiles;
+        mToFlip = mPlayingGame.boardConfiguration.getNumTiles();
 
         // arrange board
         arrangeBoard();
@@ -205,7 +206,7 @@ public class Engine extends EventObserverAdapter {
         // build pairs
         // result {0,1,2,...n} // n-number of tiles
         List<Integer> placementIds = new ArrayList<>();
-        for (int i = 0; i < boardConfiguration.numTiles; i++) {
+        for (int i = 0; i < boardConfiguration.getNumTiles(); i++) {
             placementIds.add(i);
         }
         // shuffle
@@ -216,7 +217,7 @@ public class Engine extends EventObserverAdapter {
         // For a scientific study, a random game set is not a good idea.
         // Instead we take the set first and then randomize the position.
         List<String> tileImageUrls =
-                mPlayingGame.theme.tileImageUrls.subList(0, boardConfiguration.numTiles / 2);
+                mPlayingGame.theme.tileImageUrls.subList(0, boardConfiguration.getNumTiles() / 2);
         Collections.shuffle(tileImageUrls);
 
         boardArrangement.cards = new SparseArray<>();
@@ -252,7 +253,7 @@ public class Engine extends EventObserverAdapter {
         gameLog.add(new Pair<>(timestamp, move));
 
         // if auditory obstacles were chosen then say a random number out loud
-        if(mSelectedTheme.id == Theme.ID_ANIMAL_AUDITORY) {
+        if(mPlayingGame.boardConfiguration.getImpairment() == Impairment.AUDITORY_SUM_10) {
             Music.playRandomNumber();
         }
 
@@ -277,7 +278,7 @@ public class Engine extends EventObserverAdapter {
                 if (mToFlip == 0) {
                     int passedSeconds = (int) (Clock.getInstance().getPassedTime() / 1000);
                     Clock.getInstance().pause();
-                    int totalTime = mPlayingGame.boardConfiguration.time;
+                    int totalTime = mPlayingGame.boardConfiguration.getTime();
                     GameState gameState = new GameState();
                     mPlayingGame.gameState = gameState;
                     // remained seconds
@@ -296,14 +297,14 @@ public class Engine extends EventObserverAdapter {
                     }
 
                     // calc score
-                    gameState.achievedScore = mPlayingGame.boardConfiguration.difficulty * gameState.remainedSeconds * mPlayingGame.theme.id;
+                    gameState.achievedScore = mPlayingGame.boardConfiguration.getDifficulty() * gameState.remainedSeconds * mPlayingGame.theme.id;
 
                     // save to memory
-                    Memory.save(mPlayingGame.theme.id, mPlayingGame.boardConfiguration.difficulty, gameState.achievedStars);
-                    Memory.saveTime(mPlayingGame.theme.id, mPlayingGame.boardConfiguration.difficulty, gameState.passedSeconds);
+                    Memory.save(mPlayingGame.theme.id, mPlayingGame.boardConfiguration.getDifficulty(), gameState.achievedStars);
+                    Memory.saveTime(mPlayingGame.theme.id, mPlayingGame.boardConfiguration.getDifficulty(), gameState.passedSeconds);
                     // and save the logs as well
                     MemoryDb.INSTANCE.addGameLog(mPlayingGame.theme.id,
-                            mPlayingGame.boardConfiguration.difficulty, gameLog);
+                            mPlayingGame.boardConfiguration.getDifficulty(), gameLog);
 
                     Shared.eventBus.notify(new GameWonEvent(gameState), 1200);
                 }

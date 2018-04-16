@@ -1,5 +1,6 @@
 package com.snatik.matches.common
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.snatik.matches.themes.Theme
 import java.util.*
@@ -43,11 +44,13 @@ object MemoryDb {
         log[FIELD_GAME_LOG] = movesLog
         log[FIELD_GAME_TYPE] = gameType
         log[FIELD_TIME_LOG] = timeLog
-        if (user != null) {
+        if (user == null) {
             log[FIELD_USER] = fireDb.collection(COLLECTION_USERS).document("rafael")
         }
         // and now adding to our DB
         fireDb.collection(COLLECTION_LOGS)
                 .add(log)
+                .addOnSuccessListener { document -> Log.v(TAG, "New document with id: ${document.id}") }
+                .addOnFailureListener { e -> e.printStackTrace() }
     }
 }

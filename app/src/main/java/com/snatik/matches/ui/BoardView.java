@@ -72,13 +72,13 @@ public class BoardView extends LinearLayout {
         // calc prefered tiles in width and height
         int singleMargin = getResources().getDimensionPixelSize(R.dimen.card_margin);
         float density = getResources().getDisplayMetrics().density;
-        singleMargin = Math.max((int) (1 * density), (int) (singleMargin - mBoardConfiguration.difficulty * 2 * density));
+        singleMargin = Math.max((int) (1 * density), (int) (singleMargin - mBoardConfiguration.getDifficulty() * 2 * density));
         int sumMargin = 0;
-        for (int row = 0; row < mBoardConfiguration.numRows; row++) {
+        for (int row = 0; row < mBoardConfiguration.getNumRows(); row++) {
             sumMargin += singleMargin * 2;
         }
-        int tilesHeight = (mScreenHeight - sumMargin) / mBoardConfiguration.numRows;
-        int tilesWidth = (mScreenWidth - sumMargin) / mBoardConfiguration.numTilesInRow;
+        int tilesHeight = (mScreenHeight - sumMargin) / mBoardConfiguration.getNumRows();
+        int tilesWidth = (mScreenWidth - sumMargin) / mBoardConfiguration.getNumTilesInRow();
         mSize = Math.min(tilesHeight, tilesWidth);
 
         mTileLayoutParams = new LinearLayout.LayoutParams(mSize, mSize);
@@ -93,7 +93,7 @@ public class BoardView extends LinearLayout {
      */
     private void buildBoard() {
 
-        for (int row = 0; row < mBoardConfiguration.numRows; row++) {
+        for (int row = 0; row < mBoardConfiguration.getNumRows(); row++) {
             // add row
             addBoardRow(row);
         }
@@ -107,8 +107,8 @@ public class BoardView extends LinearLayout {
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         linearLayout.setGravity(Gravity.CENTER);
 
-        for (int tile = 0; tile < mBoardConfiguration.numTilesInRow; tile++) {
-            addTile(rowNum * mBoardConfiguration.numTilesInRow + tile, linearLayout);
+        for (int tile = 0; tile < mBoardConfiguration.getNumTilesInRow(); tile++) {
+            addTile(rowNum * mBoardConfiguration.getNumTilesInRow() + tile, linearLayout);
         }
 
         // add to this view
