@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.snatik.matches.common.MemoryDb;
 import com.snatik.matches.common.Shared;
 import com.snatik.matches.engine.Engine;
 import com.snatik.matches.engine.ScreenController;
@@ -50,6 +51,8 @@ public class MainActivity extends FragmentActivity implements TextToSpeech.OnIni
 
         // set menu
         ScreenController.getInstance().openScreen(Screen.MENU);
+
+        MemoryDb.INSTANCE.readAllEntries();
     }
 
     @Override
@@ -79,11 +82,12 @@ public class MainActivity extends FragmentActivity implements TextToSpeech.OnIni
 
     /**
      * called when the TextToSpeech finished initializing.
+     *
      * @param status can be SUCCESS or ERROR
      */
     @Override
     public void onInit(int status) {
-        if(status == TextToSpeech.ERROR)
+        if (status == TextToSpeech.ERROR)
             Shared.tts = null;
     }
 }

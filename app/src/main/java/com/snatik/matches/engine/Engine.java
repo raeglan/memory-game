@@ -302,7 +302,7 @@ public class Engine extends EventObserverAdapter {
                     Memory.save(mPlayingGame.theme.id, mPlayingGame.boardConfiguration.difficulty, gameState.achievedStars);
                     Memory.saveTime(mPlayingGame.theme.id, mPlayingGame.boardConfiguration.difficulty, gameState.passedSeconds);
                     // and save the logs as well
-                    MemoryDb.INSTANCE.addGameLog(Shared.context, mPlayingGame.theme.id,
+                    MemoryDb.INSTANCE.addGameLog(mPlayingGame.theme.id,
                             mPlayingGame.boardConfiguration.difficulty, gameLog);
 
                     Shared.eventBus.notify(new GameWonEvent(gameState), 1200);

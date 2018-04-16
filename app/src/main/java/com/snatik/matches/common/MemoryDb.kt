@@ -1,91 +1,53 @@
 package com.snatik.matches.common
 
-import android.content.ContentValues
-import android.content.Context
-import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
-import android.os.AsyncTask
-import com.snatik.matches.common.MemoryContract.LogTable
+import com.google.firebase.firestore.FirebaseFirestore
 import com.snatik.matches.themes.Theme
-
-
-/**
- * The Memory DB helper and Util class
- */
-class MemoryDbHelper(context: Context) :
-        SQLiteOpenHelper(context,
-                MemoryContract.DB_NAME,
-                null,
-                MemoryContract.DB_VERSION) {
-
-    override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL(MemoryContract.LogTable.CREATE_TABLE)
-    }
-
-    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        if (oldVersion == 1 && newVersion == 2) {
-            val cursor = db?.query(LogTable.TABLE_NAME,
-                    null, null,
-                    null, null,
-                    null, null)
-
-            val gameTypeIndex = cursor?.getColumnIndex(LogTable.COLUMN_GAME_TYPE)
-            val gameTypeIndex = cursor?.getColumnIndex(LogTable.COLUMN_GAME_TYPE)
-            val gameTypeIndex = cursor?.getColumnIndex(LogTable.COLUMN_GAME_TYPE)
-            val gameTypeIndex = cursor?.getColumnIndex(LogTable.COLUMN_GAME_TYPE)
-            val gameTypeIndex = cursor?.getColumnIndex(LogTable.COLUMN_GAME_TYPE)
-
-
-            while (cursor?.moveToNext() == true) {
-
-            }
-        }
-    }
-}
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * The persistent memory for our memory game.
  */
 object MemoryDb {
 
+    @Suppress("unused")
+    private const val TAG = "MemoryDb"
+
+    const val COLLECTION_LOGS = "logs"
+    const val COLLECTION_USERS = "users"
+
+    const val FIELD_DIFFICULTY = "difficulty"
+    const val FIELD_GAME_LOG = "gameLog"
+    const val FIELD_GAME_TYPE = "gameType"
+    const val FIELD_TIME_LOG = "timeLog"
+    const val FIELD_USER = "user"
+
+
     /**
      * Adds the log of this game to our DB. The log has the timestamp of each action and which
      * card was flipped.
      */
-    fun addGameLog(context: Context, @Theme.ThemeId gameType: Int, difficulty: Int,
-                   gameLog: List<Pair<Long, String>>) {
-        // we actually only want completed games here, but just to be safe.
-        if (gameLog.size > 2) {
+    @JvmOverloads
+    fun addGameLog(@Theme.ThemeId gameType: Int, difficulty: Int, gameLog: List<Pair<Long, String>>,
+                   user: String? = null) {
 
-            // For the sake of simplicity the game only "starts" when the first card is displayed.
-            val startTime = gameLog[0].first
-            val endTime = gameLog[gameLog.size - 1].first
+        val fireDb = FirebaseFirestore.getInstance()
 
-            // the logs will be saved as comma separated values inside our DB.
-            val timeLogString = gameLog
-                    .joinToString(separator = ",", transform = { pair -> pair.first.toString() })
-            val gameLogString = gameLog
-                    .joinToString(separator = ",", transform = { pair -> pair.second })
+        // the logs will be saved as comma separated values inside our DB.
+        val timeLog = gameLog.map { pair -> Date(pair.first) }
+        val movesLog = gameLog.map { pair -> pair.second }
 
-            // each of the values to its respective column
-            val contentValues = ContentValues()
-            contentValues.put(LogTable.COLUMN_GAME_TYPE, gameType)
-            contentValues.put(LogTable.COLUMN_START_TIME, startTime)
-            contentValues.put(LogTable.COLUMN_END_TIME, endTime)
-            contentValues.put(LogTable.COLUMN_GAME_LOG, gameLogString)
-            contentValues.put(LogTable.COLUMN_TIME_LOG, timeLogString)
-
-            saveGameLogAsync(context, contentValues)
+        // each of the values to its respective fields
+        val log = HashMap<String, Any>(5)
+        log[FIELD_DIFFICULTY] = difficulty
+        log[FIELD_GAME_LOG] = movesLog
+        log[FIELD_GAME_TYPE] = gameType
+        log[FIELD_TIME_LOG] = timeLog
+        if (user != null) {
+            log[FIELD_USER] = fireDb.collection(COLLECTION_USERS).document("rafael")
         }
-    }
-
-    private fun saveGameLogAsync(context: Context, contentValues: ContentValues) {
-        object : AsyncTask<ContentValues, Void, Unit>() {
-            override fun doInBackground(vararg p0: ContentValues?) {
-                // now we get to persisting stuff. Exciting!
-                val db = MemoryDbHelper(context).writableDatabase
-                db?.insert(LogTable.TABLE_NAME, null, contentValues)
-            }
-        }.execute()
+        // and now adding to our DB
+        fireDb.collection(COLLECTION_LOGS)
+                .add(log)
     }
 }
