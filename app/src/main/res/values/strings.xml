@@ -9,5 +9,11 @@
     <string name="sound_on">Sound ON</string>
     <string name="more_options">More Options</string>
     <string name="game_settings">Game Settings</string>
+    <string name="new_user">New user</string>
+    <string name="new_user_hint">The name must be unique.</string>
 
+    <!-- Preference Strings -->
+    <string name="pref_user_selected">user-selected</string>
+    <string name="pref_new_user">new-user</string>
+    <string name="pref_game_set_chosen">game-set</string>
 </resources>

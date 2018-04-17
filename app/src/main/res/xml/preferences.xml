@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/game_settings">
+    android:title="@string/more_options">
 
+    <PreferenceCategory android:title="Select a player"/>
+
+    <ListPreference
+        android:key="@string/pref_user_selected"
+        android:title="Already existing" />
+    <EditTextPreference
+        android:key="@string/pref_new_user"
+        android:summary="@string/new_user_hint"
+        android:title="@string/new_user" />
+
+    <PreferenceCategory android:title="@string/game_settings" />
+
+    <ListPreference
+        android:id="@+id/"
+        android:key="@string/pref_game_set_chosen"
+        android:summary="Select a deck of cards to be used."
+        android:title="Game set" />
 </PreferenceScreen>

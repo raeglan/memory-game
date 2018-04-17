@@ -53,4 +53,6 @@ object MemoryDb {
                 .addOnSuccessListener { document -> Log.v(TAG, "New document with id: ${document.id}") }
                 .addOnFailureListener { e -> e.printStackTrace() }
     }
+
+
 }

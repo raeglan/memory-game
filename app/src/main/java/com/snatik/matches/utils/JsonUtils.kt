@@ -13,7 +13,6 @@ object JsonUtils {
     fun getJsonStringFromRaw(context: Context, @RawRes rawRes: Int): String {
         val inputStream = context.resources.openRawResource(rawRes)
         val reader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
-        val test = fun String.(): Boolean = this.startsWith("dsa")
         return reader.use(BufferedReader::readText)
     }
 }
