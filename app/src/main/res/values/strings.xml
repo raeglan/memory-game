@@ -4,7 +4,10 @@
     <string name="app_name">Memory Game</string>
     <string name="debug">regular</string>
     <string name="information">Information</string>
-    <string name="sound_on">Sound ON</string>
     <string name="app_info_hint">Adapted from memory-game by sromku for the CSL in Bremen.</string>
+    <string name="sound_off">Sound OFF</string>
+    <string name="sound_on">Sound ON</string>
+    <string name="more_options">More Options</string>
+    <string name="game_settings">Game Settings</string>
 
 </resources>

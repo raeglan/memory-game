@@ -34,7 +34,7 @@ public class Themes {
         theme.id = Theme.ID_ANIMAL;
         theme.name = "Animals";
         theme.backgroundImageUrl = URI_DRAWABLE + "back_animals";
-        theme.tileImageUrls = new ArrayList<String>();
+        theme.tileImageUrls = new ArrayList<>();
         // 40 drawables
         for (int i = 1; i <= 28; i++) {
             theme.tileImageUrls.add(URI_DRAWABLE + String.format("animals_%d", i));
@@ -47,7 +47,7 @@ public class Themes {
         theme.id = Theme.ID_MONSTER;
         theme.name = "Mosters";
         theme.backgroundImageUrl = URI_DRAWABLE + "back_horror";
-        theme.tileImageUrls = new ArrayList<String>();
+        theme.tileImageUrls = new ArrayList<>();
         // 40 drawables
         for (int i = 1; i <= 40; i++) {
             theme.tileImageUrls.add(URI_DRAWABLE + String.format("mosters_%d", i));
@@ -60,7 +60,7 @@ public class Themes {
         theme.id = Theme.ID_EMOJI;
         theme.name = "Emoji";
         theme.backgroundImageUrl = URI_DRAWABLE + "background";
-        theme.tileImageUrls = new ArrayList<String>();
+        theme.tileImageUrls = new ArrayList<>();
         // 40 drawables
         for (int i = 1; i <= 40; i++) {
             theme.tileImageUrls.add(URI_DRAWABLE + String.format("emoji_%d", i));

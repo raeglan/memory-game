@@ -9,13 +9,16 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
 import com.snatik.matches.common.Shared;
 import com.snatik.matches.engine.Engine;
 import com.snatik.matches.engine.ScreenController;
 import com.snatik.matches.engine.ScreenController.Screen;
 import com.snatik.matches.events.EventBus;
 import com.snatik.matches.events.ui.BackGameEvent;
+import com.snatik.matches.model.GameSettings;
 import com.snatik.matches.ui.PopupManager;
+import com.snatik.matches.utils.JsonUtils;
 import com.snatik.matches.utils.Utils;
 
 public class MainActivity extends FragmentActivity implements TextToSpeech.OnInitListener {
@@ -31,12 +34,18 @@ public class MainActivity extends FragmentActivity implements TextToSpeech.OnIni
         Shared.eventBus = EventBus.getInstance();
 
         setContentView(R.layout.activity_main);
-        mBackgroundImage = (ImageView) findViewById(R.id.background_image);
+        mBackgroundImage = findViewById(R.id.background_image);
 
         Shared.activity = this;
         Shared.engine.start();
         Shared.engine.setBackgroundImageView(mBackgroundImage);
         Shared.tts = new TextToSpeech(this, this);
+
+        // getting the game settings from the Json file
+        Gson gson = new Gson();
+        String settingsJson = JsonUtils.INSTANCE
+                .getJsonStringFromRaw(this, R.raw.game_settings);
+        Shared.gameSettings = gson.fromJson(settingsJson, GameSettings.class);
 
         // makes sure we have that precious real state by hiding the soft keys
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

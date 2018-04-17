@@ -1,0 +1,14 @@
+{
+  "version": 0,
+  "gameSets": [
+    {
+      "setName": "Animals",
+      "baseFileName": "animals_",
+      "count": 28
+    }, {
+      "setName": "Emojis",
+      "baseFileName": "emoji_",
+      "count": 48
+    }
+  ]
+}
