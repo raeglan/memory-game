@@ -13,7 +13,7 @@
     <string name="new_user_hint">The name must be unique.</string>
 
     <!-- Preference Strings -->
-    <string name="pref_user_selected">user-selected</string>
+    <string name="pref_user">user-selected</string>
     <string name="pref_new_user">new-user</string>
-    <string name="pref_game_set_chosen">game-set</string>
+    <string name="pref_game_set">game-set</string>
 </resources>
