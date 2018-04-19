@@ -17,12 +17,15 @@ object MemoryDb {
     const val COLLECTION_LOGS = "logs"
     const val COLLECTION_USERS = "users"
 
+    // LOGS
     const val FIELD_DIFFICULTY = "difficulty"
     const val FIELD_GAME_LOG = "gameLog"
     const val FIELD_GAME_TYPE = "gameType"
     const val FIELD_TIME_LOG = "timeLog"
     const val FIELD_USER = "user"
 
+    // USERS
+    const val FIELD_NAME = "name"
 
     /**
      * Adds the log of this game to our DB. The log has the timestamp of each action and which

@@ -4,7 +4,7 @@
 
     <PreferenceCategory android:title="Select a player"/>
 
-    <ListPreference
+    <DropDownPreference
         android:key="@string/pref_user"
         android:title="Already existing" />
     <EditTextPreference
@@ -14,8 +14,7 @@
 
     <PreferenceCategory android:title="@string/game_settings" />
 
-    <ListPreference
-        android:id="@+id/"
+    <DropDownPreference
         android:key="@string/pref_game_set"
         android:summary="Select a deck of cards to be used."
         android:title="Game set" />

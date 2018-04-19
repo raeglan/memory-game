@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.snatik.matches.R;
 import com.snatik.matches.common.Music;
+import com.snatik.matches.engine.ScreenController;
+import com.snatik.matches.events.EventBus;
 import com.snatik.matches.utils.FontLoader;
 import com.snatik.matches.utils.FontLoader.Font;
 
@@ -40,11 +42,12 @@ public class PopupSettingsView extends LinearLayout {
                 setMusicButton();
             }
         });
-        View rate = findViewById(R.id.rate);
-        rate.setOnClickListener(new View.OnClickListener() {
+        View settings = findViewById(R.id.rate);
+        settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), R.string.app_info_hint, Toast.LENGTH_LONG).show();
+                ScreenController.getInstance().openScreen(ScreenController.Screen.GAME_SETTINGS);
+                PopupManager.closePopup();
             }
         });
         setMusicButton();

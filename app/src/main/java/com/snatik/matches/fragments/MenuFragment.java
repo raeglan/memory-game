@@ -35,9 +35,9 @@ public class MenuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.menu_fragment, container, false);
-        mTitle = (ImageView) view.findViewById(R.id.title);
-        mStartGameButton = (ImageView) view.findViewById(R.id.start_game_button);
-        mSettingsGameButton = (ImageView) view.findViewById(R.id.settings_game_button);
+        mTitle = view.findViewById(R.id.title);
+        mStartGameButton = view.findViewById(R.id.start_game_button);
+        mSettingsGameButton = view.findViewById(R.id.settings_game_button);
         mSettingsGameButton.setSoundEffectsEnabled(false);
         mSettingsGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +45,7 @@ public class MenuFragment extends Fragment {
                 PopupManager.showPopupSettings();
             }
         });
-        mGooglePlayGameButton = (ImageView) view.findViewById(R.id.google_play_button);
+        mGooglePlayGameButton = view.findViewById(R.id.google_play_button);
         mGooglePlayGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,8 +54,8 @@ public class MenuFragment extends Fragment {
                         Toast.LENGTH_LONG).show();
             }
         });
-        mStartButtonLights = (ImageView) view.findViewById(R.id.start_game_button_lights);
-        mTooltip = (ImageView) view.findViewById(R.id.tooltip);
+        mStartButtonLights = view.findViewById(R.id.start_game_button_lights);
+        mTooltip = view.findViewById(R.id.tooltip);
         mStartGameButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
