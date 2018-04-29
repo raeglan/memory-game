@@ -123,44 +123,48 @@ public class BoardView extends LinearLayout {
         parent.setClipChildren(false);
         mViewReference.put(placementId, tileView);
 
-        new AsyncTask<Void, Void, Bitmap>() {
+        if (placementId < mBoardConfiguration.getNumTiles()) {
+            new AsyncTask<Void, Void, Bitmap>() {
 
-            @Override
-            protected Bitmap doInBackground(Void... params) {
-                return mBoardArrangement.getTileBitmap(placementId, mSize);
-            }
-
-            @Override
-            protected void onPostExecute(Bitmap result) {
-                tileView.setTileImage(result);
-            }
-        }.execute();
-
-        tileView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (!mLocked && tileView.isFlippedDown()) {
-                    tileView.flipUp();
-                    flippedUp.add(placementId);
-                    if (flippedUp.size() == 2) {
-                        mLocked = true;
-                    }
-                    Card chosenCard = mBoardArrangement.cards.get(placementId);
-                    Shared.eventBus.notify(new FlipCardEvent(chosenCard));
+                @Override
+                protected Bitmap doInBackground(Void... params) {
+                    return mBoardArrangement.getTileBitmap(placementId, mSize);
                 }
-            }
-        });
 
-        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(tileView, "scaleX", 0.8f, 1f);
-        scaleXAnimator.setInterpolator(new BounceInterpolator());
-        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(tileView, "scaleY", 0.8f, 1f);
-        scaleYAnimator.setInterpolator(new BounceInterpolator());
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(scaleXAnimator, scaleYAnimator);
-        animatorSet.setDuration(500);
-        tileView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-        animatorSet.start();
+                @Override
+                protected void onPostExecute(Bitmap result) {
+                    tileView.setTileImage(result);
+                }
+            }.execute();
+
+            tileView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (!mLocked && tileView.isFlippedDown()) {
+                        tileView.flipUp();
+                        flippedUp.add(placementId);
+                        if (flippedUp.size() == 2) {
+                            mLocked = true;
+                        }
+                        Card chosenCard = mBoardArrangement.cards.get(placementId);
+                        Shared.eventBus.notify(new FlipCardEvent(chosenCard));
+                    }
+                }
+            });
+
+            ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(tileView, "scaleX", 0.8f, 1f);
+            scaleXAnimator.setInterpolator(new BounceInterpolator());
+            ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(tileView, "scaleY", 0.8f, 1f);
+            scaleYAnimator.setInterpolator(new BounceInterpolator());
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.playTogether(scaleXAnimator, scaleYAnimator);
+            animatorSet.setDuration(500);
+            tileView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+            animatorSet.start();
+        } else {
+            tileView.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void flipDownAll() {
