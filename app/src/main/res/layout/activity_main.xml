@@ -24,4 +24,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <View
+        android:id="@+id/v_eeg_blink"
+        android:layout_gravity="bottom|end"
+        android:background="@android:color/black"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+
 </FrameLayout>

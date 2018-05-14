@@ -19,7 +19,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.snatik.matches.ui.DifficultyView
+        <de.rafaelmiranda.memory.ui.DifficultyView
             android:id="@+id/select_difficulty_1"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -35,7 +35,7 @@
             android:id="@+id/time_difficulty_1"
             android:textSize="17sp"/>
 
-        <com.snatik.matches.ui.DifficultyView
+        <de.rafaelmiranda.memory.ui.DifficultyView
             android:id="@+id/select_difficulty_4"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -64,7 +64,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.snatik.matches.ui.DifficultyView
+        <de.rafaelmiranda.memory.ui.DifficultyView
             android:id="@+id/select_difficulty_2"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -80,7 +80,7 @@
             android:textSize="17sp"
           />
 
-        <com.snatik.matches.ui.DifficultyView
+        <de.rafaelmiranda.memory.ui.DifficultyView
             android:id="@+id/select_difficulty_5"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -109,7 +109,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.snatik.matches.ui.DifficultyView
+        <de.rafaelmiranda.memory.ui.DifficultyView
             android:id="@+id/select_difficulty_3"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -124,7 +124,7 @@
             android:id="@+id/time_difficulty_3"
             android:textSize="17sp"/>
 
-        <com.snatik.matches.ui.DifficultyView
+        <de.rafaelmiranda.memory.ui.DifficultyView
             android:id="@+id/select_difficulty_6"
             android:layout_width="match_parent"
             android:layout_height="30dp"
