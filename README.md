@@ -1,36 +1,21 @@
 # Memory Game
 
-We just wanted a simple memory game for kids 4+ age. No ads, no complicated screens, but a straightforward nice looking, working and open source game. - This is what the wonderful creator of this project, Roman Kushnarenko, had to say. I will take this beautiful and simple base and use it on a research about adaptive UIs for people with permanent or temporary visual impairment.
+For research purposes. And, of course, FUN!
 
 ### Features
 
-- 3 Themes : `Animals` :cat2: `Monsters` :octopus: & `Emojis` :smile:  
-- 6 types of difficulties :star2:
-- Sounds on winning :musical_note:
-
-If you have more ideas or you want to add more options / themes / sounds or whatever, fill free to update the source for yourself or open a pull request. :sparkles:
-
-<img src="http://www.sromku.com/static/img/pregnancy_memorygame_preview.png"/>
-
-### Download It
-
-<a href="https://play.google.com/store/apps/details?id=com.snatik.matches">
-  <img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png" />
-</a>
+- Modularity
+- Easy to implement new features and change the baseline for the app
 
 ### Next
 
-- [ ] 2 player game
-- [x] Add one more theme
-- [ ] Add more sounds
-- [ ] Add Game Services support 
+- [ ] Parity with the Machine Learning Code
+- [x] Add Blur effect
+- [ ] Add more Modes
 
 ### License
 
 - The code is: `Apache License 2.0` (See [LICENSE](./LICENSE.md) for details.)
 - For UI assets please check the licenses here:
 	- http://graphicriver.net/item/animals-collection-farm-and-domestic-set/7177721
-	- http://graphicriver.net/item/monster-creation-kit-and-large-pack/8851390
-	- http://graphicriver.net/item/10-fresh-game-backgrounds/9137937
-	- http://graphicriver.net/item/cartoon-games-gui-pack-11-/6056785
 
