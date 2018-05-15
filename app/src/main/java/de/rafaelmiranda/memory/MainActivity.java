@@ -24,7 +24,7 @@ import de.rafaelmiranda.memory.utils.Utils;
 
 public class MainActivity extends FragmentActivity implements TextToSpeech.OnInitListener {
 
-    private final static long BLINK_TIME = 250;
+    private final static long BLINK_TIME = 150;
 
     private ImageView mBackgroundImage;
     private View eegBlinkView;
