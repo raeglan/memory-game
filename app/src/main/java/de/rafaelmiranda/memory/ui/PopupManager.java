@@ -19,11 +19,11 @@ import de.rafaelmiranda.memory.model.GameState;
 public class PopupManager {
 
     public static void showPopupSettings() {
-        RelativeLayout popupContainer = Shared.activity.findViewById(R.id.popup_container);
+        RelativeLayout popupContainer = Shared.INSTANCE.getActivity().findViewById(R.id.popup_container);
         popupContainer.removeAllViews();
 
         // background
-        ImageView imageView = new ImageView(Shared.context);
+        ImageView imageView = new ImageView(Shared.INSTANCE.getContext());
         imageView.setBackgroundColor(Color.parseColor("#88555555"));
         imageView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         imageView.setClickable(true);
@@ -36,9 +36,9 @@ public class PopupManager {
         popupContainer.addView(imageView);
 
         // popup
-        PopupSettingsView popupSettingsView = new PopupSettingsView(Shared.context);
-        int width = Shared.context.getResources().getDimensionPixelSize(R.dimen.popup_settings_width);
-        int height = Shared.context.getResources().getDimensionPixelSize(R.dimen.popup_settings_height);
+        PopupSettingsView popupSettingsView = new PopupSettingsView(Shared.INSTANCE.getContext());
+        int width = Shared.INSTANCE.getContext().getResources().getDimensionPixelSize(R.dimen.popup_settings_width);
+        int height = Shared.INSTANCE.getContext().getResources().getDimensionPixelSize(R.dimen.popup_settings_height);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         popupContainer.addView(popupSettingsView, params);
@@ -58,14 +58,14 @@ public class PopupManager {
     }
 
     public static void showPopupWon(GameState gameState) {
-        RelativeLayout popupContainer = Shared.activity.findViewById(R.id.popup_container);
+        RelativeLayout popupContainer = Shared.INSTANCE.getActivity().findViewById(R.id.popup_container);
         popupContainer.removeAllViews();
 
         // popup
-        PopupWonView popupWonView = new PopupWonView(Shared.context);
+        PopupWonView popupWonView = new PopupWonView(Shared.INSTANCE.getContext());
         popupWonView.setGameState(gameState);
-        int width = Shared.context.getResources().getDimensionPixelSize(R.dimen.popup_won_width);
-        int height = Shared.context.getResources().getDimensionPixelSize(R.dimen.popup_won_height);
+        int width = Shared.INSTANCE.getContext().getResources().getDimensionPixelSize(R.dimen.popup_won_width);
+        int height = Shared.INSTANCE.getContext().getResources().getDimensionPixelSize(R.dimen.popup_won_height);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         popupContainer.addView(popupWonView, params);
@@ -82,7 +82,7 @@ public class PopupManager {
     }
 
     public static void closePopup() {
-        final RelativeLayout popupContainer = Shared.activity.findViewById(R.id.popup_container);
+        final RelativeLayout popupContainer = Shared.INSTANCE.getActivity().findViewById(R.id.popup_container);
         int childCount = popupContainer.getChildCount();
         if (childCount > 0) {
             View background = null;
@@ -116,7 +116,7 @@ public class PopupManager {
     }
 
     public static boolean isShown() {
-        RelativeLayout popupContainer = Shared.activity.findViewById(R.id.popup_container);
+        RelativeLayout popupContainer = Shared.INSTANCE.getActivity().findViewById(R.id.popup_container);
         return popupContainer.getChildCount() > 0;
     }
 }

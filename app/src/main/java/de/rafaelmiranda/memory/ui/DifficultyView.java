@@ -7,10 +7,10 @@ import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.util.Locale;
+
 import de.rafaelmiranda.memory.R;
 import de.rafaelmiranda.memory.common.Shared;
-
-import java.util.Locale;
 
 public class DifficultyView extends LinearLayout {
 
@@ -29,7 +29,7 @@ public class DifficultyView extends LinearLayout {
 
     public void setDifficulty(int difficulty, int stars) {
         String titleResource = String.format(Locale.US, "button_difficulty_%d_star_%d", difficulty, stars);
-        int drawableResourceId = Shared.context.getResources().getIdentifier(titleResource, "drawable", Shared.context.getPackageName());
+        int drawableResourceId = Shared.INSTANCE.getContext().getResources().getIdentifier(titleResource, "drawable", Shared.INSTANCE.getContext().getPackageName());
         mTitle.setImageResource(drawableResourceId);
     }
 
