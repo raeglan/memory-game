@@ -9,6 +9,10 @@ import android.os.Handler;
 import android.util.SparseArray;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import de.rafaelmiranda.memory.R;
 import de.rafaelmiranda.memory.common.Memory;
 import de.rafaelmiranda.memory.common.MemoryDb;
@@ -36,11 +40,6 @@ import de.rafaelmiranda.memory.themes.Themes;
 import de.rafaelmiranda.memory.ui.PopupManager;
 import de.rafaelmiranda.memory.utils.Clock;
 import de.rafaelmiranda.memory.utils.Utils;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import kotlin.Pair;
 
 public class Engine extends EventObserverAdapter {
@@ -215,8 +214,8 @@ public class Engine extends EventObserverAdapter {
         // place the board
         // For a scientific study, a random game set is not a good idea.
         // Instead we take the set first and then randomize the position.
-        List<String> tileImageUrls =
-                mPlayingGame.theme.tileImageUrls.subList(0, boardConfiguration.getNumTiles() / 2);
+        // Psych! This we really do want some randomness in there.
+        List<String> tileImageUrls = mPlayingGame.theme.tileImageUrls;
         Collections.shuffle(tileImageUrls);
 
         boardArrangement.cards = new SparseArray<>();
@@ -254,7 +253,7 @@ public class Engine extends EventObserverAdapter {
         gameLog.add(new Pair<>(timestamp, move));
 
         // if auditory obstacles were chosen then say a random number out loud
-        if(mPlayingGame.boardConfiguration.getImpairment() == Impairment.AUDITORY_SUM_10) {
+        if (mPlayingGame.boardConfiguration.getImpairment() == Impairment.AUDITORY_SUM_10) {
             Music.playRandomNumber();
         }
 

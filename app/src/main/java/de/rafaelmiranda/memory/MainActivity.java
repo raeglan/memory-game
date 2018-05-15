@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
-import de.rafaelmiranda.memory.R;
 
 import de.rafaelmiranda.memory.common.Shared;
 import de.rafaelmiranda.memory.engine.Engine;
@@ -25,7 +24,7 @@ import de.rafaelmiranda.memory.utils.Utils;
 
 public class MainActivity extends FragmentActivity implements TextToSpeech.OnInitListener {
 
-    private final static long BLINK_TIME = 500;
+    private final static long BLINK_TIME = 250;
 
     private ImageView mBackgroundImage;
     private View eegBlinkView;
@@ -87,9 +86,11 @@ public class MainActivity extends FragmentActivity implements TextToSpeech.OnIni
 
     public void blinkEegLight() {
         eegBlinkView.setBackgroundColor(Color.WHITE);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
+
                 try {
                     Thread.sleep(BLINK_TIME);
                 } catch (InterruptedException e) {
@@ -103,7 +104,7 @@ public class MainActivity extends FragmentActivity implements TextToSpeech.OnIni
                     }
                 });
             }
-        }).run();
+        }).start();
     }
 
     private void setBackgroundImage() {
