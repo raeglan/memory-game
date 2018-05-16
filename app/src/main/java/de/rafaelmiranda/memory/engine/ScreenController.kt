@@ -4,8 +4,9 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Shared
-import de.rafaelmiranda.memory.events.ui.ResetBackgroundEvent
+import de.rafaelmiranda.memory.events.ResetBackgroundEvent
 import de.rafaelmiranda.memory.fragments.*
+import org.greenrobot.eventbus.EventBus
 import java.util.*
 
 object ScreenController {
@@ -54,7 +55,7 @@ object ScreenController {
             openedScreens.removeAt(openedScreens.size - 1)
             openScreen(screen)
             if ((screen == Screen.THEME_SELECT || screen == Screen.MENU) && (screenToRemove == Screen.DIFFICULTY || screenToRemove == Screen.GAME)) {
-                Shared.eventBus!!.notify(ResetBackgroundEvent())
+                EventBus.getDefault().post(ResetBackgroundEvent())
             }
             return false
         }

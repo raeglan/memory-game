@@ -11,15 +11,14 @@ import android.view.animation.BounceInterpolator
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Music
-import de.rafaelmiranda.memory.common.Shared
-import de.rafaelmiranda.memory.events.ui.BackGameEvent
-import de.rafaelmiranda.memory.events.ui.NextGameEvent
+import de.rafaelmiranda.memory.events.BackGameEvent
+import de.rafaelmiranda.memory.events.NextGameEvent
 import de.rafaelmiranda.memory.model.GameState
 import de.rafaelmiranda.memory.utils.Clock
 import de.rafaelmiranda.memory.utils.FontLoader
+import org.greenrobot.eventbus.EventBus
 
 class PopupWonView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : RelativeLayout(context, attrs) {
 
@@ -45,9 +44,9 @@ class PopupWonView @JvmOverloads constructor(context: Context, attrs: AttributeS
         setBackgroundResource(R.drawable.level_complete)
         mHandler = Handler()
 
-        mBackButton.setOnClickListener { Shared.eventBus.notify(BackGameEvent()) }
+        mBackButton.setOnClickListener { EventBus.getDefault().post(BackGameEvent()) }
 
-        mNextButton.setOnClickListener { Shared.eventBus.notify(NextGameEvent()) }
+        mNextButton.setOnClickListener { EventBus.getDefault().post(NextGameEvent()) }
     }
 
     fun setGameState(gameState: GameState) {

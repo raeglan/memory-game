@@ -14,9 +14,10 @@ import android.widget.TextView
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Memory
 import de.rafaelmiranda.memory.common.Shared
-import de.rafaelmiranda.memory.events.ui.DifficultySelectedEvent
+import de.rafaelmiranda.memory.events.DifficultySelectedEvent
 import de.rafaelmiranda.memory.themes.Theme
 import de.rafaelmiranda.memory.ui.DifficultyView
+import org.greenrobot.eventbus.EventBus
 
 class DifficultySelectFragment : Fragment() {
 
@@ -144,7 +145,7 @@ class DifficultySelectFragment : Fragment() {
     }
 
     private fun setOnClick(view: View, difficulty: Int) {
-        view.setOnClickListener { Shared.eventBus.notify(DifficultySelectedEvent(difficulty)) }
+        view.setOnClickListener { EventBus.getDefault().post(DifficultySelectedEvent(difficulty)) }
     }
 
 

@@ -2,9 +2,6 @@ package de.rafaelmiranda.memory.themes
 
 import android.support.annotation.IntDef
 
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
-
 class Theme {
 
 
@@ -13,11 +10,8 @@ class Theme {
     var name: String? = null
     lateinit var backgroundImageUrl: String
     lateinit var tileImageUrls: List<String>
-    var adKeywords: List<String>? = null
-    var backgroundSoundUrl: String? = null
-    var clickSoundUrl: String? = null
 
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(AnnotationRetention.SOURCE)
     @IntDef(ID_ANIMAL, ID_ANIMAL_AUDITORY, ID_ANIMAL_VISUAL, ID_MONSTER, ID_EMOJI)
     annotation class ThemeId
 

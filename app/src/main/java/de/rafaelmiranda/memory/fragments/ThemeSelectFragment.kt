@@ -12,9 +12,10 @@ import android.widget.ImageView
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Memory
 import de.rafaelmiranda.memory.common.Shared
-import de.rafaelmiranda.memory.events.ui.ThemeSelectedEvent
+import de.rafaelmiranda.memory.events.ThemeSelectedEvent
 import de.rafaelmiranda.memory.themes.Theme
 import de.rafaelmiranda.memory.themes.Themes
+import org.greenrobot.eventbus.EventBus
 import java.util.*
 
 class ThemeSelectFragment : Fragment() {
@@ -29,11 +30,11 @@ class ThemeSelectFragment : Fragment() {
         val themeAuditory = Themes.createTheme(Theme.ID_ANIMAL_AUDITORY)
         val themeVisual = Themes.createTheme(Theme.ID_ANIMAL_VISUAL)
 
-        normal.setOnClickListener { Shared.eventBus.notify(ThemeSelectedEvent(themeNormal)) }
+        normal.setOnClickListener { EventBus.getDefault().post(ThemeSelectedEvent(themeNormal)) }
 
-        auditory.setOnClickListener { Shared.eventBus.notify(ThemeSelectedEvent(themeAuditory)) }
+        auditory.setOnClickListener { EventBus.getDefault().post(ThemeSelectedEvent(themeAuditory)) }
 
-        visual.setOnClickListener { Shared.eventBus.notify(ThemeSelectedEvent(themeVisual)) }
+        visual.setOnClickListener { EventBus.getDefault().post(ThemeSelectedEvent(themeVisual)) }
 
         /*
          * Improve performance first!!!

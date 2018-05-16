@@ -12,12 +12,12 @@ import com.google.gson.Gson
 import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.engine.Engine
 import de.rafaelmiranda.memory.engine.ScreenController
-import de.rafaelmiranda.memory.events.EventBus
-import de.rafaelmiranda.memory.events.ui.BackGameEvent
+import de.rafaelmiranda.memory.events.BackGameEvent
 import de.rafaelmiranda.memory.model.GameSettings
 import de.rafaelmiranda.memory.ui.PopupManager
 import de.rafaelmiranda.memory.utils.JsonUtils
 import de.rafaelmiranda.memory.utils.Utils
+import org.greenrobot.eventbus.EventBus
 
 class MainActivity : FragmentActivity(), TextToSpeech.OnInitListener {
 
@@ -29,14 +29,13 @@ class MainActivity : FragmentActivity(), TextToSpeech.OnInitListener {
 
         Shared.context = applicationContext
         Shared.engine = Engine
-        Shared.eventBus = EventBus
+        Shared.engine.start()
 
         setContentView(R.layout.activity_main)
         mBackgroundImage = findViewById(R.id.background_image)
         eegBlinkView = findViewById(R.id.v_eeg_blink)
 
         Shared.activity = this
-        Shared.engine.start()
         Shared.engine.setBackgroundImageView(mBackgroundImage!!)
         Shared.tts = TextToSpeech(this, this)
 
@@ -64,10 +63,10 @@ class MainActivity : FragmentActivity(), TextToSpeech.OnInitListener {
     }
 
     override fun onBackPressed() {
-        if (PopupManager.isShown()) {
+        if (PopupManager.isShown) {
             PopupManager.closePopup()
             if (ScreenController.lastScreen === ScreenController.Screen.GAME) {
-                Shared.eventBus.notify(BackGameEvent())
+                EventBus.getDefault().post(BackGameEvent())
             }
         } else if (ScreenController.onBack()) {
             super.onBackPressed()

@@ -9,14 +9,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Shared
-import de.rafaelmiranda.memory.events.engine.FlipDownCardsEvent
-import de.rafaelmiranda.memory.events.engine.GameWonEvent
-import de.rafaelmiranda.memory.events.engine.HidePairCardsEvent
+import de.rafaelmiranda.memory.events.FlipDownCardsEvent
+import de.rafaelmiranda.memory.events.GameWonEvent
+import de.rafaelmiranda.memory.events.HidePairCardsEvent
 import de.rafaelmiranda.memory.model.Impairment
 import de.rafaelmiranda.memory.ui.BoardView
 import de.rafaelmiranda.memory.ui.PopupManager
 import de.rafaelmiranda.memory.utils.Clock
 import de.rafaelmiranda.memory.utils.FontLoader
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 
 class GameFragment : BaseFragment() {
 
@@ -30,17 +32,17 @@ class GameFragment : BaseFragment() {
         (view.findViewById<View>(R.id.game_board) as ViewGroup).clipChildren = false
         mTime = view.findViewById<View>(R.id.time_bar_text) as TextView
         mTimeImage = view.findViewById<View>(R.id.time_bar_image) as ImageView
-        FontLoader.setTypeface(Shared.context, arrayOf<TextView>(mTime), FontLoader.Font.GROBOLD)
+        FontLoader.setTypeface(Shared.context, arrayOf(mTime), FontLoader.Font.GROBOLD)
         mBoardView = BoardView.fromXml(activity!!.applicationContext, view)
         val frameLayout = view.findViewById<View>(R.id.game_container) as FrameLayout
         frameLayout.addView(mBoardView)
         frameLayout.clipChildren = false
 
+        // registering for events
+        EventBus.getDefault().register(this)
+
         // build board
         buildBoard()
-        Shared.eventBus.listen(FlipDownCardsEvent::class.java.name, this)
-        Shared.eventBus.listen(HidePairCardsEvent::class.java.name, this)
-        Shared.eventBus.listen(GameWonEvent::class.java.name, this)
 
         // Setting visual foreground impairment, if any
         val boardConfiguration = Shared.engine.activeGame!!.boardConfiguration
@@ -57,9 +59,7 @@ class GameFragment : BaseFragment() {
     }
 
     override fun onDestroy() {
-        Shared.eventBus.unlisten(FlipDownCardsEvent::class.java.name, this)
-        Shared.eventBus.unlisten(HidePairCardsEvent::class.java.name, this)
-        Shared.eventBus.unlisten(GameWonEvent::class.java.name, this)
+        EventBus.getDefault().unregister(this)
         val foreground = Shared.activity.findViewById<ImageView>(R.id.foreground)
         foreground.visibility = View.INVISIBLE
         super.onDestroy()
@@ -94,17 +94,20 @@ class GameFragment : BaseFragment() {
         })
     }
 
-    override fun onEvent(event: GameWonEvent) {
+    @Subscribe
+    fun onGameWonEvent(event: GameWonEvent) {
         mTime!!.visibility = View.GONE
         mTimeImage!!.visibility = View.GONE
         PopupManager.showPopupWon(event.gameState)
     }
 
-    override fun onEvent(event: FlipDownCardsEvent) {
+    @Subscribe
+    fun onFlipDownCardsEvent(event: FlipDownCardsEvent) {
         mBoardView!!.flipDownAll()
     }
 
-    override fun onEvent(event: HidePairCardsEvent) {
+    @Subscribe
+    fun onHidePairEvent(event: HidePairCardsEvent) {
         mBoardView!!.hideCards(event.id1, event.id2)
     }
 

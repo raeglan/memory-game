@@ -13,10 +13,10 @@ import android.widget.ImageView
 import android.widget.Toast
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Music
-import de.rafaelmiranda.memory.common.Shared
-import de.rafaelmiranda.memory.events.ui.StartEvent
+import de.rafaelmiranda.memory.events.StartEvent
 import de.rafaelmiranda.memory.ui.PopupManager
 import de.rafaelmiranda.memory.utils.Utils
+import org.greenrobot.eventbus.EventBus
 
 class MenuFragment : Fragment() {
 
@@ -46,7 +46,7 @@ class MenuFragment : Fragment() {
             // animate title from place and navigation buttons from place
             animateAllAssetsOff(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    Shared.eventBus.notify(StartEvent())
+                    EventBus.getDefault().post(StartEvent())
                 }
             })
         }

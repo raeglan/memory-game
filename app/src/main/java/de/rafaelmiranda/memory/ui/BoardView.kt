@@ -16,12 +16,12 @@ import android.view.ViewGroup
 import android.view.animation.BounceInterpolator
 import android.widget.LinearLayout
 import de.rafaelmiranda.memory.R
-import de.rafaelmiranda.memory.common.Shared
-import de.rafaelmiranda.memory.events.ui.FlipCardEvent
+import de.rafaelmiranda.memory.events.FlipCardEvent
 import de.rafaelmiranda.memory.model.BoardArrangement
 import de.rafaelmiranda.memory.model.BoardConfiguration
 import de.rafaelmiranda.memory.model.Game
 import de.rafaelmiranda.memory.utils.Utils
+import org.greenrobot.eventbus.EventBus
 import java.util.*
 
 class BoardView @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null) : LinearLayout(context, attributeSet) {
@@ -129,7 +129,7 @@ class BoardView @JvmOverloads constructor(context: Context, attributeSet: Attrib
                         mLocked = true
                     }
                     val chosenCard = mBoardArrangement!!.cards!!.get(placementId)
-                    Shared.eventBus.notify(FlipCardEvent(chosenCard))
+                    EventBus.getDefault().post(FlipCardEvent(chosenCard))
                 }
             }
 

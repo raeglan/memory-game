@@ -14,21 +14,20 @@ import de.rafaelmiranda.memory.common.Memory
 import de.rafaelmiranda.memory.common.MemoryDb
 import de.rafaelmiranda.memory.common.Music
 import de.rafaelmiranda.memory.common.Shared
-import de.rafaelmiranda.memory.events.EventObserverAdapter
-import de.rafaelmiranda.memory.events.engine.FlipDownCardsEvent
-import de.rafaelmiranda.memory.events.engine.GameWonEvent
-import de.rafaelmiranda.memory.events.engine.HidePairCardsEvent
-import de.rafaelmiranda.memory.events.ui.*
+import de.rafaelmiranda.memory.events.*
 import de.rafaelmiranda.memory.model.*
 import de.rafaelmiranda.memory.themes.Theme
 import de.rafaelmiranda.memory.themes.Themes
 import de.rafaelmiranda.memory.ui.PopupManager
 import de.rafaelmiranda.memory.utils.Clock
 import de.rafaelmiranda.memory.utils.Utils
+import de.rafaelmiranda.memory.utils.postDelayed
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import java.util.*
 
 @SuppressLint("StaticFieldLeak")
-object Engine : EventObserverAdapter() {
+object Engine {
     var activeGame: Game? = null
         private set
     private var mFlippedCard: Card? = null
@@ -51,32 +50,20 @@ object Engine : EventObserverAdapter() {
     }
 
     fun start() {
-        Shared.eventBus!!.listen(DifficultySelectedEvent::javaClass.name, this)
-        Shared.eventBus!!.listen(FlipCardEvent::javaClass.name, this)
-        Shared.eventBus!!.listen(StartEvent::javaClass.name, this)
-        Shared.eventBus!!.listen(ThemeSelectedEvent::javaClass.name, this)
-        Shared.eventBus!!.listen(BackGameEvent::javaClass.name, this)
-        Shared.eventBus!!.listen(NextGameEvent::javaClass.name, this)
-        Shared.eventBus!!.listen(ResetBackgroundEvent::javaClass.name, this)
+        EventBus.getDefault().register(this)
     }
 
     fun stop() {
+        EventBus.getDefault().unregister(this)
         activeGame = null
         mBackgroundImage!!.setImageDrawable(null)
         mBackgroundImage = null
         mHandler!!.removeCallbacksAndMessages(null)
         mHandler = null
-
-        Shared.eventBus!!.unlisten(DifficultySelectedEvent::javaClass.name, this)
-        Shared.eventBus!!.unlisten(FlipCardEvent::javaClass.name, this)
-        Shared.eventBus!!.unlisten(StartEvent::javaClass.name, this)
-        Shared.eventBus!!.unlisten(ThemeSelectedEvent::javaClass.name, this)
-        Shared.eventBus!!.unlisten(BackGameEvent::javaClass.name, this)
-        Shared.eventBus!!.unlisten(NextGameEvent::javaClass.name, this)
-        Shared.eventBus!!.unlisten(ResetBackgroundEvent::javaClass.name, this)
     }
 
-    override fun onEvent(event: ResetBackgroundEvent) {
+    @Subscribe
+    fun onResetBackgroundEvent(event: ResetBackgroundEvent) {
         val drawable = mBackgroundImage!!.drawable
         if (drawable != null) {
             (drawable as TransitionDrawable).reverseTransition(2000)
@@ -95,25 +82,29 @@ object Engine : EventObserverAdapter() {
         }
     }
 
-    override fun onEvent(event: StartEvent) {
+    @Subscribe
+    fun onStartEvent(event: StartEvent) {
         ScreenController.openScreen(ScreenController.Screen.THEME_SELECT)
     }
 
-    override fun onEvent(event: NextGameEvent) {
+    @Subscribe
+    fun onNextGameEvent(event: NextGameEvent) {
         PopupManager.closePopup()
         var difficulty = activeGame!!.boardConfiguration.difficulty
         if (activeGame!!.gameState?.achievedStars == 3 && difficulty < 6) {
             difficulty++
         }
-        Shared.eventBus!!.notify(DifficultySelectedEvent(difficulty))
+        EventBus.getDefault().post(DifficultySelectedEvent(difficulty))
     }
 
-    override fun onEvent(event: BackGameEvent) {
+    @Subscribe
+    fun onBackGameEvent(event: BackGameEvent) {
         PopupManager.closePopup()
         ScreenController.openScreen(ScreenController.Screen.DIFFICULTY)
     }
 
-    override fun onEvent(event: ThemeSelectedEvent) {
+    @Subscribe
+    fun onThemeSelectedEvent(event: ThemeSelectedEvent) {
         selectedTheme = event.theme
         ScreenController.openScreen(ScreenController.Screen.DIFFICULTY)
         val task = object : AsyncTask<Void, Void, TransitionDrawable>() {
@@ -142,7 +133,8 @@ object Engine : EventObserverAdapter() {
      *
      * @param event the difficulty event with the level chosen.
      */
-    override fun onEvent(event: DifficultySelectedEvent) {
+    @Subscribe
+    fun onDifficultySelectedEvent(event: DifficultySelectedEvent) {
         mFlippedCard = null
         activeGame = Game()
         activeGame!!.boardConfiguration = BoardConfiguration(event.difficulty, selectedTheme!!.id)
@@ -205,7 +197,8 @@ object Engine : EventObserverAdapter() {
         activeGame!!.boardArrangement = boardArrangement
     }
 
-    override fun onEvent(event: FlipCardEvent) {
+    @Subscribe
+    fun onFlipCardEvent(event: FlipCardEvent) {
         val card = event.card
 
         Shared.activity!!.blinkEegLight()
@@ -226,8 +219,11 @@ object Engine : EventObserverAdapter() {
             if (activeGame!!.boardArrangement.isPair(mFlippedCard!!, card)) {
 
                 // send event - hide id1, id2
-                Shared.eventBus!!.notify(HidePairCardsEvent(mFlippedCard!!.placementId,
-                        card.placementId), 1000)
+                mHandler?.postDelayed(1000) {
+                    EventBus.getDefault().post(HidePairCardsEvent(mFlippedCard!!.placementId,
+                            card.placementId))
+                }
+
 
                 // play music
                 mHandler!!.postDelayed({ Music.playCorrect() }, 1000)
@@ -260,12 +256,16 @@ object Engine : EventObserverAdapter() {
                     MemoryDb.addGameLog(activeGame!!.theme.id,
                             activeGame!!.boardConfiguration.difficulty, gameLog)
 
-                    Shared.eventBus!!.notify(GameWonEvent(gameState), 1200)
+                    mHandler?.postDelayed(1200) {
+                        EventBus.getDefault().post(GameWonEvent(gameState))
+                    }
                 }
             } else {
                 // Log.i("my_tag", "Flip: all down");
                 // send event - flip all down
-                Shared.eventBus!!.notify(FlipDownCardsEvent(), 1000)
+                mHandler?.postDelayed(1000) {
+                    EventBus.getDefault().post(FlipDownCardsEvent())
+                }
             }
             mFlippedCard = null
         }
