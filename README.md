@@ -12,6 +12,7 @@ For research purposes. And, of course, FUN!
 - [ ] Parity with the Machine Learning Code
 - [x] Add Blur effect
 - [x] Kotlinify everything
+- [ ] Fix architecture
 - [ ] Add more Modes
 
 ### License
