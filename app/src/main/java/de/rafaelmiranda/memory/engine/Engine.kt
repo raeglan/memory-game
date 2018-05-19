@@ -201,7 +201,7 @@ object Engine {
     fun onFlipCardEvent(event: FlipCardEvent) {
         val card = event.card
 
-        Shared.activity!!.blinkEegLight()
+        Shared.activity.blinkEegLight()
 
         // adding the event to the log
         val timestamp = System.currentTimeMillis()
@@ -213,14 +213,17 @@ object Engine {
             Music.playRandomNumber()
         }
 
-        if (mFlippedCard == null) {
+
+        val previouslyFlippedCard = mFlippedCard
+        if (previouslyFlippedCard == null) {
             mFlippedCard = card
         } else {
-            if (activeGame!!.boardArrangement.isPair(mFlippedCard!!, card)) {
+            if (activeGame!!.boardArrangement.isPair(previouslyFlippedCard, card)) {
+
 
                 // send event - hide id1, id2
                 mHandler?.postDelayed(1000) {
-                    EventBus.getDefault().post(HidePairCardsEvent(mFlippedCard!!.placementId,
+                    EventBus.getDefault().post(HidePairCardsEvent(previouslyFlippedCard.placementId,
                             card.placementId))
                 }
 

@@ -19,6 +19,7 @@ import de.rafaelmiranda.memory.utils.Clock
 import de.rafaelmiranda.memory.utils.FontLoader
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class GameFragment : BaseFragment() {
 
@@ -94,21 +95,21 @@ class GameFragment : BaseFragment() {
         })
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     fun onGameWonEvent(event: GameWonEvent) {
-        mTime!!.visibility = View.GONE
-        mTimeImage!!.visibility = View.GONE
+        mTime.visibility = View.GONE
+        mTimeImage.visibility = View.GONE
         PopupManager.showPopupWon(event.gameState)
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     fun onFlipDownCardsEvent(event: FlipDownCardsEvent) {
-        mBoardView!!.flipDownAll()
+        mBoardView.flipDownAll()
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     fun onHidePairEvent(event: HidePairCardsEvent) {
-        mBoardView!!.hideCards(event.id1, event.id2)
+        mBoardView.hideCards(event.id1, event.id2)
     }
 
 }

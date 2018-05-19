@@ -24,7 +24,7 @@ import de.rafaelmiranda.memory.utils.Utils
 import org.greenrobot.eventbus.EventBus
 import java.util.*
 
-class BoardView @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null) : LinearLayout(context, attributeSet) {
+open class BoardView @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null) : LinearLayout(context, attributeSet) {
 
     private val mRowLayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
     private var mTileLayoutParams: LinearLayout.LayoutParams? = null
@@ -162,7 +162,7 @@ class BoardView @JvmOverloads constructor(context: Context, attributeSet: Attrib
         mLocked = false
     }
 
-    protected fun animateHide(v: TileView) {
+    private fun animateHide(v: TileView) {
         val animator = ObjectAnimator.ofFloat(v, "alpha", 0f)
         animator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
