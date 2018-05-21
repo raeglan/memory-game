@@ -11,7 +11,7 @@ object Themes {
 
     fun createTheme(@Theme.ThemeId themeId: Int): Theme {
         when (themeId) {
-            Theme.ID_ANIMAL, Theme.ID_ANIMAL_VISUAL, Theme.ID_ANIMAL_AUDITORY -> {
+            Theme.ID_ANIMAL, Theme.ID_ANIMAL_VISUAL_BLUR, Theme.ID_ANIMAL_AUDITORY -> {
                 val animalTheme = createAnimalsTheme()
                 animalTheme.id = themeId
                 return animalTheme

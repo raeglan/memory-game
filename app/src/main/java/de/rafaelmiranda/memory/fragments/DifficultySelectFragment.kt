@@ -51,7 +51,7 @@ class DifficultySelectFragment : Fragment() {
         setOnClick(difficulty6, 6)
 
         // setting images
-        if (theme.id == Theme.ID_ANIMAL_VISUAL) {
+        if (theme.id == Theme.ID_ANIMAL_VISUAL_BLUR) {
             difficulty1.setImage(R.drawable.visual_theme_blur)
             difficulty2.setImage(R.drawable.visual_theme_retinopathy)
             difficulty3.visibility = View.INVISIBLE
@@ -86,7 +86,7 @@ class DifficultySelectFragment : Fragment() {
         val text6 = view.findViewById<TextView>(R.id.time_difficulty_6)
 
         // if we are on the visual mode, no need to display a time.
-        if (theme.id == Theme.ID_ANIMAL_VISUAL) {
+        if (theme.id == Theme.ID_ANIMAL_VISUAL_BLUR) {
             text1.visibility = View.INVISIBLE
             text2.visibility = View.INVISIBLE
             text3.visibility = View.INVISIBLE

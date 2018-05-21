@@ -12,15 +12,13 @@ class Theme {
     lateinit var tileImageUrls: List<String>
 
     @Retention(AnnotationRetention.SOURCE)
-    @IntDef(ID_ANIMAL, ID_ANIMAL_AUDITORY, ID_ANIMAL_VISUAL, ID_MONSTER, ID_EMOJI)
+    @IntDef(ID_ANIMAL, ID_ANIMAL_AUDITORY, ID_ANIMAL_VISUAL_BLUR)
     annotation class ThemeId
 
     companion object {
 
         const val ID_ANIMAL = 1
         const val ID_ANIMAL_AUDITORY = 101
-        const val ID_ANIMAL_VISUAL = 102
-        const val ID_MONSTER = 2
-        const val ID_EMOJI = 3
+        const val ID_ANIMAL_VISUAL_BLUR = 102
     }
 }

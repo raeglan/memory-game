@@ -56,9 +56,7 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
         mBoardConfiguration = game.boardConfiguration
         mBoardArrangement = game.boardArrangement
         // calc prefered tiles in width and height
-        var singleMargin = resources.getDimensionPixelSize(R.dimen.card_margin)
-        val density = resources.displayMetrics.density
-        singleMargin = Math.max((1 * density).toInt(), (singleMargin - mBoardConfiguration!!.difficulty.toFloat() * 2f * density).toInt())
+        val singleMargin = resources.getDimensionPixelSize(R.dimen.card_margin)
         var sumMargin = 0
         for (row in 0 until mBoardConfiguration!!.numRows) {
             sumMargin += singleMargin * 2

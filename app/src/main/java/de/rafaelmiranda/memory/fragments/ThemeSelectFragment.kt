@@ -28,7 +28,7 @@ class ThemeSelectFragment : Fragment() {
 
         val themeNormal = Themes.createTheme(Theme.ID_ANIMAL)
         val themeAuditory = Themes.createTheme(Theme.ID_ANIMAL_AUDITORY)
-        val themeVisual = Themes.createTheme(Theme.ID_ANIMAL_VISUAL)
+        val themeVisual = Themes.createTheme(Theme.ID_ANIMAL_VISUAL_BLUR)
 
         normal.setOnClickListener { EventBus.getDefault().post(ThemeSelectedEvent(themeNormal)) }
 
