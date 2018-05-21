@@ -30,7 +30,6 @@ object MemoryDb {
      * Adds the log of this game to our DB. The log has the timestamp of each action and which
      * card was flipped.
      */
-    @JvmOverloads
     fun addGameLog(@Theme.ThemeId gameType: Int, gameLog: List<Pair<Long, String>>,
                    user: String? = null) {
 

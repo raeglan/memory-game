@@ -20,10 +20,11 @@ object Music {
         }
     }
 
-    fun playRandomNumber() {
+    fun playRandomNumber() : Int {
         val random = Random()
         val randomNumber = random.nextInt(10) + 1
         Shared.tts?.speak(randomNumber.toString(), TextToSpeech.QUEUE_ADD, null)
+        return randomNumber
     }
 
     fun playBackgroundMusic() {

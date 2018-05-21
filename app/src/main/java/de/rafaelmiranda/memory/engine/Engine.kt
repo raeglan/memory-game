@@ -36,6 +36,11 @@ object Engine {
     private var mHandler: Handler? = null
 
     /**
+     * When using auditory cues the number sum is kept track of so we know how wrong our users are!
+     */
+    private var numberSum = 0
+
+    /**
      * The log of each chosen card in this game, this will be saved in a form of pairId.cardNumber in
      * the order it was chosen.
      * The first of the pair is a timestamp of when the move was made, and the second the move
@@ -109,8 +114,8 @@ object Engine {
                 var backgroundImage = Themes.getBackgroundImage(selectedTheme!!)
                 backgroundImage = Utils.crop(backgroundImage, Utils.screenHeight(), Utils.screenWidth())
                 val backgrounds = arrayOfNulls<Drawable>(2)
-                backgrounds[0] = BitmapDrawable(Shared.context!!.resources, bitmap)
-                backgrounds[1] = BitmapDrawable(Shared.context!!.resources, backgroundImage)
+                backgrounds[0] = BitmapDrawable(Shared.context.resources, bitmap)
+                backgrounds[1] = BitmapDrawable(Shared.context.resources, backgroundImage)
                 return TransitionDrawable(backgrounds)
             }
 
@@ -131,6 +136,7 @@ object Engine {
     @Subscribe
     fun onDifficultySelectedEvent(event: DifficultySelectedEvent) {
         mFlippedCard = null
+        numberSum = 0
         activeGame = Game()
         activeGame!!.boardConfiguration = BoardConfiguration(event.difficulty, selectedTheme!!.id)
         activeGame!!.theme = selectedTheme!!
@@ -158,14 +164,13 @@ object Engine {
         }
         // shuffle
         // result {4,10,2,39,...}
-        Collections.shuffle(placementIds)
+        placementIds.shuffle()
 
         // place the board
         // For a scientific study, a random game set is not a good idea.
         // Instead we take the set first and then randomize the position.
         // Psych! This we really do want some randomness in there.
-        val tileImageUrls = activeGame!!.theme!!.tileImageUrls
-        Collections.shuffle(tileImageUrls)
+        val tileImageUrls = activeGame!!.theme.tileImageUrls.shuffled()
 
         boardArrangement.cards = SparseArray()
         boardArrangement.tileUrls = SparseArray()
@@ -205,9 +210,8 @@ object Engine {
 
         // if auditory obstacles were chosen then say a random number out loud
         if (activeGame!!.boardConfiguration.impairment === Impairment.AUDITORY_SUM_10) {
-            Music.playRandomNumber()
+            numberSum += Music.playRandomNumber()
         }
-
 
         val previouslyFlippedCard = mFlippedCard
         if (previouslyFlippedCard == null) {
@@ -215,13 +219,11 @@ object Engine {
         } else {
             if (activeGame!!.boardArrangement.isPair(previouslyFlippedCard, card)) {
 
-
                 // send event - hide id1, id2
                 mHandler?.postDelayed(1000) {
                     EventBus.getDefault().post(HidePairCardsEvent(previouslyFlippedCard.placementId,
                             card.placementId))
                 }
-
 
                 // play music
                 mHandler!!.postDelayed({ Music.playCorrect() }, 1000)
