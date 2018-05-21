@@ -48,14 +48,10 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
         clipToPadding = false
     }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-    }
-
     fun setBoard(game: Game) {
         mBoardConfiguration = game.boardConfiguration
         mBoardArrangement = game.boardArrangement
-        // calc prefered tiles in width and height
+        // Calculating width and height.
         val singleMargin = resources.getDimensionPixelSize(R.dimen.card_margin)
         var sumMargin = 0
         for (row in 0 until mBoardConfiguration!!.numRows) {

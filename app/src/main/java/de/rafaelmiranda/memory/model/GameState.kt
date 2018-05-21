@@ -1,9 +1,13 @@
 package de.rafaelmiranda.memory.model
 
-class GameState {
+/**
+ * To save all the needed game state stuff(for example the sum)
+ */
+object GameState {
 
-    var remainedSeconds: Int = 0
-    var achievedStars: Int = 0
-    var achievedScore: Int = 0
-    var passedSeconds: Int = 0
+    /**
+     * The sum of all the numbers our AI said, yeah, I called the Random Thread from Java an AI,
+     * deal with it.
+     */
+    var numberSum = 0
 }

@@ -16,7 +16,6 @@ class Theme {
     annotation class ThemeId
 
     companion object {
-
         const val ID_ANIMAL = 1
         const val ID_ANIMAL_AUDITORY = 101
         const val ID_ANIMAL_VISUAL_BLUR = 102

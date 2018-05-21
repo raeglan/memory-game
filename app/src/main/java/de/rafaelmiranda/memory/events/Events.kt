@@ -1,7 +1,6 @@
 package de.rafaelmiranda.memory.events
 
 import de.rafaelmiranda.memory.model.Card
-import de.rafaelmiranda.memory.model.GameState
 import de.rafaelmiranda.memory.themes.Theme
 
 /**
@@ -9,7 +8,7 @@ import de.rafaelmiranda.memory.themes.Theme
  */
 class FlipDownCardsEvent
 
-class GameWonEvent(val gameState: GameState)
+class GameWonEvent
 
 class HidePairCardsEvent(var id1: Int, var id2: Int)
 

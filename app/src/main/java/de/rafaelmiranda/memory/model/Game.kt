@@ -23,7 +23,4 @@ class Game {
      * The selected theme
      */
     lateinit var theme: Theme
-
-    lateinit var gameState: GameState
-
 }

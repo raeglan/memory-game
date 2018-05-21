@@ -99,7 +99,7 @@ class GameFragment : BaseFragment() {
     fun onGameWonEvent(event: GameWonEvent) {
         mTime.visibility = View.GONE
         mTimeImage.visibility = View.GONE
-        PopupManager.showPopupWon(event.gameState)
+        PopupManager.showPopupWon()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

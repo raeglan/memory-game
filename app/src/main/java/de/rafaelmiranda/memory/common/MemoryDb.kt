@@ -18,7 +18,6 @@ object MemoryDb {
     const val COLLECTION_USERS = "users"
 
     // LOGS
-    const val FIELD_DIFFICULTY = "difficulty"
     const val FIELD_GAME_LOG = "gameLog"
     const val FIELD_GAME_TYPE = "gameType"
     const val FIELD_TIME_LOG = "timeLog"
@@ -32,7 +31,7 @@ object MemoryDb {
      * card was flipped.
      */
     @JvmOverloads
-    fun addGameLog(@Theme.ThemeId gameType: Int, difficulty: Int, gameLog: List<Pair<Long, String>>,
+    fun addGameLog(@Theme.ThemeId gameType: Int, gameLog: List<Pair<Long, String>>,
                    user: String? = null) {
 
         val fireDb = FirebaseFirestore.getInstance()
@@ -43,7 +42,6 @@ object MemoryDb {
 
         // each of the values to its respective fields
         val log = HashMap<String, Any>(5)
-        log[FIELD_DIFFICULTY] = difficulty
         log[FIELD_GAME_LOG] = movesLog
         log[FIELD_GAME_TYPE] = gameType
         log[FIELD_TIME_LOG] = timeLog
@@ -56,6 +54,4 @@ object MemoryDb {
                 .addOnSuccessListener { document -> Log.v(TAG, "New document with id: ${document.id}") }
                 .addOnFailureListener { e -> e.printStackTrace() }
     }
-
-
 }

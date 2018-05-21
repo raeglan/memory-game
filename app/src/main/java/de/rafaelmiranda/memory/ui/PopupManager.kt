@@ -11,10 +11,8 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.RelativeLayout.LayoutParams
-
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Shared
-import de.rafaelmiranda.memory.model.GameState
 
 object PopupManager {
 
@@ -58,13 +56,12 @@ object PopupManager {
         animatorSet.start()
     }
 
-    fun showPopupWon(gameState: GameState) {
+    fun showPopupWon() {
         val popupContainer = Shared.activity.findViewById<RelativeLayout>(R.id.popup_container)
         popupContainer.removeAllViews()
 
         // popup
         val popupWonView = PopupWonView(Shared.context)
-        popupWonView.setGameState(gameState)
         val width = Shared.context.resources.getDimensionPixelSize(R.dimen.popup_won_width)
         val height = Shared.context.resources.getDimensionPixelSize(R.dimen.popup_won_height)
         val params = RelativeLayout.LayoutParams(width, height)

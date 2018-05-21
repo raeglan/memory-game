@@ -10,7 +10,6 @@ import android.os.Handler
 import android.util.SparseArray
 import android.widget.ImageView
 import de.rafaelmiranda.memory.R
-import de.rafaelmiranda.memory.common.Memory
 import de.rafaelmiranda.memory.common.MemoryDb
 import de.rafaelmiranda.memory.common.Music
 import de.rafaelmiranda.memory.common.Shared
@@ -19,7 +18,6 @@ import de.rafaelmiranda.memory.model.*
 import de.rafaelmiranda.memory.themes.Theme
 import de.rafaelmiranda.memory.themes.Themes
 import de.rafaelmiranda.memory.ui.PopupManager
-import de.rafaelmiranda.memory.utils.Clock
 import de.rafaelmiranda.memory.utils.Utils
 import de.rafaelmiranda.memory.utils.postDelayed
 import org.greenrobot.eventbus.EventBus
@@ -90,11 +88,8 @@ object Engine {
     @Subscribe
     fun onNextGameEvent(event: NextGameEvent) {
         PopupManager.closePopup()
-        var difficulty = activeGame!!.boardConfiguration.difficulty
-        if (activeGame!!.gameState?.achievedStars == 3 && difficulty < 6) {
-            difficulty++
-        }
-        EventBus.getDefault().post(DifficultySelectedEvent(difficulty))
+        // todo: Change the next game to select a new impairment.
+        EventBus.getDefault().post(DifficultySelectedEvent(4))
     }
 
     @Subscribe
@@ -232,35 +227,12 @@ object Engine {
                 mHandler!!.postDelayed({ Music.playCorrect() }, 1000)
                 mToFlip -= 2
                 if (mToFlip == 0) {
-                    val passedSeconds = (Clock.passedTime / 1000).toInt()
-                    Clock.pause()
-                    val totalTime = activeGame!!.boardConfiguration.time
-                    val gameState = GameState()
-                    activeGame!!.gameState = gameState
-                    // remained seconds
-                    gameState.remainedSeconds = totalTime - passedSeconds
-                    gameState.passedSeconds = passedSeconds
 
-                    // calc stars
-                    when {
-                        passedSeconds <= totalTime / 2 -> gameState.achievedStars = 3
-                        passedSeconds <= totalTime - totalTime / 5 -> gameState.achievedStars = 2
-                        passedSeconds < totalTime -> gameState.achievedStars = 1
-                        else -> gameState.achievedStars = 0
-                    }
-
-                    // calc score
-                    gameState.achievedScore = activeGame!!.boardConfiguration.difficulty * gameState.remainedSeconds * activeGame!!.theme.id
-
-                    // save to memory
-                    Memory.save(activeGame!!.theme.id, activeGame!!.boardConfiguration.difficulty, gameState.achievedStars)
-                    Memory.saveTime(activeGame!!.theme.id, activeGame!!.boardConfiguration.difficulty, gameState.passedSeconds)
                     // and save the logs as well
-                    MemoryDb.addGameLog(activeGame!!.theme.id,
-                            activeGame!!.boardConfiguration.difficulty, gameLog)
+                    MemoryDb.addGameLog(activeGame!!.theme.id, gameLog)
 
                     mHandler?.postDelayed(1200) {
-                        EventBus.getDefault().post(GameWonEvent(gameState))
+                        EventBus.getDefault().post(GameWonEvent())
                     }
                 }
             } else {

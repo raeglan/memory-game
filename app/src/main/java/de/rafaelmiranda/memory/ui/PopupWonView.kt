@@ -15,7 +15,6 @@ import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Music
 import de.rafaelmiranda.memory.events.BackGameEvent
 import de.rafaelmiranda.memory.events.NextGameEvent
-import de.rafaelmiranda.memory.model.GameState
 import de.rafaelmiranda.memory.utils.Clock
 import de.rafaelmiranda.memory.utils.FontLoader
 import org.greenrobot.eventbus.EventBus
@@ -47,18 +46,6 @@ class PopupWonView @JvmOverloads constructor(context: Context, attrs: AttributeS
         mBackButton.setOnClickListener { EventBus.getDefault().post(BackGameEvent()) }
 
         mNextButton.setOnClickListener { EventBus.getDefault().post(NextGameEvent()) }
-    }
-
-    fun setGameState(gameState: GameState) {
-        val min = gameState.remainedSeconds / 60
-        val sec = gameState.remainedSeconds - min * 60
-        mTime.text = " ${String.format("%02d", min)}:${String.format("%02d", sec)}"
-        mScore.text = 0.toString()
-
-        mHandler.postDelayed({
-            animateScoreAndTime(gameState.remainedSeconds, gameState.achievedScore)
-            animateStars(gameState.achievedStars)
-        }, 500)
     }
 
     private fun animateStars(start: Int) {
