@@ -12,7 +12,6 @@ import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.events.FlipDownCardsEvent
 import de.rafaelmiranda.memory.events.GameWonEvent
 import de.rafaelmiranda.memory.events.HidePairCardsEvent
-import de.rafaelmiranda.memory.model.Impairment
 import de.rafaelmiranda.memory.ui.BoardView
 import de.rafaelmiranda.memory.ui.PopupManager
 import de.rafaelmiranda.memory.utils.FontLoader
@@ -43,17 +42,6 @@ class GameFragment : BaseFragment() {
 
         // build board
         buildBoard()
-
-        // Setting visual foreground impairment, if any
-        val boardConfiguration = Shared.engine.activeGame!!.boardConfiguration
-        val foreground = Shared.activity.findViewById<ImageView>(R.id.foreground)
-        if (boardConfiguration.impairment === Impairment.VISUAL_BLUR) {
-            foreground.visibility = View.VISIBLE
-            foreground.setImageResource(R.drawable.blur)
-            foreground.alpha = 0.98f
-        } else {
-            foreground.visibility = View.INVISIBLE
-        }
 
         // starting clock
         mTime.start()

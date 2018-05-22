@@ -5,36 +5,31 @@ import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.utils.Utils
 import java.util.*
 
+
 object Themes {
 
-    var URI_DRAWABLE = "drawable://"
+    const val URI_DRAWABLE = "drawable://"
+
+    private const val NORMAL_SET_URI = "animals_%d"
+    private const val BLUR_SET_URI = "animals_blur_%d"
 
     fun createTheme(@Theme.ThemeId themeId: Int): Theme {
-        when (themeId) {
-            Theme.ID_ANIMAL, Theme.ID_ANIMAL_VISUAL_BLUR, Theme.ID_ANIMAL_AUDITORY -> {
-                val animalTheme = createAnimalsTheme()
-                animalTheme.id = themeId
-                return animalTheme
-            }
-            else -> throw IllegalArgumentException("Theme $themeId not found.")
-        }
-    }
-
-
-    fun createAnimalsTheme(): Theme {
         val theme = Theme()
-        theme.id = Theme.ID_ANIMAL
+        theme.id = themeId
         theme.name = "Animals"
-        theme.backgroundImageUrl = URI_DRAWABLE + "back_animals"
-        val tileImageUrls = ArrayList<String>()
-        // 40 drawables
-        for (i in 1..28) {
-            tileImageUrls.add(URI_DRAWABLE + String.format("animals_%d", i))
-        }
-        theme.tileImageUrls = tileImageUrls
+        theme.tileImageUrls = createCardsSet(themeId)
         return theme
     }
 
+    private fun createCardsSet(themeId: Int): List<String> {
+        val tileImageUrls = ArrayList<String>()
+        val baseCardsUri = if (themeId == Theme.ID_VISUAL_BLUR) BLUR_SET_URI else NORMAL_SET_URI
+        // 40 drawables
+        for (i in 1..28) {
+            tileImageUrls.add(URI_DRAWABLE + String.format(baseCardsUri, i))
+        }
+        return tileImageUrls
+    }
 
 
     fun getBackgroundImage(theme: Theme): Bitmap {

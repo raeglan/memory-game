@@ -14,7 +14,10 @@ import de.rafaelmiranda.memory.common.MemoryDb
 import de.rafaelmiranda.memory.common.Music
 import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.events.*
-import de.rafaelmiranda.memory.model.*
+import de.rafaelmiranda.memory.model.BoardArrangement
+import de.rafaelmiranda.memory.model.BoardConfiguration
+import de.rafaelmiranda.memory.model.Card
+import de.rafaelmiranda.memory.model.Game
 import de.rafaelmiranda.memory.themes.Theme
 import de.rafaelmiranda.memory.themes.Themes
 import de.rafaelmiranda.memory.ui.PopupManager
@@ -115,7 +118,7 @@ object Engine {
         mFlippedCard = null
         numberSum = 0
         activeGame = Game()
-        activeGame!!.boardConfiguration = BoardConfiguration(selectedTheme!!.id)
+        activeGame!!.boardConfiguration = BoardConfiguration()
         activeGame!!.theme = selectedTheme!!
         mToFlip = activeGame!!.boardConfiguration.numTiles
 
@@ -208,7 +211,7 @@ object Engine {
         gameLog.add(Pair(timestamp, move))
 
         // if auditory obstacles were chosen then say a random number out loud
-        if (activeGame!!.boardConfiguration.impairment === Impairment.AUDITORY_SUM_10) {
+        if (selectedTheme?.id == Theme.ID_AUDITORY) {
             numberSum += Music.playRandomNumber()
         }
 

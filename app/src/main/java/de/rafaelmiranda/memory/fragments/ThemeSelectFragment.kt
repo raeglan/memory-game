@@ -26,9 +26,9 @@ class ThemeSelectFragment : Fragment() {
         val auditory = view.findViewById<View>(R.id.theme_monsters_container)
         val visual = view.findViewById<View>(R.id.theme_emoji_container)
 
-        val themeNormal = Themes.createTheme(Theme.ID_ANIMAL)
-        val themeAuditory = Themes.createTheme(Theme.ID_ANIMAL_AUDITORY)
-        val themeVisual = Themes.createTheme(Theme.ID_ANIMAL_VISUAL_BLUR)
+        val themeNormal = Themes.createTheme(Theme.ID_NORMAL)
+        val themeAuditory = Themes.createTheme(Theme.ID_AUDITORY)
+        val themeVisual = Themes.createTheme(Theme.ID_VISUAL_BLUR)
 
         normal.setOnClickListener { EventBus.getDefault().post(ThemeSelectedEvent(themeNormal)) }
 
