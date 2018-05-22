@@ -125,25 +125,27 @@ object Engine {
         // start the screen
         ScreenController.openScreen(ScreenController.Screen.GAME)
 
-        val task = object : AsyncTask<Void, Void, TransitionDrawable>() {
+        if (event.theme.backgroundImageUrl != selectedTheme?.backgroundImageUrl) {
+            val task = object : AsyncTask<Void, Void, TransitionDrawable>() {
 
-            override fun doInBackground(vararg params: Void): TransitionDrawable {
-                val bitmap = Utils.scaleDown(R.drawable.background, Utils.screenWidth(), Utils.screenHeight())
-                var backgroundImage = Themes.getBackgroundImage(selectedTheme!!)
-                backgroundImage = Utils.crop(backgroundImage, Utils.screenHeight(), Utils.screenWidth())
-                val backgrounds = arrayOfNulls<Drawable>(2)
-                backgrounds[0] = BitmapDrawable(Shared.context.resources, bitmap)
-                backgrounds[1] = BitmapDrawable(Shared.context.resources, backgroundImage)
-                return TransitionDrawable(backgrounds)
-            }
+                override fun doInBackground(vararg params: Void): TransitionDrawable {
+                    val bitmap = Utils.scaleDown(R.drawable.background, Utils.screenWidth(), Utils.screenHeight())
+                    var backgroundImage = Themes.getBackgroundImage(selectedTheme!!)
+                    backgroundImage = Utils.crop(backgroundImage, Utils.screenHeight(), Utils.screenWidth())
+                    val backgrounds = arrayOfNulls<Drawable>(2)
+                    backgrounds[0] = BitmapDrawable(Shared.context.resources, bitmap)
+                    backgrounds[1] = BitmapDrawable(Shared.context.resources, backgroundImage)
+                    return TransitionDrawable(backgrounds)
+                }
 
-            override fun onPostExecute(result: TransitionDrawable) {
-                super.onPostExecute(result)
-                mBackgroundImage!!.setImageDrawable(result)
-                result.startTransition(2000)
+                override fun onPostExecute(result: TransitionDrawable) {
+                    super.onPostExecute(result)
+                    mBackgroundImage!!.setImageDrawable(result)
+                    result.startTransition(2000)
+                }
             }
+            task.execute()
         }
-        task.execute()
     }
 
     private fun arrangeBoard() {

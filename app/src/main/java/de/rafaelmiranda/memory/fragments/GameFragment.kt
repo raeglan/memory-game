@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Chronometer
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.TextView
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.events.FlipDownCardsEvent
@@ -15,7 +15,6 @@ import de.rafaelmiranda.memory.events.HidePairCardsEvent
 import de.rafaelmiranda.memory.model.Impairment
 import de.rafaelmiranda.memory.ui.BoardView
 import de.rafaelmiranda.memory.ui.PopupManager
-import de.rafaelmiranda.memory.utils.Clock
 import de.rafaelmiranda.memory.utils.FontLoader
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -24,14 +23,14 @@ import org.greenrobot.eventbus.ThreadMode
 class GameFragment : BaseFragment() {
 
     private lateinit var mBoardView: BoardView
-    private lateinit var mTime: TextView
+    private lateinit var mTime: Chronometer
     private lateinit var mTimeImage: ImageView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.game_fragment, container, false) as ViewGroup
         view.clipChildren = false
         (view.findViewById<View>(R.id.game_board) as ViewGroup).clipChildren = false
-        mTime = view.findViewById<View>(R.id.time_bar_text) as TextView
+        mTime = view.findViewById<View>(R.id.time_bar_text) as Chronometer
         mTimeImage = view.findViewById<View>(R.id.time_bar_image) as ImageView
         FontLoader.setTypeface(Shared.context, arrayOf(mTime), FontLoader.Font.GROBOLD)
         mBoardView = BoardView.fromXml(activity!!.applicationContext, view)
@@ -56,6 +55,9 @@ class GameFragment : BaseFragment() {
             foreground.visibility = View.INVISIBLE
         }
 
+        // starting clock
+        mTime.start()
+
         return view
     }
 
@@ -63,36 +65,17 @@ class GameFragment : BaseFragment() {
         EventBus.getDefault().unregister(this)
         val foreground = Shared.activity.findViewById<ImageView>(R.id.foreground)
         foreground.visibility = View.INVISIBLE
+
+        // stopping the clock
+        mTime.stop()
+
         super.onDestroy()
     }
 
     private fun buildBoard() {
         val game = Shared.engine.activeGame
-        val time = game!!.boardConfiguration.time
-        setTime(time)
-        mBoardView!!.setBoard(game)
-
-        startClock(time)
-    }
-
-    private fun setTime(time: Int) {
-        val min = time / 60
-        val sec = time - min * 60
-        mTime!!.text = " " + String.format("%02d", min) + ":" + String.format("%02d", sec)
-    }
-
-    private fun startClock(sec: Int) {
-        val clock = Clock
-        clock.startTimer((sec * 1000).toLong(), 1000, object : Clock.OnTimerCount {
-
-            override fun onTick(millisUntilFinished: Long) {
-                setTime((millisUntilFinished / 1000).toInt())
-            }
-
-            override fun onFinish() {
-                setTime(0)
-            }
-        })
+        if (game != null)
+            mBoardView.setBoard(game)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
