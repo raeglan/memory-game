@@ -14,8 +14,6 @@ class HidePairCardsEvent(var id1: Int, var id2: Int)
 
 class BackGameEvent
 
-class DifficultySelectedEvent(val difficulty: Int)
-
 class FlipCardEvent(val card: Card)
 
 class NextGameEvent

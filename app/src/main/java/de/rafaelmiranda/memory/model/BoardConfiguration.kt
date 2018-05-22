@@ -4,7 +4,7 @@ import de.rafaelmiranda.memory.themes.Theme
 
 enum class Impairment { NONE, VISUAL_BLUR, VISUAL_RETINOPATHY, AUDITORY_SUM_10 }
 
-class BoardConfiguration(val difficulty: Int, @Theme.ThemeId theme: Int) {
+class BoardConfiguration(@Theme.ThemeId theme: Int) {
     val numTiles: Int
     val numTilesInRow: Int
     val numRows: Int

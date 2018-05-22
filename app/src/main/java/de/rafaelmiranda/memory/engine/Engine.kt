@@ -94,19 +94,37 @@ object Engine {
     fun onNextGameEvent(event: NextGameEvent) {
         PopupManager.closePopup()
         // todo: Change the next game to select a new impairment.
-        EventBus.getDefault().post(DifficultySelectedEvent(4))
+        val theme = selectedTheme
+        if (theme != null) {
+            EventBus.getDefault().post(ThemeSelectedEvent(theme))
+        } else {
+            EventBus.getDefault().post(BackGameEvent())
+        }
     }
 
     @Subscribe
     fun onBackGameEvent(event: BackGameEvent) {
         PopupManager.closePopup()
-        ScreenController.openScreen(ScreenController.Screen.DIFFICULTY)
+        ScreenController.openScreen(ScreenController.Screen.THEME_SELECT)
     }
 
     @Subscribe
     fun onThemeSelectedEvent(event: ThemeSelectedEvent) {
         selectedTheme = event.theme
-        ScreenController.openScreen(ScreenController.Screen.DIFFICULTY)
+
+        mFlippedCard = null
+        numberSum = 0
+        activeGame = Game()
+        activeGame!!.boardConfiguration = BoardConfiguration(selectedTheme!!.id)
+        activeGame!!.theme = selectedTheme!!
+        mToFlip = activeGame!!.boardConfiguration.numTiles
+
+        // arrange board
+        arrangeBoard()
+
+        // start the screen
+        ScreenController.openScreen(ScreenController.Screen.GAME)
+
         val task = object : AsyncTask<Void, Void, TransitionDrawable>() {
 
             override fun doInBackground(vararg params: Void): TransitionDrawable {
@@ -126,27 +144,6 @@ object Engine {
             }
         }
         task.execute()
-    }
-
-    /**
-     * This is the event that notifies a game starting.
-     *
-     * @param event the difficulty event with the level chosen.
-     */
-    @Subscribe
-    fun onDifficultySelectedEvent(event: DifficultySelectedEvent) {
-        mFlippedCard = null
-        numberSum = 0
-        activeGame = Game()
-        activeGame!!.boardConfiguration = BoardConfiguration(event.difficulty, selectedTheme!!.id)
-        activeGame!!.theme = selectedTheme!!
-        mToFlip = activeGame!!.boardConfiguration.numTiles
-
-        // arrange board
-        arrangeBoard()
-
-        // start the screen
-        ScreenController.openScreen(ScreenController.Screen.GAME)
     }
 
     private fun arrangeBoard() {

@@ -5,7 +5,10 @@ import android.support.v4.app.FragmentManager
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.events.ResetBackgroundEvent
-import de.rafaelmiranda.memory.fragments.*
+import de.rafaelmiranda.memory.fragments.GameFragment
+import de.rafaelmiranda.memory.fragments.GameSettingsFragment
+import de.rafaelmiranda.memory.fragments.MenuFragment
+import de.rafaelmiranda.memory.fragments.ThemeSelectFragment
 import org.greenrobot.eventbus.EventBus
 import java.util.*
 
@@ -17,17 +20,16 @@ object ScreenController {
     enum class Screen {
         MENU,
         GAME,
-        DIFFICULTY,
         THEME_SELECT,
         GAME_SETTINGS
     }
 
     fun openScreen(screen: Screen) {
-        mFragmentManager = Shared.activity!!.supportFragmentManager
+        mFragmentManager = Shared.activity.supportFragmentManager
 
         if (screen == Screen.GAME && openedScreens[openedScreens.size - 1] == Screen.GAME) {
             openedScreens.removeAt(openedScreens.size - 1)
-        } else if (screen == Screen.DIFFICULTY && openedScreens[openedScreens.size - 1] == Screen.GAME) {
+        } else if (screen == Screen.THEME_SELECT && openedScreens[openedScreens.size - 1] == Screen.GAME) {
             openedScreens.removeAt(openedScreens.size - 1)
             openedScreens.removeAt(openedScreens.size - 1)
         }
@@ -54,7 +56,7 @@ object ScreenController {
             val screen = openedScreens[openedScreens.size - 1]
             openedScreens.removeAt(openedScreens.size - 1)
             openScreen(screen)
-            if ((screen == Screen.THEME_SELECT || screen == Screen.MENU) && (screenToRemove == Screen.DIFFICULTY || screenToRemove == Screen.GAME)) {
+            if ((screen == Screen.THEME_SELECT || screen == Screen.MENU) && (screenToRemove == Screen.GAME)) {
                 EventBus.getDefault().post(ResetBackgroundEvent())
             }
             return false
@@ -65,7 +67,6 @@ object ScreenController {
     private fun getFragment(screen: Screen): Fragment? {
         return when (screen) {
             ScreenController.Screen.MENU -> MenuFragment()
-            ScreenController.Screen.DIFFICULTY -> DifficultySelectFragment()
             ScreenController.Screen.GAME -> GameFragment()
             ScreenController.Screen.THEME_SELECT -> ThemeSelectFragment()
             ScreenController.Screen.GAME_SETTINGS -> GameSettingsFragment()
