@@ -24,7 +24,7 @@ class PopupWonView @JvmOverloads constructor(context: Context, attrs: AttributeS
         mBackButton = findViewById<View>(R.id.button_back) as ImageView
         mNextButton = findViewById<View>(R.id.button_next) as ImageView
         // FontLoader.setTypeface(context, arrayOf(SOMETEXTVIEW), FontLoader.Font.GROBOLD)
-        setBackgroundResource(R.drawable.level_complete)
+        setBackgroundResource(R.drawable.tile)
         mHandler = Handler()
 
         mBackButton.setOnClickListener { EventBus.getDefault().post(BackGameEvent()) }
