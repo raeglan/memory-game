@@ -62,9 +62,8 @@ object PopupManager {
 
         // popup
         val popupWonView = PopupWonView(Shared.context)
-        val width = Shared.context.resources.getDimensionPixelSize(R.dimen.popup_won_width)
         val height = Shared.context.resources.getDimensionPixelSize(R.dimen.popup_won_height)
-        val params = RelativeLayout.LayoutParams(width, height)
+        val params = RelativeLayout.LayoutParams(height, LayoutParams.WRAP_CONTENT)
         params.addRule(RelativeLayout.CENTER_IN_PARENT)
         popupContainer.addView(popupWonView, params)
 

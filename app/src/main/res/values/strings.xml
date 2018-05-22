@@ -11,6 +11,7 @@
     <string name="game_settings">Game Settings</string>
     <string name="new_user">New user</string>
     <string name="new_user_hint">The name must be unique.</string>
+    <string name="stage_clear">Stage Clear!</string>
 
     <!-- Preference Strings -->
     <string name="pref_user">user-selected</string>
