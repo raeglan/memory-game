@@ -245,11 +245,6 @@ object Engine {
             }
             mFlippedCard = null
         }
-
-        // todo: Only for debugging, take out.
-        mHandler?.postDelayed(1200) {
-            EventBus.getDefault().post(GameWonEvent())
-        }
     }
 
     fun setBackgroundImageView(backgroundImage: ImageView) {
