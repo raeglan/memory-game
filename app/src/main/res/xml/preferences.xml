@@ -2,7 +2,16 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/more_options">
 
-    <PreferenceCategory android:title="Select a player"/>
+    <PreferenceCategory android:title="General" />
+
+    <SwitchPreference
+        android:defaultValue="@bool/pref_guided_default"
+        android:key="@string/pref_guided_game"
+        android:summaryOff="@string/pref_guided_hint_off"
+        android:summaryOn="@string/pref_guided_hint_on"
+        android:title="Guided Game" />
+
+    <PreferenceCategory android:title="Select a player" />
 
     <DropDownPreference
         android:key="@string/pref_user"

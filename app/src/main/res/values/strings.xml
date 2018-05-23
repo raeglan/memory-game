@@ -17,4 +17,7 @@
     <string name="pref_user">user-selected</string>
     <string name="pref_new_user">new-user</string>
     <string name="pref_game_set">game-set</string>
+    <string name="pref_guided_game">pref_guided_game</string>
+    <string name="pref_guided_hint_on">When you press play the game will choose a random order for themes and impairments.</string>
+    <string name="pref_guided_hint_off">The game will let you choose what to play</string>
 </resources>
