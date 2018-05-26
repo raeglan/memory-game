@@ -1,14 +1,14 @@
 package de.rafaelmiranda.memory.events
 
 import de.rafaelmiranda.memory.model.Card
-import de.rafaelmiranda.memory.themes.Theme
+import de.rafaelmiranda.memory.themes.GameType
 
 /**
  * Just a file containing all the events this wonderful world uses.
  */
 class FlipDownCardsEvent
 
-class GameWonEvent(@Theme.ThemeId val gameType: Int)
+class GameWonEvent(@GameType.GameId val gameType: Int)
 
 class HidePairCardsEvent(var id1: Int, var id2: Int)
 
@@ -24,7 +24,7 @@ class ResetBackgroundEvent
 
 class StartEvent(val directedGame: Boolean = false)
 
-class GameTypeSelectedEvent(val theme: Theme)
+class GameTypeSelectedEvent(val gameType: GameType)
 
 /**
  * Tells the game a session was successfully started.

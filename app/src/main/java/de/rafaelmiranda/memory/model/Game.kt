@@ -1,6 +1,6 @@
 package de.rafaelmiranda.memory.model
 
-import de.rafaelmiranda.memory.themes.Theme
+import de.rafaelmiranda.memory.themes.GameType
 
 /**
  * This is instance of active playing game
@@ -20,7 +20,7 @@ class Game {
     lateinit var boardArrangement: BoardArrangement
 
     /**
-     * The selected theme
+     * The selected gameType
      */
-    lateinit var theme: Theme
+    lateinit var gameType: GameType
 }

@@ -1,6 +1,6 @@
 package de.rafaelmiranda.memory.model
 
-import de.rafaelmiranda.memory.themes.Theme
+import de.rafaelmiranda.memory.themes.GameType
 
 /**
  * To save all the needed game state stuff(for example the sum)
@@ -9,7 +9,7 @@ class GameState(
         /**
          * The id of the chosen game.
          */
-        @Theme.ThemeId val gameTypeId: Int) {
+        @GameType.GameId val gameTypeId: Int) {
 
     /**
      * The log of each chosen card in this game, this will be saved in a form of pairId.cardNumber in

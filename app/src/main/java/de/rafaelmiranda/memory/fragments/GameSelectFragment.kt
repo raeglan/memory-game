@@ -11,11 +11,11 @@ import android.view.animation.DecelerateInterpolator
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.events.GameTypeSelectedEvent
-import de.rafaelmiranda.memory.themes.Theme
+import de.rafaelmiranda.memory.themes.GameType
 import de.rafaelmiranda.memory.themes.Themes
 import org.greenrobot.eventbus.EventBus
 
-class ThemeSelectFragment : Fragment() {
+class GameSelectFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = LayoutInflater.from(Shared.context).inflate(R.layout.theme_select_fragment, container, false)
@@ -23,9 +23,9 @@ class ThemeSelectFragment : Fragment() {
         val auditory = view.findViewById<View>(R.id.theme_monsters_container)
         val visual = view.findViewById<View>(R.id.theme_emoji_container)
 
-        val themeNormal = Themes.createTheme(Theme.ID_NORMAL)
-        val themeAuditory = Themes.createTheme(Theme.ID_AUDITORY)
-        val themeVisual = Themes.createTheme(Theme.ID_VISUAL_BLUR)
+        val themeNormal = Themes.createTheme(GameType.ID_NORMAL)
+        val themeAuditory = Themes.createTheme(GameType.ID_AUDITORY)
+        val themeVisual = Themes.createTheme(GameType.ID_VISUAL_BLUR)
 
         normal.setOnClickListener { EventBus.getDefault().post(GameTypeSelectedEvent(themeNormal)) }
 

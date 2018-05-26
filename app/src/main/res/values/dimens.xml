@@ -18,7 +18,7 @@
     <dimen name="tooltip_margin_left">120dp</dimen>
     <dimen name="tooltip_margin_bottom">105dp</dimen>
     
-    <!-- theme -->
+    <!-- gameType -->
     <dimen name="theme_padding">40dp</dimen>
     <dimen name="theme_margin">20dp</dimen>
     

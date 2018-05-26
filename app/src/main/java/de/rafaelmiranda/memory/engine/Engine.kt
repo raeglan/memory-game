@@ -15,7 +15,7 @@ import de.rafaelmiranda.memory.common.Music
 import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.events.*
 import de.rafaelmiranda.memory.model.*
-import de.rafaelmiranda.memory.themes.Theme
+import de.rafaelmiranda.memory.themes.GameType
 import de.rafaelmiranda.memory.themes.Themes
 import de.rafaelmiranda.memory.ui.PopupManager
 import de.rafaelmiranda.memory.utils.Utils
@@ -30,7 +30,7 @@ object Engine {
         private set
     private var mFlippedCard: Card? = null
     private var mToFlip = -1
-    var selectedTheme: Theme? = null
+    var selectedGameType: GameType? = null
         private set
     private var mBackgroundImage: ImageView? = null
     private var mHandler: Handler? = null
@@ -83,7 +83,7 @@ object Engine {
         // For a scientific study, a random game set is not a good idea.
         // Instead we take the set first and then randomize the position.
         // Psych! This we really do want some randomness in there.
-        val tileImageUrls = activeGame!!.theme.tileImageUrls.shuffled()
+        val tileImageUrls = activeGame!!.gameType.tileImageUrls.shuffled()
 
         boardArrangement.cards = SparseArray()
         boardArrangement.tileUrls = SparseArray()
@@ -135,10 +135,19 @@ object Engine {
     @Suppress("UNUSED_PARAMETER", "unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onStartEvent(event: StartEvent) {
-        if (event.directedGame) {
-
+        directedGame = event.directedGame
+        if (directedGame) {
+            MemoryDb.startSession()
+            gameOrderList.clear()
+            gameOrderList.addAll(listOf(
+                    GameType.ID_NORMAL,
+                    GameType.ID_AUDITORY,
+                    GameType.ID_VISUAL_BLUR)
+                    .shuffled())
+            val firstGame = gameOrderList.removeAt(0)
+            val gameType = Themes.createTheme(firstGame)
+            EventBus.getDefault().post(GameTypeSelectedEvent(gameType))
         } else {
-
             ScreenController.openScreen(ScreenController.Screen.GAME_SELECT)
         }
     }
@@ -148,11 +157,14 @@ object Engine {
     fun onNextEvent(event: NextEvent) {
         PopupManager.closePopup()
         // todo: Change the next game to select a new impairment.
-        val theme = selectedTheme
-        if (theme != null) {
-            EventBus.getDefault().post(GameTypeSelectedEvent(theme))
-        } else {
-            EventBus.getDefault().post(BackGameEvent())
+        val theme = selectedGameType
+        when {
+            directedGame -> {
+                // todo: Finish making directing games.
+                if()
+            }
+            theme != null -> EventBus.getDefault().post(GameTypeSelectedEvent(theme))
+            else -> EventBus.getDefault().post(BackGameEvent())
         }
     }
 
@@ -167,20 +179,20 @@ object Engine {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onGameTypeSelectedEvent(event: GameTypeSelectedEvent) {
         // initializing those variables YO.
-        selectedTheme = event.theme
+        selectedGameType = event.gameType
         mFlippedCard = null
 
         // setting the active game
         val game = Game()
         game.boardConfiguration = BoardConfiguration()
-        game.theme = selectedTheme!!
+        game.gameType = selectedGameType!!
         mToFlip = game.boardConfiguration.numTiles
         activeGame = game
 
         // the game has just began, so a new game state should be initialized.
-        val currentGameState = GameState(event.theme.id)
+        val currentGameState = GameState(event.gameType.id)
         // if the game is an auditory one we have something to sum
-        if (currentGameState.gameTypeId == Theme.ID_AUDITORY) {
+        if (currentGameState.gameTypeId == GameType.ID_AUDITORY) {
             currentGameState.numberSumUserAnswer = 0
             currentGameState.numberSum = 0
         }
@@ -192,13 +204,13 @@ object Engine {
         // start the screen
         ScreenController.openScreen(ScreenController.Screen.GAME)
 
-        if (event.theme.backgroundImageUrl != selectedTheme?.backgroundImageUrl) {
+        if (event.gameType.backgroundImageUrl != selectedGameType?.backgroundImageUrl) {
             val task = object : AsyncTask<Void, Void, TransitionDrawable>() {
 
                 override fun doInBackground(vararg params: Void): TransitionDrawable {
                     val bitmap = Utils.scaleDown(R.drawable.background, Utils.screenWidth(),
                             Utils.screenHeight())
-                    var backgroundImage = Themes.getBackgroundImage(selectedTheme!!)
+                    var backgroundImage = Themes.getBackgroundImage(selectedGameType!!)
                     backgroundImage = Utils.crop(backgroundImage, Utils.screenHeight(),
                             Utils.screenWidth())
                     val backgrounds = arrayOfNulls<Drawable>(2)
@@ -233,7 +245,7 @@ object Engine {
         currentGameState.gameLog.add(GameTimeMovesPair(timestamp, move))
 
         // if auditory obstacles were chosen then say a random number out loud
-        if (selectedTheme?.id == Theme.ID_AUDITORY) {
+        if (selectedGameType?.id == GameType.ID_AUDITORY) {
             currentGameState.numberSum += Music.playRandomNumber()
         }
 

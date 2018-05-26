@@ -26,7 +26,7 @@ class BoardArrangement {
 
     /**
      * @param id The id is the number between 0 and number of possible tiles of
-     * this theme
+     * this gameType
      * @return The Bitmap of the tile
      */
     fun getTileBitmap(id: Int, size: Int): Bitmap? {

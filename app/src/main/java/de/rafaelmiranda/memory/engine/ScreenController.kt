@@ -6,9 +6,9 @@ import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.events.ResetBackgroundEvent
 import de.rafaelmiranda.memory.fragments.GameFragment
+import de.rafaelmiranda.memory.fragments.GameSelectFragment
 import de.rafaelmiranda.memory.fragments.GameSettingsFragment
 import de.rafaelmiranda.memory.fragments.MenuFragment
-import de.rafaelmiranda.memory.fragments.ThemeSelectFragment
 import org.greenrobot.eventbus.EventBus
 import java.util.*
 
@@ -68,7 +68,7 @@ object ScreenController {
         return when (screen) {
             ScreenController.Screen.MENU -> MenuFragment()
             ScreenController.Screen.GAME -> GameFragment()
-            ScreenController.Screen.GAME_SELECT -> ThemeSelectFragment()
+            ScreenController.Screen.GAME_SELECT -> GameSelectFragment()
             ScreenController.Screen.GAME_SETTINGS -> GameSettingsFragment()
         }
     }
