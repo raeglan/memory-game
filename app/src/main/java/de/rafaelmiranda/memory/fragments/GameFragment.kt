@@ -66,18 +66,21 @@ class GameFragment : BaseFragment() {
             mBoardView.setBoard(game)
     }
 
+    @Suppress("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onGameWonEvent(event: GameWonEvent) {
         mTime.visibility = View.GONE
         mTimeImage.visibility = View.GONE
-        PopupManager.showPopupWon()
+        PopupManager.showPopupWon(event.gameType)
     }
 
+    @Suppress("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onFlipDownCardsEvent(event: FlipDownCardsEvent) {
         mBoardView.flipDownAll()
     }
 
+    @Suppress("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onHidePairEvent(event: HidePairCardsEvent) {
         mBoardView.hideCards(event.id1, event.id2)

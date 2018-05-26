@@ -8,7 +8,7 @@ import de.rafaelmiranda.memory.themes.Theme
  */
 class FlipDownCardsEvent
 
-class GameWonEvent
+class GameWonEvent(@Theme.ThemeId val gameType: Int)
 
 class HidePairCardsEvent(var id1: Int, var id2: Int)
 
@@ -16,11 +16,18 @@ class BackGameEvent
 
 class FlipCardEvent(val card: Card)
 
-class NextGameEvent
+class NextEvent
+
+class QuestionsAnsweredEvent(val sumAnswer: Int = -1)
 
 class ResetBackgroundEvent
 
-class StartEvent
+class StartEvent(val directedGame: Boolean = false)
 
-class ThemeSelectedEvent(val theme: Theme)
+class GameTypeSelectedEvent(val theme: Theme)
+
+/**
+ * Tells the game a session was successfully started.
+ */
+class SessionStarted(val success: Boolean = true)
 

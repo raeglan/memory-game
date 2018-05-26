@@ -12,16 +12,18 @@ object Themes {
 
     private const val NORMAL_SET_URI = "animals_%d"
     private const val BLUR_SET_URI = "animals_blur_%d"
+    private const val NORMAL_BACKGROUND_URI = "back_animals"
 
     fun createTheme(@Theme.ThemeId themeId: Int): Theme {
         val theme = Theme()
         theme.id = themeId
         theme.name = "Animals"
         theme.tileImageUrls = createCardsSet(themeId)
+        theme.backgroundImageUrl = URI_DRAWABLE + NORMAL_BACKGROUND_URI
         return theme
     }
 
-    private fun createCardsSet(themeId: Int): List<String> {
+    private fun createCardsSet(@Theme.ThemeId themeId: Int): List<String> {
         val tileImageUrls = ArrayList<String>()
         val baseCardsUri = if (themeId == Theme.ID_VISUAL_BLUR) BLUR_SET_URI else NORMAL_SET_URI
         // 40 drawables

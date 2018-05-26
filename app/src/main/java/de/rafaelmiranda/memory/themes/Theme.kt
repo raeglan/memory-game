@@ -5,7 +5,7 @@ import android.support.annotation.IntDef
 class Theme {
 
     @ThemeId
-    var id: Int = 0
+    var id: Int = -1
     var name: String? = null
     lateinit var backgroundImageUrl: String
     lateinit var tileImageUrls: List<String>

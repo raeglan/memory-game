@@ -8,15 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
-import android.widget.ImageView
 import de.rafaelmiranda.memory.R
-import de.rafaelmiranda.memory.common.Memory
 import de.rafaelmiranda.memory.common.Shared
-import de.rafaelmiranda.memory.events.ThemeSelectedEvent
+import de.rafaelmiranda.memory.events.GameTypeSelectedEvent
 import de.rafaelmiranda.memory.themes.Theme
 import de.rafaelmiranda.memory.themes.Themes
 import org.greenrobot.eventbus.EventBus
-import java.util.*
 
 class ThemeSelectFragment : Fragment() {
 
@@ -30,11 +27,11 @@ class ThemeSelectFragment : Fragment() {
         val themeAuditory = Themes.createTheme(Theme.ID_AUDITORY)
         val themeVisual = Themes.createTheme(Theme.ID_VISUAL_BLUR)
 
-        normal.setOnClickListener { EventBus.getDefault().post(ThemeSelectedEvent(themeNormal)) }
+        normal.setOnClickListener { EventBus.getDefault().post(GameTypeSelectedEvent(themeNormal)) }
 
-        auditory.setOnClickListener { EventBus.getDefault().post(ThemeSelectedEvent(themeAuditory)) }
+        auditory.setOnClickListener { EventBus.getDefault().post(GameTypeSelectedEvent(themeAuditory)) }
 
-        visual.setOnClickListener { EventBus.getDefault().post(ThemeSelectedEvent(themeVisual)) }
+        visual.setOnClickListener { EventBus.getDefault().post(GameTypeSelectedEvent(themeVisual)) }
 
         /*
          * Improve performance first!!!
@@ -55,21 +52,5 @@ class ThemeSelectFragment : Fragment() {
         animatorSet.interpolator = DecelerateInterpolator(2f)
         view.setLayerType(View.LAYER_TYPE_HARDWARE, null)
         animatorSet.start()
-    }
-
-    /**
-     * For now I don't really need to show stars here, I may add it later.
-     */
-    private fun setStars(imageView: ImageView, theme: Theme, type: String) {
-        var sum = 0
-        for (difficulty in 1..6) {
-            sum += Memory.getHighStars(theme.id, difficulty)
-        }
-        val num = sum / 6
-        if (num != 0) {
-            val drawableResourceName = String.format(Locale.US, type + "_theme_star_%d", num)
-            val drawableResourceId = Shared.context.resources.getIdentifier(drawableResourceName, "drawable", Shared.context.packageName)
-            imageView.setImageResource(drawableResourceId)
-        }
     }
 }

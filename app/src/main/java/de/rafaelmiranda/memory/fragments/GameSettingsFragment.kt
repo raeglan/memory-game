@@ -14,7 +14,7 @@ import de.rafaelmiranda.memory.common.Shared
 
 class GameSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener {
 
-    lateinit var userList: ListPreference
+    private lateinit var userList: ListPreference
     lateinit var newUser: EditTextPreference
     lateinit var gameSets: ListPreference
 

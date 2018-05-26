@@ -20,7 +20,7 @@ object ScreenController {
     enum class Screen {
         MENU,
         GAME,
-        THEME_SELECT,
+        GAME_SELECT,
         GAME_SETTINGS
     }
 
@@ -29,7 +29,7 @@ object ScreenController {
 
         if (screen == Screen.GAME && openedScreens[openedScreens.size - 1] == Screen.GAME) {
             openedScreens.removeAt(openedScreens.size - 1)
-        } else if (screen == Screen.THEME_SELECT && openedScreens[openedScreens.size - 1] == Screen.GAME) {
+        } else if (screen == Screen.GAME_SELECT && openedScreens[openedScreens.size - 1] == Screen.GAME) {
             openedScreens.removeAt(openedScreens.size - 1)
             openedScreens.removeAt(openedScreens.size - 1)
         }
@@ -56,7 +56,7 @@ object ScreenController {
             val screen = openedScreens[openedScreens.size - 1]
             openedScreens.removeAt(openedScreens.size - 1)
             openScreen(screen)
-            if ((screen == Screen.THEME_SELECT || screen == Screen.MENU) && (screenToRemove == Screen.GAME)) {
+            if ((screen == Screen.GAME_SELECT || screen == Screen.MENU) && (screenToRemove == Screen.GAME)) {
                 EventBus.getDefault().post(ResetBackgroundEvent())
             }
             return false
@@ -64,11 +64,11 @@ object ScreenController {
         return true
     }
 
-    private fun getFragment(screen: Screen): Fragment? {
+    private fun getFragment(screen: Screen): Fragment {
         return when (screen) {
             ScreenController.Screen.MENU -> MenuFragment()
             ScreenController.Screen.GAME -> GameFragment()
-            ScreenController.Screen.THEME_SELECT -> ThemeSelectFragment()
+            ScreenController.Screen.GAME_SELECT -> ThemeSelectFragment()
             ScreenController.Screen.GAME_SETTINGS -> GameSettingsFragment()
         }
     }

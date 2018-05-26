@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
-import android.support.v4.app.FragmentActivity
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ImageView
 import com.google.gson.Gson
@@ -19,7 +19,7 @@ import de.rafaelmiranda.memory.utils.JsonUtils
 import de.rafaelmiranda.memory.utils.Utils
 import org.greenrobot.eventbus.EventBus
 
-class MainActivity : FragmentActivity(), TextToSpeech.OnInitListener {
+class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private var mBackgroundImage: ImageView? = null
     private var eegBlinkView: View? = null

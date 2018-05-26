@@ -5,8 +5,8 @@
     <PreferenceCategory android:title="General" />
 
     <SwitchPreference
-        android:defaultValue="@bool/pref_guided_default"
-        android:key="@string/pref_guided_game"
+        android:defaultValue="@bool/pref_directed_default"
+        android:key="@string/pref_directed_game"
         android:summaryOff="@string/pref_guided_hint_off"
         android:summaryOn="@string/pref_guided_hint_on"
         android:title="Guided Game" />
@@ -16,6 +16,7 @@
     <DropDownPreference
         android:key="@string/pref_user"
         android:title="Already existing" />
+
     <EditTextPreference
         android:key="@string/pref_new_user"
         android:summary="@string/new_user_hint"

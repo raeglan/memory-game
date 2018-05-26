@@ -13,6 +13,7 @@ import android.widget.RelativeLayout
 import android.widget.RelativeLayout.LayoutParams
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Shared
+import de.rafaelmiranda.memory.themes.Theme
 
 object PopupManager {
 
@@ -56,12 +57,16 @@ object PopupManager {
         animatorSet.start()
     }
 
-    fun showPopupWon() {
+    fun showPopupWon(@Theme.ThemeId gameType: Int) {
         val popupContainer = Shared.activity.findViewById<RelativeLayout>(R.id.popup_container)
         popupContainer.removeAllViews()
 
-        // popup
+        // popup with optional extra options
         val popupWonView = PopupWonView(Shared.context)
+        if (gameType == Theme.ID_AUDITORY)
+            popupWonView.setSumGame()
+
+        // the whole params thingys
         val height = Shared.context.resources.getDimensionPixelSize(R.dimen.popup_won_height)
         val params = RelativeLayout.LayoutParams(height, LayoutParams.WRAP_CONTENT)
         params.addRule(RelativeLayout.CENTER_IN_PARENT)

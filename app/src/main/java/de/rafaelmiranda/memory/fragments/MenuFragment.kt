@@ -13,6 +13,7 @@ import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Music
 import de.rafaelmiranda.memory.events.StartEvent
 import de.rafaelmiranda.memory.ui.PopupManager
+import de.rafaelmiranda.memory.utils.PreferencesUtil
 import de.rafaelmiranda.memory.utils.Utils
 import org.greenrobot.eventbus.EventBus
 
@@ -35,7 +36,8 @@ class MenuFragment : Fragment() {
             // animate title from place and navigation buttons from place
             animateAllAssetsOff(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    EventBus.getDefault().post(StartEvent())
+                    val directedGame = PreferencesUtil(context!!).isDirectedGame()
+                    EventBus.getDefault().post(StartEvent(directedGame))
                 }
             })
         }
