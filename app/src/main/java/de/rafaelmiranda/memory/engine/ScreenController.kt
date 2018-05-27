@@ -65,9 +65,12 @@ object ScreenController {
     }
 
     private fun getFragment(screen: Screen): Fragment {
+        // todo: This should be better written. Nothing against a good quick and dirty solution.
         return when (screen) {
             ScreenController.Screen.MENU -> MenuFragment()
-            ScreenController.Screen.GAME -> GameFragment()
+            ScreenController.Screen.GAME -> {
+                GameFragment.newInstance(Shared.engine.selectedGameType!!.id)
+            }
             ScreenController.Screen.GAME_SELECT -> GameSelectFragment()
             ScreenController.Screen.GAME_SETTINGS -> GameSettingsFragment()
         }

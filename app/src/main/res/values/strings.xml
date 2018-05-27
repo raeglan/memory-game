@@ -22,6 +22,26 @@
     <string name="new_user_hint">The name must be unique.</string>
     <string name="stage_clear">Stage Clear!</string>
 
-    <string name="number_sum">Numer sum:</string>
+    <!-- Game names and intro texts -->
+    <string name="normal_game">Easy Mode</string>
+    <string name="normal_game_description">
+        Just a normal game of memory. Flip two cards at a time and if they are a match both will be
+        taken out of the game, you win when there are no cards left at the board.\n\nHave fun!
+    </string>
+    <string name="visual_blur_game">Memory Fog</string>
+    <string name="visual_blur_game_description">
+        A simple game, but what is that? All the cards are blurry. And black and white. Do you best
+        to find pairs in this game of deception and mystery.\n\nChoose wisely.
+    </string>
+    <string name="auditory_distraction_game">Game of Distractions</string>
+    <string name="auditory_distraction_game_description">
+        It is time to amp up your math game. Every time you flip a card our highly advanced AI will
+        read a number out loud. You should always remember the sum of all the numbers said until
+        this point. For example, if when you flip a couple of cards our AI says 3, then 6 and then
+        10. You need to remember 19. After the game you will be asked to give the answer.
+        \n\nGood Luck! You're gonna need it…
+    </string>
+
+    <string name="number_sum">Number sum:</string>
     <string name="please_answer_sum_hint">Please fill out the sum</string>
 </resources>

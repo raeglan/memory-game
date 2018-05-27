@@ -9,9 +9,11 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Shared
+import de.rafaelmiranda.memory.dialogs.IntroDialog
 import de.rafaelmiranda.memory.events.FlipDownCardsEvent
 import de.rafaelmiranda.memory.events.GameWonEvent
 import de.rafaelmiranda.memory.events.HidePairCardsEvent
+import de.rafaelmiranda.memory.themes.GameType
 import de.rafaelmiranda.memory.ui.BoardView
 import de.rafaelmiranda.memory.ui.PopupManager
 import de.rafaelmiranda.memory.utils.FontLoader
@@ -25,6 +27,15 @@ class GameFragment : BaseFragment() {
     private lateinit var mTime: Chronometer
     private lateinit var mTimeImage: ImageView
 
+    companion object {
+        const val KEY_GAME_ID = "gameID"
+        fun newInstance(@GameType.GameId gameId: Int): GameFragment {
+            val bundle = Bundle(1)
+            bundle.putInt(KEY_GAME_ID, gameId)
+            return GameFragment().apply { this.arguments = bundle }
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.game_fragment, container, false) as ViewGroup
         view.clipChildren = false
@@ -37,8 +48,9 @@ class GameFragment : BaseFragment() {
         frameLayout.addView(mBoardView)
         frameLayout.clipChildren = false
 
-        // the intro popup.
-
+        // getting arguments
+        val gameId = arguments?.getInt(KEY_GAME_ID)
+                ?: throw IllegalAccessError("Use newInstance(gameId) to create a GameFragment.")
 
         // registering for events
         EventBus.getDefault().register(this)
@@ -48,6 +60,11 @@ class GameFragment : BaseFragment() {
 
         // starting clock
         mTime.start()
+
+        // Showing the intro popup
+        IntroDialog
+                .newInstance(gameId)
+                .show(fragmentManager, "IntroFragmentPopup")
 
         return view
     }

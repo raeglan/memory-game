@@ -64,4 +64,5 @@
     <!-- Pop Ups -->
     <dimen name="popup_width">240dp</dimen>
     <dimen name="popup_height">300dp</dimen>
+    <dimen name="popup_intro_width">400dp</dimen>
 </resources>
