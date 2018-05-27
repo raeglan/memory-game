@@ -64,7 +64,7 @@ class GameFragment : BaseFragment() {
         // Showing the intro popup
         IntroDialog
                 .newInstance(gameId)
-                .show(fragmentManager, "IntroFragmentPopup")
+                .show(childFragmentManager, "IntroFragmentPopup")
 
         return view
     }

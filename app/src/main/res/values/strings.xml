@@ -37,7 +37,7 @@
     <string name="auditory_distraction_game_description">
         It is time to amp up your math game. Every time you flip a card our highly advanced AI will
         read a number out loud. You should always remember the sum of all the numbers said until
-        this point. For example, if when you flip a couple of cards our AI says 3, then 6 and then
+        this point. For example, when you flip a couple of cards our AI says 3, then 6 and then
         10. You need to remember 19. After the game you will be asked to give the answer.
         \n\nGood Luck! You're gonna need it…
     </string>

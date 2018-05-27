@@ -1,10 +1,9 @@
 package de.rafaelmiranda.memory.dialogs
 
+import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import de.rafaelmiranda.memory.R
@@ -27,8 +26,9 @@ class IntroDialog : DialogFragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.popup_intro, container, false)
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val view = LayoutInflater.from(context)
+                .inflate(R.layout.popup_intro, null)
 
         val gameId = arguments?.getInt(KEY_GAME_ID)
 
@@ -59,6 +59,8 @@ class IntroDialog : DialogFragment() {
                     dismiss()
                 }
 
-        return view
+        val dialog = Dialog(context!!, R.style.ThemeOverlay_AppCompat_Dialog)
+        dialog.setContentView(view)
+        return dialog
     }
 }
