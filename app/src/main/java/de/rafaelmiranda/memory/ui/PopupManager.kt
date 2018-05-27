@@ -67,7 +67,7 @@ object PopupManager {
             popupWonView.setSumGame()
 
         // the whole params thingys
-        val height = Shared.context.resources.getDimensionPixelSize(R.dimen.popup_won_height)
+        val height = Shared.context.resources.getDimensionPixelSize(R.dimen.popup_height)
         val params = RelativeLayout.LayoutParams(height, LayoutParams.WRAP_CONTENT)
         params.addRule(RelativeLayout.CENTER_IN_PARENT)
         popupContainer.addView(popupWonView, params)

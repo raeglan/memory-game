@@ -36,9 +36,9 @@
     <dimen name="clock_text_size">25dp</dimen>
     
     <!-- popup won -->
-    <dimen name="popup_won_width">400dp</dimen>
-    <dimen name="popup_won_height">500dp</dimen>
-    <dimen name="popup_button_back">120dp</dimen>
+    <dimen name="popup_width">400dp</dimen>
+    <dimen name="popup_height">500dp</dimen>
+    <dimen name="popup_button_back">80dp</dimen>
     <dimen name="popup_button_back_left">45dp</dimen>
     <dimen name="popup_button_back_bottom">10dp</dimen>
     <dimen name="popup_button_star_size">95dp</dimen>

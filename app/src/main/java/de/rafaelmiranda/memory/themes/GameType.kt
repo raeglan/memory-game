@@ -2,8 +2,14 @@ package de.rafaelmiranda.memory.themes
 
 import android.support.annotation.IntDef
 
+/**
+ * The individual game type, describing which cards to use, background and everything alike.
+ */
 class GameType {
 
+    /**
+     * Which game id this is. This is the unique identifier to this exact experiment.
+     */
     @GameId
     var id: Int = -1
     var name: String? = null

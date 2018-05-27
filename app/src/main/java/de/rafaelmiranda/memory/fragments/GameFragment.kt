@@ -37,6 +37,9 @@ class GameFragment : BaseFragment() {
         frameLayout.addView(mBoardView)
         frameLayout.clipChildren = false
 
+        // the intro popup.
+
+
         // registering for events
         EventBus.getDefault().register(this)
 

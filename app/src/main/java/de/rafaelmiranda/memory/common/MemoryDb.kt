@@ -50,13 +50,13 @@ object MemoryDb {
 
         val gameLog = gameState.gameLog
         val gameType = gameState.gameTypeId
-        val startTime = Date(System.currentTimeMillis())
         val fireDb = FirebaseFirestore.getInstance()
         val session = sessionId
 
         // the logs will be saved as comma separated values inside our DB.
         val timeLog = gameLog.map { action -> Date(action.timestamp) }
         val movesLog = gameLog.map { action -> action.move }
+        val startTime = timeLog[0]
 
         // each of the values to its respective fields
         val log = HashMap<String, Any>(7)
