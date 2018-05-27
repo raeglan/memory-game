@@ -16,7 +16,7 @@ import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.events.*
 import de.rafaelmiranda.memory.model.*
 import de.rafaelmiranda.memory.themes.GameType
-import de.rafaelmiranda.memory.themes.Themes
+import de.rafaelmiranda.memory.themes.Types
 import de.rafaelmiranda.memory.ui.PopupManager
 import de.rafaelmiranda.memory.utils.Utils
 import de.rafaelmiranda.memory.utils.postDelayed
@@ -38,7 +38,7 @@ object Engine {
     /**
      * The order in which things will play out when in directed mode.
      */
-    private val gameOrderList = ArrayList<Int>()
+    private val directedGameList = ArrayList<Int>()
     private var directedGame: Boolean = false
 
     /**
@@ -138,14 +138,14 @@ object Engine {
         directedGame = event.directedGame
         if (directedGame) {
             MemoryDb.startSession()
-            gameOrderList.clear()
-            gameOrderList.addAll(listOf(
+            directedGameList.clear()
+            directedGameList.addAll(listOf(
                     GameType.ID_NORMAL,
                     GameType.ID_AUDITORY,
                     GameType.ID_VISUAL_BLUR)
                     .shuffled())
-            val firstGame = gameOrderList.removeAt(0)
-            val gameType = Themes.createTheme(firstGame)
+            val firstGame = directedGameList.removeAt(0)
+            val gameType = Types.createTheme(firstGame)
             EventBus.getDefault().post(GameTypeSelectedEvent(gameType))
         } else {
             ScreenController.openScreen(ScreenController.Screen.GAME_SELECT)
@@ -156,14 +156,19 @@ object Engine {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onNextEvent(event: NextEvent) {
         PopupManager.closePopup()
-        // todo: Change the next game to select a new impairment.
-        val theme = selectedGameType
+        val gameType = selectedGameType
         when {
             directedGame -> {
                 // todo: Finish making directing games.
-                if()
+                if (directedGameList.isNotEmpty()) {
+                    val newGame = directedGameList.removeAt(0)
+                    EventBus.getDefault().post(GameTypeSelectedEvent(Types.createTheme(newGame)))
+                } else {
+                    MemoryDb.endSession()
+                    EventBus.getDefault().post(BackGameEvent())
+                }
             }
-            theme != null -> EventBus.getDefault().post(GameTypeSelectedEvent(theme))
+            gameType != null -> EventBus.getDefault().post(GameTypeSelectedEvent(gameType))
             else -> EventBus.getDefault().post(BackGameEvent())
         }
     }
@@ -210,7 +215,7 @@ object Engine {
                 override fun doInBackground(vararg params: Void): TransitionDrawable {
                     val bitmap = Utils.scaleDown(R.drawable.background, Utils.screenWidth(),
                             Utils.screenHeight())
-                    var backgroundImage = Themes.getBackgroundImage(selectedGameType!!)
+                    var backgroundImage = Types.getBackgroundImage(selectedGameType!!)
                     backgroundImage = Utils.crop(backgroundImage, Utils.screenHeight(),
                             Utils.screenWidth())
                     val backgrounds = arrayOfNulls<Drawable>(2)
@@ -277,10 +282,6 @@ object Engine {
                 }
             }
             mFlippedCard = null
-        }
-
-        mHandler?.postDelayed(1200) {
-            EventBus.getDefault().post(GameWonEvent(currentGameState.gameTypeId))
         }
     }
 

@@ -29,7 +29,7 @@ object MemoryDb {
     const val FIELD_SUM = "sum" // INT
     const val FIELD_SUM_USER_ANSWER = "sumUserAnswer" // INT
     const val FIELD_SESSION_LOGS = "logs" // {GAME_TYPE: LOGS REFERENCE}
-    const val FIELD_START_TIME = "time" // DATE
+    const val FIELD_START_TIME = "startTime" // DATE
     const val FIELD_NAME = "name" // STRING
 
     // LOGS: GAME_LOG, GAME_TYPE, TIME_LOG, USER, START_TIME, SUM, SUM_USER_ANSWER
@@ -134,6 +134,7 @@ object MemoryDb {
      * Marks that the session ended. What a world. What a horrible world.
      */
     fun endSession() {
+        Log.v(TAG, "Session $sessionId closed.")
         sessionId = null
     }
 }

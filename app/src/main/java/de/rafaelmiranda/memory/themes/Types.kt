@@ -6,11 +6,7 @@ import de.rafaelmiranda.memory.utils.Utils
 import java.util.*
 
 
-object Themes {
-
-    enum class Test(val something: Int) {
-        TEST_ONE(2), TEST_TWW(2)
-    }
+object Types {
 
     const val URI_DRAWABLE = "drawable://"
 
@@ -40,7 +36,7 @@ object Themes {
 
 
     fun getBackgroundImage(gameType: GameType): Bitmap {
-        val drawableResourceName = gameType.backgroundImageUrl.substring(Themes.URI_DRAWABLE.length)
+        val drawableResourceName = gameType.backgroundImageUrl.substring(Types.URI_DRAWABLE.length)
         val drawableResourceId = Shared.context.resources.getIdentifier(drawableResourceName, "drawable", Shared.context.packageName)
         return Utils.scaleDown(drawableResourceId, Utils.screenWidth(), Utils.screenHeight())
     }

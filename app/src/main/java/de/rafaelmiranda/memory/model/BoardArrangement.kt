@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import android.util.SparseArray
 
 import de.rafaelmiranda.memory.common.Shared
-import de.rafaelmiranda.memory.themes.Themes
+import de.rafaelmiranda.memory.themes.Types
 import de.rafaelmiranda.memory.utils.Utils
 
 /**
@@ -31,8 +31,8 @@ class BoardArrangement {
      */
     fun getTileBitmap(id: Int, size: Int): Bitmap? {
         val string = tileUrls!!.get(id)
-        if (string.contains(Themes.URI_DRAWABLE)) {
-            val drawableResourceName = string.substring(Themes.URI_DRAWABLE.length)
+        if (string.contains(Types.URI_DRAWABLE)) {
+            val drawableResourceName = string.substring(Types.URI_DRAWABLE.length)
             val drawableResourceId = Shared.context.resources.getIdentifier(drawableResourceName, "drawable", Shared.context.packageName)
             val bitmap = Utils.scaleDown(drawableResourceId, size, size)
             return Utils.crop(bitmap, size, size)
