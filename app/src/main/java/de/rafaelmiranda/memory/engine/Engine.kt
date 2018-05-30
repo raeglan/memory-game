@@ -143,19 +143,19 @@ object Engine {
                     EventBus.getDefault().post(GameTypeSelectedEvent(Types.createTheme(newGame)))
                 } else {
                     MemoryDb.endSession()
-                    EventBus.getDefault().post(BackGameEvent())
+                    EventBus.getDefault().post(BackEvent())
                 }
             }
             gameType != null -> EventBus.getDefault().post(GameTypeSelectedEvent(gameType))
-            else -> EventBus.getDefault().post(BackGameEvent())
+            else -> EventBus.getDefault().post(BackEvent())
         }
     }
 
     @Suppress("unused", "UNUSED_PARAMETER")
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onBackGameEvent(event: BackGameEvent) {
+    fun onBackEvent(event: BackEvent) {
         PopupManager.closePopup()
-        ScreenController.openScreen(ScreenController.Screen.GAME_SELECT)
+        ScreenController.onBack()
     }
 
     @Suppress("unused")

@@ -12,12 +12,10 @@ import com.google.gson.Gson
 import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.engine.Engine
 import de.rafaelmiranda.memory.engine.ScreenController
-import de.rafaelmiranda.memory.events.BackGameEvent
 import de.rafaelmiranda.memory.model.GameSettings
 import de.rafaelmiranda.memory.ui.PopupManager
 import de.rafaelmiranda.memory.utils.JsonUtils
 import de.rafaelmiranda.memory.utils.Utils
-import org.greenrobot.eventbus.EventBus
 
 class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
@@ -65,9 +63,6 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     override fun onBackPressed() {
         if (PopupManager.isShown) {
             PopupManager.closePopup()
-            if (ScreenController.lastScreen === ScreenController.Screen.GAME) {
-                EventBus.getDefault().post(BackGameEvent())
-            }
         } else if (ScreenController.onBack()) {
             super.onBackPressed()
         }

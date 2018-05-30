@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.Toast
 import de.rafaelmiranda.memory.R
-import de.rafaelmiranda.memory.events.BackGameEvent
+import de.rafaelmiranda.memory.events.BackEvent
 import de.rafaelmiranda.memory.events.NextEvent
 import de.rafaelmiranda.memory.events.QuestionsAnsweredEvent
 import org.greenrobot.eventbus.EventBus
@@ -43,7 +43,7 @@ class PopupWonView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         mBackButton.setOnClickListener {
             if (checkAndSendAnswers()) {
-                EventBus.getDefault().post(BackGameEvent())
+                EventBus.getDefault().post(BackEvent())
             }
         }
 

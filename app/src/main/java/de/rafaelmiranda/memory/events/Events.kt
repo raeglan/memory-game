@@ -12,7 +12,7 @@ class GameWonEvent(@GameType.GameId val gameType: Int)
 
 class HidePairCardsEvent(var id1: Int, var id2: Int)
 
-class BackGameEvent
+class BackEvent
 
 class FlipCardEvent(val card: Card)
 

@@ -8,11 +8,10 @@ import de.rafaelmiranda.memory.fragments.GameFragment
 import de.rafaelmiranda.memory.fragments.GameSelectFragment
 import de.rafaelmiranda.memory.fragments.GameSettingsFragment
 import de.rafaelmiranda.memory.fragments.MenuFragment
-import java.util.*
 
 object ScreenController {
     private var mFragmentManager: FragmentManager? = null
-    private val openedScreens = ArrayList<Screen>()
+    private val openedScreens = LinkedHashMap<Int, Screen>()
 
 
     enum class Screen {
@@ -24,18 +23,11 @@ object ScreenController {
 
     fun openScreen(screen: Screen) {
         mFragmentManager = Shared.activity.supportFragmentManager
-
-        if (screen == Screen.GAME && openedScreens[openedScreens.size - 1] == Screen.GAME) {
-            openedScreens.removeAt(openedScreens.size - 1)
-        } else if (screen == Screen.GAME_SELECT && openedScreens[openedScreens.size - 1] == Screen.GAME) {
-            openedScreens.removeAt(openedScreens.size - 1)
-            openedScreens.removeAt(openedScreens.size - 1)
-        }
         val fragment = getFragment(screen)
         val fragmentTransaction = mFragmentManager!!.beginTransaction()
         fragmentTransaction.replace(R.id.fragment_container, fragment)
         fragmentTransaction.commit()
-        openedScreens.add(screen)
+        openedScreens[screen.ordinal] = screen
     }
 
     /**
@@ -45,14 +37,12 @@ object ScreenController {
      * finish
      */
     fun onBack(): Boolean {
-        if (openedScreens.size > 0) {
-            val screenToRemove = openedScreens.removeAt(openedScreens.size - 1)
-            if (openedScreens.size == 0) {
-                return true
-            }
-            val screen = openedScreens[openedScreens.size - 1]
-            openedScreens.removeAt(openedScreens.size - 1)
-            openScreen(screen)
+        if (openedScreens.size > 1) {
+
+            val lastScreenKey = openedScreens.entries.last().key
+
+            val lastScreen = openedScreens.remove(lastScreenKey) ?: return true
+            openScreen(lastScreen)
             return false
         }
         return true
@@ -69,7 +59,4 @@ object ScreenController {
             ScreenController.Screen.GAME_SETTINGS -> GameSettingsFragment()
         }
     }
-
-    val lastScreen: Screen
-        get() = openedScreens[openedScreens.size - 1]
 }
