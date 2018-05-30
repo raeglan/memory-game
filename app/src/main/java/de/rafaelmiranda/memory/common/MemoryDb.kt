@@ -1,13 +1,12 @@
 package de.rafaelmiranda.memory.common
 
 import android.util.Log
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import de.rafaelmiranda.memory.events.SessionStarted
 import de.rafaelmiranda.memory.model.GameState
 import org.greenrobot.eventbus.EventBus
-import java.util.*
-import kotlin.collections.HashMap
 
 /**
  * The persistent memory for our memory game.
@@ -54,7 +53,7 @@ object MemoryDb {
         val session = sessionId
 
         // the logs will be saved as comma separated values inside our DB.
-        val timeLog = gameLog.map { action -> Date(action.timestamp) }
+        val timeLog = gameLog.map { action -> action.timestamp }
         val movesLog = gameLog.map { action -> action.move }
         val startTime = timeLog[0]
 
@@ -107,7 +106,7 @@ object MemoryDb {
         val db = FirebaseFirestore.getInstance()
 
         // getting time
-        val startTime = Date(System.currentTimeMillis())
+        val startTime = Timestamp.now()
 
         // setting user
         val userName = user ?: DEFAULT_USER

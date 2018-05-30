@@ -1,7 +1,6 @@
 package de.rafaelmiranda.memory.engine
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
@@ -9,6 +8,7 @@ import android.os.AsyncTask
 import android.os.Handler
 import android.util.SparseArray
 import android.widget.ImageView
+import com.google.firebase.Timestamp
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.MemoryDb
 import de.rafaelmiranda.memory.common.Music
@@ -71,10 +71,7 @@ object Engine {
 
         // build pairs
         // result {0,1,2,...n} // n-number of tiles
-        val placementIds = ArrayList<Int>()
-        for (i in 0 until boardConfiguration.numTiles) {
-            placementIds.add(i)
-        }
+        val placementIds = (0 until boardConfiguration.numTiles).toMutableList()
         // shuffle
         // result {4,10,2,39,...}
         placementIds.shuffle()
@@ -83,53 +80,34 @@ object Engine {
         // For a scientific study, a random game set is not a good idea.
         // Instead we take the set first and then randomize the position.
         // Psych! This we really do want some randomness in there.
-        val tileImageUrls = activeGame!!.gameType.tileImageUrls.shuffled()
+        val tileImageUrls = activeGame!!.gameType.tileImageUrls
+        val selectedTiles = (1..tileImageUrls.size).shuffled()
 
         boardArrangement.cards = SparseArray()
         boardArrangement.tileUrls = SparseArray()
 
-        var pairId = 0
+        var pairNumber = 0
         var i = 0
         while (i + 1 < placementIds.size) {
 
+            val pairImageId = selectedTiles[pairNumber]
+            val imageUrl = tileImageUrls[pairImageId - 1]
             val firstCardPlacement = placementIds[i]
             val secondCardPlacement = placementIds[i + 1]
 
-            val firstCard = Card(firstCardPlacement, pairId, 1)
+            val firstCard = Card(firstCardPlacement, pairImageId, 1)
             boardArrangement.cards!!.put(firstCardPlacement, firstCard)
-            boardArrangement.tileUrls!!.put(firstCardPlacement, tileImageUrls[pairId])
+            boardArrangement.tileUrls!!.put(firstCardPlacement, imageUrl)
 
-            val secondCard = Card(secondCardPlacement, pairId, 2)
+            val secondCard = Card(secondCardPlacement, pairImageId, 2)
             boardArrangement.cards!!.put(secondCardPlacement, secondCard)
-            boardArrangement.tileUrls!!.put(secondCardPlacement, tileImageUrls[pairId])
+            boardArrangement.tileUrls!!.put(secondCardPlacement, imageUrl)
 
-            pairId++
+            pairNumber++
             i += 2
         }
 
         activeGame!!.boardArrangement = boardArrangement
-    }
-
-    @Suppress("unused", "UNUSED_PARAMETER")
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onResetBackgroundEvent(event: ResetBackgroundEvent) {
-        val drawable = mBackgroundImage!!.drawable
-        if (drawable != null) {
-            (drawable as TransitionDrawable).reverseTransition(2000)
-        } else {
-            object : AsyncTask<Void, Void, Bitmap>() {
-
-                override fun doInBackground(vararg params: Void): Bitmap {
-                    return Utils.scaleDown(R.drawable.background, Utils.screenWidth(),
-                            Utils.screenHeight())
-                }
-
-                override fun onPostExecute(bitmap: Bitmap) {
-                    mBackgroundImage!!.setImageBitmap(bitmap)
-                }
-
-            }.execute()
-        }
     }
 
     @Suppress("UNUSED_PARAMETER", "unused")
@@ -245,7 +223,7 @@ object Engine {
         Shared.activity.blinkEegLight()
 
         // adding the event to the log
-        val timestamp = System.currentTimeMillis()
+        val timestamp = Timestamp.now()
         val move = card.pairId.toString() + "." + card.cardNumber
         currentGameState.gameLog.add(GameTimeMovesPair(timestamp, move))
 

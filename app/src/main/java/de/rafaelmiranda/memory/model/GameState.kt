@@ -1,5 +1,6 @@
 package de.rafaelmiranda.memory.model
 
+import com.google.firebase.Timestamp
 import de.rafaelmiranda.memory.themes.GameType
 
 /**
@@ -34,4 +35,4 @@ class GameState(
  * Moves are coded in a way of pair id + pair number like so: "1.2" for the second card of pair
  * number 1.
  */
-data class GameTimeMovesPair(val timestamp: Long, val move: String)
+data class GameTimeMovesPair(val timestamp: Timestamp, val move: String)

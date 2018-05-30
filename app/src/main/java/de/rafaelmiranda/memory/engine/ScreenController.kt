@@ -4,12 +4,10 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Shared
-import de.rafaelmiranda.memory.events.ResetBackgroundEvent
 import de.rafaelmiranda.memory.fragments.GameFragment
 import de.rafaelmiranda.memory.fragments.GameSelectFragment
 import de.rafaelmiranda.memory.fragments.GameSettingsFragment
 import de.rafaelmiranda.memory.fragments.MenuFragment
-import org.greenrobot.eventbus.EventBus
 import java.util.*
 
 object ScreenController {
@@ -48,17 +46,13 @@ object ScreenController {
      */
     fun onBack(): Boolean {
         if (openedScreens.size > 0) {
-            val screenToRemove = openedScreens[openedScreens.size - 1]
-            openedScreens.removeAt(openedScreens.size - 1)
+            val screenToRemove = openedScreens.removeAt(openedScreens.size - 1)
             if (openedScreens.size == 0) {
                 return true
             }
             val screen = openedScreens[openedScreens.size - 1]
             openedScreens.removeAt(openedScreens.size - 1)
             openScreen(screen)
-            if ((screen == Screen.GAME_SELECT || screen == Screen.MENU) && (screenToRemove == Screen.GAME)) {
-                EventBus.getDefault().post(ResetBackgroundEvent())
-            }
             return false
         }
         return true

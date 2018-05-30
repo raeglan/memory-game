@@ -11,6 +11,7 @@ android {
         targetSdkVersion 27
         versionCode 1006
         versionName "1.0.06"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -22,13 +23,22 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.google.firebase:firebase-firestore:15.0.0'
+
+    // backend stuff
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+    implementation 'com.google.firebase:firebase-firestore:16.0.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
+
+    // android stuff
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:preference-v7:27.1.1'
+
+    // events stuff
     implementation 'org.greenrobot:eventbus:3.1.1'
+
+    // kotlin stuff
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {

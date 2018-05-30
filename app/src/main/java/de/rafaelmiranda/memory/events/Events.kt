@@ -20,8 +20,6 @@ class NextEvent
 
 class QuestionsAnsweredEvent(val sumAnswer: Int = -1)
 
-class ResetBackgroundEvent
-
 class StartEvent(val directedGame: Boolean = false)
 
 class GameTypeSelectedEvent(val gameType: GameType)
