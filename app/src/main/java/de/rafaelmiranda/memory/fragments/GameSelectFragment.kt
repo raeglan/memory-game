@@ -11,8 +11,8 @@ import android.view.animation.DecelerateInterpolator
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.events.GameTypeSelectedEvent
-import de.rafaelmiranda.memory.themes.GameType
-import de.rafaelmiranda.memory.themes.Types
+import de.rafaelmiranda.memory.types.GameType
+import de.rafaelmiranda.memory.types.Types
 import org.greenrobot.eventbus.EventBus
 
 class GameSelectFragment : Fragment() {

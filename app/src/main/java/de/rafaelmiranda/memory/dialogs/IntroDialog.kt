@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
 import de.rafaelmiranda.memory.R
-import de.rafaelmiranda.memory.themes.GameType
+import de.rafaelmiranda.memory.types.GameType
 
 /**
  * @author  rafael

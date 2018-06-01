@@ -15,8 +15,8 @@ import de.rafaelmiranda.memory.common.Music
 import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.events.*
 import de.rafaelmiranda.memory.model.*
-import de.rafaelmiranda.memory.themes.GameType
-import de.rafaelmiranda.memory.themes.Types
+import de.rafaelmiranda.memory.types.GameType
+import de.rafaelmiranda.memory.types.Types
 import de.rafaelmiranda.memory.ui.PopupManager
 import de.rafaelmiranda.memory.utils.Utils
 import de.rafaelmiranda.memory.utils.postDelayed

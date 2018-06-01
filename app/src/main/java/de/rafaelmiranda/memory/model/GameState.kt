@@ -1,7 +1,7 @@
 package de.rafaelmiranda.memory.model
 
 import com.google.firebase.Timestamp
-import de.rafaelmiranda.memory.themes.GameType
+import de.rafaelmiranda.memory.types.GameType
 
 /**
  * To save all the needed game state stuff(for example the sum)

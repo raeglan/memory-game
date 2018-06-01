@@ -1,7 +1,7 @@
 package de.rafaelmiranda.memory.events
 
 import de.rafaelmiranda.memory.model.Card
-import de.rafaelmiranda.memory.themes.GameType
+import de.rafaelmiranda.memory.types.GameType
 
 /**
  * Just a file containing all the events this wonderful world uses.

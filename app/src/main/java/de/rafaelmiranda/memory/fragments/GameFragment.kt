@@ -13,7 +13,7 @@ import de.rafaelmiranda.memory.dialogs.IntroDialog
 import de.rafaelmiranda.memory.events.FlipDownCardsEvent
 import de.rafaelmiranda.memory.events.GameWonEvent
 import de.rafaelmiranda.memory.events.HidePairCardsEvent
-import de.rafaelmiranda.memory.themes.GameType
+import de.rafaelmiranda.memory.types.GameType
 import de.rafaelmiranda.memory.ui.BoardView
 import de.rafaelmiranda.memory.ui.PopupManager
 import de.rafaelmiranda.memory.utils.FontLoader

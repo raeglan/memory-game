@@ -1,6 +1,6 @@
 package de.rafaelmiranda.memory.model
 
-import de.rafaelmiranda.memory.themes.GameType
+import de.rafaelmiranda.memory.types.GameType
 
 /**
  * This is instance of active playing game

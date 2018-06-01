@@ -13,7 +13,7 @@ import android.widget.RelativeLayout
 import android.widget.RelativeLayout.LayoutParams
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Shared
-import de.rafaelmiranda.memory.themes.GameType
+import de.rafaelmiranda.memory.types.GameType
 
 object PopupManager {
 

@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import android.util.SparseArray
 
 import de.rafaelmiranda.memory.common.Shared
-import de.rafaelmiranda.memory.themes.Types
+import de.rafaelmiranda.memory.types.Types
 import de.rafaelmiranda.memory.utils.Utils
 
 /**

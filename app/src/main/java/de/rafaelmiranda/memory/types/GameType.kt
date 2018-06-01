@@ -1,4 +1,4 @@
-package de.rafaelmiranda.memory.themes
+package de.rafaelmiranda.memory.types
 
 import android.support.annotation.IntDef
 
