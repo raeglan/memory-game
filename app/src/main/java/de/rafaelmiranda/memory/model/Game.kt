@@ -1,11 +1,10 @@
 package de.rafaelmiranda.memory.model
 
+import de.rafaelmiranda.memory.types.Assistants
 import de.rafaelmiranda.memory.types.GameType
 
 /**
- * This is instance of active playing game
- *
- * @author sromku
+ * This is instance of active playing game and all its quirks.
  */
 class Game {
 
@@ -23,4 +22,9 @@ class Game {
      * The selected gameType
      */
     lateinit var gameType: GameType
+
+    /**
+     * All the help being used.
+     */
+    lateinit var assistants: Assistants
 }
