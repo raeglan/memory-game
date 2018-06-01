@@ -40,7 +40,7 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
     init {
         orientation = LinearLayout.VERTICAL
         gravity = Gravity.CENTER
-        val margin = resources.getDimensionPixelSize(R.dimen.margine_top)
+        val margin = resources.getDimensionPixelSize(R.dimen.margin_top)
         val padding = resources.getDimensionPixelSize(R.dimen.board_padding)
         mScreenHeight = resources.displayMetrics.heightPixels - margin - padding * 2
         mScreenWidth = resources.displayMetrics.widthPixels - padding * 2 - Utils.px(20)

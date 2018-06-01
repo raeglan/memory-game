@@ -27,7 +27,7 @@
     <dimen name="difficulty_margin_top">40dp</dimen>
 
     <!-- game -->
-    <dimen name="margine_top">70dp</dimen>
+    <dimen name="margin_top">70dp</dimen>
     <dimen name="board_padding">20dp</dimen>
     <dimen name="clock_width">140dp</dimen>
     <dimen name="clock_height">80dp</dimen>

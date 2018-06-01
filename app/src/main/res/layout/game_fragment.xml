@@ -12,7 +12,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margine_top" >
+            android:layout_height="@dimen/margin_top" >
 
             <ImageView
                 android:id="@+id/time_bar_image"
