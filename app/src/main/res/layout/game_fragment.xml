@@ -2,25 +2,30 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/game_board"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_top" >
+            android:layout_height="@dimen/margin_top">
 
-            <TextView
+            <Button
+                android:id="@+id/btn_flip_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_flip_all_cards"
-                android:text="Flip all cards."
-                android:textSize="@dimen/clock_text_size"
-                android:fontFamily="@font/grobold"/>
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/selector_flip_all_cards"
+                android:fontFamily="@font/grobold"
+                android:gravity="center"
+                android:text="@string/flip_all_cards"
+                android:textSize="@dimen/clock_text_size" />
 
             <ImageView
                 android:id="@+id/time_bar_image"
@@ -40,11 +45,12 @@
                 android:layout_marginRight="@dimen/clock_text_margin_right"
                 android:gravity="center"
                 android:shadowColor="#2eaed9"
+                android:fontFamily="@font/grobold"
                 android:shadowDx="4"
                 android:shadowDy="4"
                 android:shadowRadius="4"
                 android:textColor="#FFFFFF"
-                android:textSize="@dimen/clock_text_size"/>
+                android:textSize="@dimen/clock_text_size" />
 
         </RelativeLayout>
 
@@ -52,8 +58,7 @@
             android:id="@+id/game_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
-        </FrameLayout>
+            android:layout_weight="1"></FrameLayout>
     </LinearLayout>
 
 </FrameLayout>

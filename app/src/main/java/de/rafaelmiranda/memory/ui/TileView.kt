@@ -18,7 +18,8 @@ import de.rafaelmiranda.memory.R
 class TileView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
 
     private var mTopImage: RelativeLayout? = null
-    private var mTileImage: ImageView? = null
+    var mTileImage: ImageView? = null
+        private set
     var isFlippedDown = true
         private set
 

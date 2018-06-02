@@ -44,4 +44,9 @@
 
     <string name="number_sum">Number sum:</string>
     <string name="please_answer_sum_hint">Please fill out the sum</string>
+    <string name="flip_all_cards">Flip all cards</string>
+
+    <string name="flip_all_cards_hint">
+        You cannot use this while there are face up cards on the board
+    </string>
 </resources>

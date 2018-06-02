@@ -5,8 +5,6 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.graphics.Bitmap
-import android.os.AsyncTask
 import android.util.AttributeSet
 import android.util.SparseArray
 import android.view.Gravity
@@ -15,6 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.BounceInterpolator
 import android.widget.LinearLayout
+import android.widget.Toast
+import com.squareup.picasso.Picasso
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.events.FlipCardEvent
 import de.rafaelmiranda.memory.model.BoardArrangement
@@ -26,25 +26,33 @@ import java.util.*
 
 open class BoardView @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null) : LinearLayout(context, attributeSet) {
 
+    /**
+     * For cancelling purposes.
+     */
+    private var displayedToast: Toast? = null
     private val mRowLayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
     private var mTileLayoutParams: LinearLayout.LayoutParams? = null
     private val mScreenWidth: Int
     private val mScreenHeight: Int
     private var mBoardConfiguration: BoardConfiguration? = null
     private var mBoardArrangement: BoardArrangement? = null
-    private val mViewReference: SparseArray<TileView>
+    private val mTileViews: SparseArray<TileView>
     private val flippedUp = ArrayList<Int>()
-    private var mLocked = false
+    private var locked = false
     private var mSize: Int = 0
 
+    // constants
+    val flipUpAllTimeMillis: Int = context.resources.getInteger(R.integer.flip_all_up_time)
+
     init {
+
         orientation = LinearLayout.VERTICAL
         gravity = Gravity.CENTER
         val margin = resources.getDimensionPixelSize(R.dimen.margin_top)
         val padding = resources.getDimensionPixelSize(R.dimen.board_padding)
         mScreenHeight = resources.displayMetrics.heightPixels - margin - padding * 2
         mScreenWidth = resources.displayMetrics.widthPixels - padding * 2 - Utils.px(20)
-        mViewReference = SparseArray()
+        mTileViews = SparseArray()
         clipToPadding = false
     }
 
@@ -101,26 +109,19 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
         tileView.layoutParams = mTileLayoutParams
         parent.addView(tileView)
         parent.clipChildren = false
-        mViewReference.put(placementId, tileView)
+        mTileViews.put(placementId, tileView)
 
         if (placementId < mBoardConfiguration!!.numTiles) {
-            object : AsyncTask<Void, Void, Bitmap>() {
-
-                override fun doInBackground(vararg params: Void): Bitmap? {
-                    return mBoardArrangement!!.getTileBitmap(placementId, mSize)
-                }
-
-                override fun onPostExecute(result: Bitmap) {
-                    tileView.setTileImage(result)
-                }
-            }.execute()
+            Picasso.get()
+                    .load(mBoardArrangement!!.getTileResId(placementId, mSize))
+                    .into(tileView.mTileImage)
 
             tileView.setOnClickListener {
-                if (!mLocked && tileView.isFlippedDown) {
+                if (!locked && tileView.isFlippedDown) {
                     tileView.flipUp()
                     flippedUp.add(placementId)
                     if (flippedUp.size == 2) {
-                        mLocked = true
+                        locked = true
                     }
                     val chosenCard = mBoardArrangement!!.cards!!.get(placementId)
                     EventBus.getDefault().post(FlipCardEvent(chosenCard))
@@ -143,17 +144,45 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
 
     fun flipDownAll() {
         for (id in flippedUp) {
-            mViewReference.get(id).flipDown()
+            mTileViews[id].flipDown()
         }
         flippedUp.clear()
-        mLocked = false
+        locked = false
     }
 
+    /**
+     * Makes sure everything is down and then flips everything up for a second or two.
+     */
+    fun flipUpAll(): Boolean {
+        return if (flippedUp.size > 0 || locked) {
+            displayedToast?.cancel()
+            displayedToast = Toast
+                    .makeText(context, R.string.flip_all_cards_hint, Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+            false
+        } else {
+            for (i in 0 until mTileViews.size()) {
+                val key = mTileViews.keyAt(i)
+                mTileViews[key].flipUp()
+                flippedUp.add(key)
+                locked = true
+            }
+
+            this.postDelayed({
+                flipDownAll()
+            }, flipUpAllTimeMillis.toLong())
+
+            true
+        }
+    }
+
+
     fun hideCards(id1: Int, id2: Int) {
-        animateHide(mViewReference.get(id1))
-        animateHide(mViewReference.get(id2))
+        animateHide(mTileViews.get(id1))
+        animateHide(mTileViews.get(id2))
         flippedUp.clear()
-        mLocked = false
+        locked = false
     }
 
     private fun animateHide(v: TileView) {

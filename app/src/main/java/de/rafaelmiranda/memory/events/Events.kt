@@ -17,6 +17,8 @@ class BackEvent
 
 class FlipCardEvent(val card: Card)
 
+class FlipAllCardsEvent
+
 class NextEvent
 
 class QuestionsAnsweredEvent(val sumAnswer: Int = -1)
