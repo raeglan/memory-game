@@ -7,11 +7,11 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Music
-import de.rafaelmiranda.memory.engine.ScreenController
+import de.rafaelmiranda.memory.events.OpenSettingsEvent
 import de.rafaelmiranda.memory.utils.FontLoader
+import org.greenrobot.eventbus.EventBus
 
 class PopupSettingsView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
 
@@ -33,7 +33,7 @@ class PopupSettingsView @JvmOverloads constructor(context: Context, attrs: Attri
         }
         val settings = findViewById<View>(R.id.rate)
         settings.setOnClickListener {
-            ScreenController.openScreen(ScreenController.Screen.GAME_SETTINGS)
+            EventBus.getDefault().post(OpenSettingsEvent())
             PopupManager.closePopup()
         }
         setMusicButton()

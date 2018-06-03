@@ -25,6 +25,8 @@ class QuestionsAnsweredEvent(val sumAnswer: Int = -1)
 
 class StartEvent(val directedGame: Boolean = false)
 
+class OpenSettingsEvent
+
 class GameTypeSelectedEvent(val gameType: GameType, val assistants: Assistants? = null)
 
 /**

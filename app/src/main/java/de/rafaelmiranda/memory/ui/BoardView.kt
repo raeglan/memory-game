@@ -114,6 +114,7 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
         if (placementId < mBoardConfiguration!!.numTiles) {
             Picasso.get()
                     .load(mBoardArrangement!!.getTileResId(placementId, mSize))
+                    .resize(mSize, mSize)
                     .into(tileView.mTileImage)
 
             tileView.setOnClickListener {

@@ -12,29 +12,49 @@ import com.google.gson.Gson
 import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.engine.Engine
 import de.rafaelmiranda.memory.engine.ScreenController
+import de.rafaelmiranda.memory.events.BackEvent
+import de.rafaelmiranda.memory.events.NextEvent
+import de.rafaelmiranda.memory.events.OpenSettingsEvent
+import de.rafaelmiranda.memory.fragments.GameSettingsFragment
+import de.rafaelmiranda.memory.fragments.MenuFragment
 import de.rafaelmiranda.memory.model.GameSettings
 import de.rafaelmiranda.memory.ui.PopupManager
 import de.rafaelmiranda.memory.utils.JsonUtils
 import de.rafaelmiranda.memory.utils.Utils
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
-    private var mBackgroundImage: ImageView? = null
-    private var eegBlinkView: View? = null
+    private val mBackgroundImage: ImageView by lazy {
+        findViewById<ImageView>(R.id.background_image)
+    }
+
+    private val eegBlinkView: View by lazy {
+        findViewById<View>(R.id.v_eeg_blink)
+    }
+
+    /**
+     * How long the light will flash for our EEG to see.
+     */
+    private val blinkTime: Long by lazy {
+        resources.getInteger(R.integer.blink_time).toLong()
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // starting everything
         Shared.context = applicationContext
-        Shared.engine = Engine
-        Shared.engine.start()
+        Engine.start()
+        EventBus.getDefault().register(this)
 
         setContentView(R.layout.activity_main)
-        mBackgroundImage = findViewById(R.id.background_image)
-        eegBlinkView = findViewById(R.id.v_eeg_blink)
 
         Shared.activity = this
-        Shared.engine.setBackgroundImageView(mBackgroundImage!!)
+        Engine.setBackgroundImageView(mBackgroundImage)
         Shared.tts = TextToSpeech(this, this)
 
         // getting the game settings from the Json file
@@ -52,33 +72,36 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         setBackgroundImage()
 
         // set menu
-        ScreenController.openScreen(ScreenController.Screen.MENU)
+        ScreenController.openFragment(supportFragmentManager, MenuFragment(), false)
     }
 
     override fun onDestroy() {
         Engine.stop()
+        Shared.tts?.shutdown()
+        Shared.tts = null
+        EventBus.getDefault().unregister(this)
         super.onDestroy()
     }
 
     override fun onBackPressed() {
-        if (PopupManager.isShown) {
-            PopupManager.closePopup()
-        } else if (ScreenController.onBack()) {
-            super.onBackPressed()
+        when {
+            PopupManager.isShown -> PopupManager.closePopup()
+            supportFragmentManager.backStackEntryCount > 0 -> supportFragmentManager.popBackStack()
+            else -> super.onBackPressed()
         }
     }
 
     fun blinkEegLight() {
-        eegBlinkView!!.setBackgroundColor(Color.WHITE)
+        eegBlinkView.setBackgroundColor(Color.WHITE)
 
         Thread(Runnable {
             try {
-                Thread.sleep(BLINK_TIME)
+                Thread.sleep(blinkTime)
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }
 
-            runOnUiThread { eegBlinkView!!.setBackgroundColor(Color.BLACK) }
+            runOnUiThread { eegBlinkView.setBackgroundColor(Color.BLACK) }
         }).start()
     }
 
@@ -86,7 +109,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         var bitmap = Utils.scaleDown(R.drawable.background, Utils.screenWidth(), Utils.screenHeight())
         bitmap = Utils.crop(bitmap, Utils.screenHeight(), Utils.screenWidth())
         bitmap = Utils.downscaleBitmap(bitmap, 2)
-        mBackgroundImage!!.setImageBitmap(bitmap)
+        mBackgroundImage.setImageBitmap(bitmap)
     }
 
     /**
@@ -99,8 +122,28 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             Shared.tts = null
     }
 
+
+    @Suppress("unused", "UNUSED_PARAMETER")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onBackEvent(event: BackEvent) {
+        PopupManager.closePopup()
+        onBackPressed()
+    }
+
+    @Suppress("unused", "UNUSED_PARAMETER")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onNextEvent(event: NextEvent) {
+        Engine.onNext(supportFragmentManager)
+    }
+
+    @Suppress("unused", "UNUSED_PARAMETER")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onOpenSettingsEvent(event: OpenSettingsEvent) {
+        ScreenController.openFragment(supportFragmentManager, GameSettingsFragment(),
+                true)
+    }
+
     companion object {
 
-        private val BLINK_TIME: Long = 150
     }
 }

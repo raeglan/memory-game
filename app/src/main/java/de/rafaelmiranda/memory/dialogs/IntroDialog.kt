@@ -1,17 +1,21 @@
 package de.rafaelmiranda.memory.dialogs
 
 import android.app.Dialog
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.types.GameType
 
+
 /**
- * @author  rafael
- * @since   27.05.18
+ * The wonderful intro dialog, which is henceforth the source of truth for all Memory games.
  */
 class IntroDialog : DialogFragment() {
 
@@ -59,8 +63,29 @@ class IntroDialog : DialogFragment() {
                     dismiss()
                 }
 
+        // creating the bastard
         val dialog = Dialog(context!!, R.style.ThemeOverlay_AppCompat_Dialog)
         dialog.setContentView(view)
+        val window = dialog.window
+
+        // making it look fabulous
+        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // making it immersive
+        window.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+        window.decorView.systemUiVisibility = activity!!.window.decorView.systemUiVisibility
+
+        dialog.setOnShowListener {
+            //Clear the not focusable flag from the window
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+
+            //Update the WindowManager with the new attributes (no nicer way I know of to do this)..
+            val wm = activity!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            wm.updateViewLayout(window.decorView, window.attributes)
+        }
+
         return dialog
     }
+
 }

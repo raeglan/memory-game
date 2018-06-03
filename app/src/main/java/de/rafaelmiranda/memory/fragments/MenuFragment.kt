@@ -11,6 +11,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Music
+import de.rafaelmiranda.memory.engine.Engine
 import de.rafaelmiranda.memory.events.StartEvent
 import de.rafaelmiranda.memory.ui.PopupManager
 import de.rafaelmiranda.memory.utils.PreferencesUtil
@@ -37,6 +38,7 @@ class MenuFragment : Fragment() {
             animateAllAssetsOff(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     val directedGame = PreferencesUtil(context!!).isDirectedGame()
+                    Engine.onStartPressed(fragmentManager!!, directedGame)
                     EventBus.getDefault().post(StartEvent(directedGame))
                 }
             })

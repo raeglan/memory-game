@@ -11,6 +11,7 @@ import android.widget.ImageView
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.dialogs.IntroDialog
+import de.rafaelmiranda.memory.engine.Engine
 import de.rafaelmiranda.memory.events.FlipDownCardsEvent
 import de.rafaelmiranda.memory.events.GameWonEvent
 import de.rafaelmiranda.memory.events.HidePairCardsEvent
@@ -103,7 +104,7 @@ class GameFragment : BaseFragment() {
     }
 
     private fun buildBoard() {
-        val game = Shared.engine.activeGame
+        val game = Engine.activeGame
         if (game != null)
             mBoardView.setBoard(game)
     }

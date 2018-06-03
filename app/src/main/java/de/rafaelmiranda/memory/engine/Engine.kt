@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
 import android.os.AsyncTask
 import android.os.Handler
+import android.support.v4.app.FragmentManager
 import android.util.SparseArray
 import android.widget.ImageView
 import com.google.firebase.Timestamp
@@ -14,7 +15,10 @@ import de.rafaelmiranda.memory.common.MemoryDb
 import de.rafaelmiranda.memory.common.Music
 import de.rafaelmiranda.memory.common.Shared
 import de.rafaelmiranda.memory.events.*
+import de.rafaelmiranda.memory.fragments.GameFragment
+import de.rafaelmiranda.memory.fragments.GameSelectFragment
 import de.rafaelmiranda.memory.model.*
+import de.rafaelmiranda.memory.types.Assistants
 import de.rafaelmiranda.memory.types.GameType
 import de.rafaelmiranda.memory.types.Types
 import de.rafaelmiranda.memory.ui.PopupManager
@@ -60,8 +64,10 @@ object Engine {
         gameState = null
         mBackgroundImage!!.setImageDrawable(null)
         mBackgroundImage = null
-        mHandler!!.removeCallbacksAndMessages(null)
-        mHandler = null
+        if (mHandler != null) {
+            mHandler!!.removeCallbacksAndMessages(null)
+            mHandler = null
+        }
     }
 
     private fun arrangeBoard() {
@@ -110,10 +116,8 @@ object Engine {
         activeGame!!.boardArrangement = boardArrangement
     }
 
-    @Suppress("UNUSED_PARAMETER", "unused")
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onStartEvent(event: StartEvent) {
-        directedGame = event.directedGame
+    fun onStartPressed(fragmentManager: FragmentManager, directed: Boolean = false) {
+        directedGame = directed
         if (directedGame) {
             MemoryDb.startSession()
             directedGameList.clear()
@@ -123,46 +127,45 @@ object Engine {
                     GameType.ID_VISUAL_BLUR)
                     .shuffled())
             val firstGame = directedGameList.removeAt(0)
-            val gameType = Types.createTheme(firstGame)
-            EventBus.getDefault().post(GameTypeSelectedEvent(gameType))
+            val gameType = Types.createType(firstGame)
+
+            startGame(fragmentManager, gameType, newGame = true)
         } else {
-            ScreenController.openScreen(ScreenController.Screen.GAME_SELECT)
+            ScreenController.openFragment(fragmentManager, GameSelectFragment(), true)
         }
     }
 
-    @Suppress("unused", "UNUSED_PARAMETER")
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onNextEvent(event: NextEvent) {
+    /**
+     * Starts the next game on the list, if none we get back to the main screen.
+     */
+    fun onNext(fragmentManager: FragmentManager) {
         PopupManager.closePopup()
         val gameType = selectedGameType
         when {
             directedGame -> {
-                // todo: Finish making directing games.
                 if (directedGameList.isNotEmpty()) {
-                    val newGame = directedGameList.removeAt(0)
-                    EventBus.getDefault().post(GameTypeSelectedEvent(Types.createTheme(newGame)))
+                    val nextGame = directedGameList.removeAt(0)
+                    startGame(fragmentManager, Types.createType(nextGame), newGame = false)
                 } else {
                     MemoryDb.endSession()
                     EventBus.getDefault().post(BackEvent())
                 }
             }
-            gameType != null -> EventBus.getDefault().post(GameTypeSelectedEvent(gameType))
+            gameType != null -> startGame(fragmentManager, gameType, newGame = false)
             else -> EventBus.getDefault().post(BackEvent())
         }
     }
 
-    @Suppress("unused", "UNUSED_PARAMETER")
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onBackEvent(event: BackEvent) {
-        PopupManager.closePopup()
-        ScreenController.onBack()
-    }
-
-    @Suppress("unused")
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onGameTypeSelectedEvent(event: GameTypeSelectedEvent) {
+    /**
+     * Starts a new game for the gameType given.
+     */
+    fun startGame(
+            fragmentManager: FragmentManager,
+            gameType: GameType,
+            assistants: Assistants? = null,
+            newGame: Boolean = true) {
         // initializing those variables YO.
-        selectedGameType = event.gameType
+        selectedGameType = gameType
         mFlippedCard = null
 
         // setting the active game
@@ -173,7 +176,7 @@ object Engine {
         activeGame = game
 
         // the game has just began, so a new game state should be initialized.
-        val currentGameState = GameState(event.gameType.id)
+        val currentGameState = GameState(gameType.id)
         // if the game is an auditory one we have something to sum
         if (currentGameState.gameTypeId == GameType.ID_AUDITORY) {
             currentGameState.numberSumUserAnswer = 0
@@ -184,13 +187,15 @@ object Engine {
         // arrange board
         arrangeBoard()
 
-        // start the screen
-        ScreenController.openScreen(ScreenController.Screen.GAME)
+        // Open the fragment
+        val gameFragment = GameFragment.newInstance(gameType.id, null)
+        ScreenController.openFragment(fragmentManager, gameFragment, addToBackStack = newGame)
 
-        if (event.gameType.backgroundImageUrl != selectedGameType?.backgroundImageUrl) {
+        if (gameType.backgroundImageUrl != selectedGameType?.backgroundImageUrl) {
             val task = object : AsyncTask<Void, Void, TransitionDrawable>() {
 
                 override fun doInBackground(vararg params: Void): TransitionDrawable {
+
                     val bitmap = Utils.scaleDown(R.drawable.background, Utils.screenWidth(),
                             Utils.screenHeight())
                     var backgroundImage = Types.getBackgroundImage(selectedGameType!!)

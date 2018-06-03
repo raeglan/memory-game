@@ -14,7 +14,7 @@ object Types {
     private const val BLUR_SET_URI = "animals_blur_%d"
     private const val NORMAL_BACKGROUND_URI = "back_animals"
 
-    fun createTheme(@GameType.GameId themeId: Int): GameType {
+    fun createType(@GameType.GameId themeId: Int): GameType {
         val theme = GameType()
         theme.id = themeId
         theme.name = "Animals"

@@ -17,13 +17,10 @@ import de.rafaelmiranda.memory.types.GameType
 
 object PopupManager {
 
-    val isShown: Boolean
-        get() {
-            val popupContainer = Shared.activity.findViewById<RelativeLayout>(R.id.popup_container)
-            return popupContainer.childCount > 0
-        }
+    var isShown: Boolean = false
 
     fun showPopupSettings() {
+        isShown = true
         val popupContainer = Shared.activity.findViewById<RelativeLayout>(R.id.popup_container)
         popupContainer.removeAllViews()
 
@@ -58,6 +55,7 @@ object PopupManager {
     }
 
     fun showPopupWon(@GameType.GameId gameType: Int) {
+        isShown = true
         val popupContainer = Shared.activity.findViewById<RelativeLayout>(R.id.popup_container)
         popupContainer.removeAllViews()
 
@@ -68,7 +66,7 @@ object PopupManager {
 
         // the whole params thingys
         val height = Shared.context.resources.getDimensionPixelSize(R.dimen.popup_height)
-        val params = RelativeLayout.LayoutParams(height, LayoutParams.WRAP_CONTENT)
+        val params = RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
         params.addRule(RelativeLayout.CENTER_IN_PARENT)
         popupContainer.addView(popupWonView, params)
 
@@ -84,6 +82,7 @@ object PopupManager {
     }
 
     fun closePopup() {
+        isShown = false
         val popupContainer = Shared.activity.findViewById<RelativeLayout>(R.id.popup_container)
         val childCount = popupContainer.childCount
         if (childCount > 0) {
