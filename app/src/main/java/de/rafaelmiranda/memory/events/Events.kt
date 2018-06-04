@@ -1,7 +1,6 @@
 package de.rafaelmiranda.memory.events
 
 import de.rafaelmiranda.memory.model.Card
-import de.rafaelmiranda.memory.types.Assistants
 import de.rafaelmiranda.memory.types.GameType
 
 /**
@@ -23,11 +22,7 @@ class NextEvent
 
 class QuestionsAnsweredEvent(val sumAnswer: Int = -1)
 
-class StartEvent(val directedGame: Boolean = false)
-
 class OpenSettingsEvent
-
-class GameTypeSelectedEvent(val gameType: GameType, val assistants: Assistants? = null)
 
 /**
  * Tells the game a session was successfully started.

@@ -65,4 +65,5 @@
     <dimen name="popup_width">240dp</dimen>
     <dimen name="popup_height">300dp</dimen>
     <dimen name="popup_intro_width">400dp</dimen>
+    <dimen name="eeg_blink_size">80dp</dimen>
 </resources>

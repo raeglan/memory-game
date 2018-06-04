@@ -121,6 +121,7 @@ object MemoryDb {
                 .add(session)
                 .addOnSuccessListener {
                     sessionId = it.id
+                    Log.v(TAG, "Session started with the id: ${it.id}")
                     EventBus.getDefault().post(SessionStarted())
                 }
                 .addOnFailureListener {
