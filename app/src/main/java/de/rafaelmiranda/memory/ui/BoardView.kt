@@ -41,9 +41,6 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
     private var locked = false
     private var mSize: Int = 0
 
-    // constants
-    val flipUpAllTimeMillis: Int = context.resources.getInteger(R.integer.flip_all_up_time)
-
     init {
 
         orientation = LinearLayout.VERTICAL
@@ -150,34 +147,6 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
         flippedUp.clear()
         locked = false
     }
-
-    /**
-     * Makes sure everything is down and then flips everything up for a second or two.
-     */
-    fun flipUpAll(): Boolean {
-        return if (flippedUp.size > 0 || locked) {
-            displayedToast?.cancel()
-            displayedToast = Toast
-                    .makeText(context, R.string.flip_all_cards_hint, Toast.LENGTH_SHORT).also {
-                        it.show()
-                    }
-            false
-        } else {
-            for (i in 0 until mTileViews.size()) {
-                val key = mTileViews.keyAt(i)
-                mTileViews[key].flipUp()
-                flippedUp.add(key)
-                locked = true
-            }
-
-            this.postDelayed({
-                flipDownAll()
-            }, flipUpAllTimeMillis.toLong())
-
-            true
-        }
-    }
-
 
     fun hideCards(id1: Int, id2: Int) {
         animateHide(mTileViews.get(id1))

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Chronometer
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -28,7 +27,6 @@ class GameFragment : BaseFragment() {
     private lateinit var mBoardView: BoardView
     private lateinit var mTime: Chronometer
     private lateinit var mTimeImage: ImageView
-    private lateinit var flipAllCardsButton: Button
     private lateinit var assistants: Assistants
 
     companion object {
@@ -59,21 +57,13 @@ class GameFragment : BaseFragment() {
         mTime = view.findViewById(R.id.time_bar_text) as Chronometer
         mTimeImage = view.findViewById(R.id.time_bar_image) as ImageView
         mBoardView = BoardView.fromXml(activity!!.applicationContext, view)
-        flipAllCardsButton = view.findViewById(R.id.btn_flip_all)
 
         // adding the board
         val frameLayout = view.findViewById(R.id.game_container) as FrameLayout
         frameLayout.addView(mBoardView)
         frameLayout.clipChildren = false
 
-        // clicky stuff
-        flipAllCardsButton.setOnClickListener {
-            mBoardView.flipUpAll()
-            flipAllCardsButton.isEnabled = false
-        }
-
         // setting assistants
-        flipAllCardsButton.visibility = if (assistants.flipAllCards) View.VISIBLE else View.INVISIBLE
 
         // registering for events
         EventBus.getDefault().register(this)

@@ -4,17 +4,16 @@ import android.os.Parcel
 import android.os.Parcelable
 
 /**
- * Define the different kind of assistance a game might have.
- * <p>
- *     These could be seen as the cheat codes of my memory game. So, prepare your rosebuds, type in
- *     'iddqd', and don't forget to go up, up, down, down, left, right, left, and right.
+ * Define the different kind of assistance a game might have. <br><br>
+ * These could be seen as the cheat codes of my memory game. So, prepare your rosebuds, type in
+ * 'iddqd', and don't forget to go up, up, down, down, left, right, left, and right.
  */
 class Assistants() : Parcelable {
     /**
      * Flips all cards face up for a short time when the button is pressed. Only one OnFlip action
      * is activated by this.
      */
-    var flipAllCards: Boolean = false
+    var flipAllInOrder: Boolean = false
 
     /**
      * Every time a card is flipped it will be zoomed by an annoyingly slow animation.
@@ -22,12 +21,12 @@ class Assistants() : Parcelable {
     var zoomInOnFlip: Boolean = false
 
     constructor(parcel: Parcel) : this() {
-        flipAllCards = parcel.readByte() != 0.toByte()
+        flipAllInOrder = parcel.readByte() != 0.toByte()
         zoomInOnFlip = parcel.readByte() != 0.toByte()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeByte(if (flipAllCards) 1 else 0)
+        parcel.writeByte(if (flipAllInOrder) 1 else 0)
         parcel.writeByte(if (zoomInOnFlip) 1 else 0)
     }
 

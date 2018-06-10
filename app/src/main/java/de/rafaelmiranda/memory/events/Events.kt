@@ -16,7 +16,11 @@ class BackEvent
 
 class FlipCardEvent(val card: Card)
 
-class FlipAllCardsEvent
+/**
+ * This tells the board view to replay all previous flips in order. The more the merrier, and longer
+ * and, of course, more annoying.
+ */
+class ReplayLastCardsEvent(val lastCards: List<Int>)
 
 class NextEvent
 
