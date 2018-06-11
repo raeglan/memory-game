@@ -10,6 +10,7 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import de.rafaelmiranda.memory.R
+import de.rafaelmiranda.memory.common.MemoryDb
 import de.rafaelmiranda.memory.common.Music
 import de.rafaelmiranda.memory.engine.Engine
 import de.rafaelmiranda.memory.ui.PopupManager
@@ -41,10 +42,16 @@ class MenuFragment : Fragment() {
             })
         }
 
+        // the wonderful mesmerizing lights animation
         startLightsAnimation()
 
-        // play background music
+        // play background music if any, and there isn't any. HA!
         Music.playBackgroundMusic()
+
+        // to be safe, that when someone closes a game, we should also close the session
+        // I just hope this doesn't break anything last minute. This would be B. A. D.
+        MemoryDb.endSession()
+
         return view
     }
 
@@ -53,8 +60,8 @@ class MenuFragment : Fragment() {
         // 120dp + 50dp + buffer(30dp)
         val titleAnimator = ObjectAnimator.ofFloat(mTitle,
                 "translationY", Utils.px(-200).toFloat())
-        titleAnimator.setInterpolator(AccelerateInterpolator(2f))
-        titleAnimator.setDuration(300)
+        titleAnimator.interpolator = AccelerateInterpolator(2f)
+        titleAnimator.duration = 300
 
         // lights
         val lightsAnimatorX = ObjectAnimator.ofFloat(mStartButtonLights,
@@ -72,7 +79,7 @@ class MenuFragment : Fragment() {
         val startButtonAnimator = ObjectAnimator.ofFloat(mStartGameButton,
                 "translationY", Utils.px(130).toFloat())
         startButtonAnimator.interpolator = AccelerateInterpolator(2f)
-        startButtonAnimator.setDuration(300)
+        startButtonAnimator.duration = 300
 
         val animatorSet = AnimatorSet()
         animatorSet.playTogether(titleAnimator, lightsAnimatorX, lightsAnimatorY,

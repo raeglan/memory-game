@@ -20,6 +20,7 @@ import de.rafaelmiranda.memory.events.FlipCardEvent
 import de.rafaelmiranda.memory.model.BoardArrangement
 import de.rafaelmiranda.memory.model.BoardConfiguration
 import de.rafaelmiranda.memory.model.Game
+import de.rafaelmiranda.memory.types.Assistants
 import de.rafaelmiranda.memory.utils.Utils
 import org.greenrobot.eventbus.EventBus
 import java.util.*
@@ -40,6 +41,7 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
     private val flippedUp = ArrayList<Int>()
     private var locked = false
     private var mSize: Int = 0
+    private var assistants: Assistants? = null
 
     init {
 
@@ -56,6 +58,8 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
     fun setBoard(game: Game) {
         mBoardConfiguration = game.boardConfiguration
         mBoardArrangement = game.boardArrangement
+        assistants = game.assistants
+
         // Calculating width and height.
         val singleMargin = resources.getDimensionPixelSize(R.dimen.card_margin)
         var sumMargin = 0
