@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Memory Game</string>
+    <string name="information">Information</string>
+    <string name="app_info_hint">Auf basis vom memory-game bei sromku für die CSL in Bremen.</string>
+    <string name="sound_off">Ton an</string>
+    <string name="sound_on">Ton aus</string>
+    <string name="more_options">Mehr optionen</string>
+    <string name="game_settings">Einstellungen</string>
+    <string name="new_user">Neues Spieler</string>
+    <string name="new_user_hint">Diese Name wird schon benutzt.</string>
+    <string name="stage_clear">Geschafft</string>
+    <string name="normal_game">Einfache Modus</string>
+    <string name="normal_game_description">Ein einfaches Memory Spiel. Immer zwei Karten umdrehen und falls die ein Paar sind, verschwinden beide. Man gewinnt wenn keine Karte mehr im Spiel steht.\n\nViel Spaß!</string>
+    <string name="pref_guided_hint_off">Es wird immer abgefragt welcher Modus man spielt</string>
+    <string name="visual_blur_game">Gedächnisnebel</string>
+    <string name="visual_blur_game_description">"Ein einfaches Spiel, aber was ist das?! Alle Karten sind verschwommen. Und sogar schwarz-weiß. Mach dein Bestes um die richtige Paare zu finden in dieses Spiel voller Täuschungen und Rätseln.\n\nWähle weise. "</string>
+</resources>

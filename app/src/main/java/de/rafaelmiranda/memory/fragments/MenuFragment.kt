@@ -1,6 +1,7 @@
 package de.rafaelmiranda.memory.fragments
 
 import android.animation.*
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -61,6 +62,13 @@ open class MenuFragment : Fragment() {
         // to be safe, that when someone closes a game, we should also close the session
         // I just hope this doesn't break anything last minute. This would be B. A. D.
         MemoryDb.endSession()
+
+        // re-enabling full screen
+        val decorView = activity?.window?.decorView
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        }
 
         return view
     }

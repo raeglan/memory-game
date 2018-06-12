@@ -65,7 +65,8 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         // makes sure we have that precious real state by hiding the soft keys
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         }
 
         // set background
