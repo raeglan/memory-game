@@ -39,13 +39,16 @@ class BoardArrangement {
     }
 
     fun getLargerTileResId(cardId: Int): Int {
-        val string = tileUrls!!.get(cardId) + "_l"
-        val drawableResourceName = string.substring(Types.URI_DRAWABLE.length)
-        return Shared
-                .context
-                .resources
-                .getIdentifier(drawableResourceName,
-                        "drawable", Shared.context.packageName)
+        val original = tileUrls!!.get(cardId)
+        return if(original.contains("blur")) {
+            val string = original + "_l"
+            val drawableResourceName = string.substring(Types.URI_DRAWABLE.length)
+            Shared
+                    .context
+                    .resources
+                    .getIdentifier(drawableResourceName,
+                            "drawable", Shared.context.packageName)
+        } else getTileResId(cardId)
     }
 
     fun isPair(card1: Card, card2: Card): Boolean {
