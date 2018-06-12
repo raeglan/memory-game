@@ -15,4 +15,6 @@
     <string name="pref_guided_hint_off">Es wird immer abgefragt welcher Modus man spielt</string>
     <string name="visual_blur_game">Gedächnisnebel</string>
     <string name="visual_blur_game_description">"Ein einfaches Spiel, aber was ist das?! Alle Karten sind verschwommen. Und sogar schwarz-weiß. Mach dein Bestes um die richtige Paare zu finden in dieses Spiel voller Täuschungen und Rätseln.\n\nWähle weise. "</string>
+    <string name="auditory_distraction_game">Spiel der Ablenkungen</string>
+    <string name="auditory_distraction_game_description">"Es ist Mathe-Zeit, juhuu! Immer wenn man eine Karte umdreht, wird ein Zahl laut gesprochen von unsere "</string>
 </resources>
