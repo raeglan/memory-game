@@ -38,6 +38,16 @@ class BoardArrangement {
         // return Utils.crop(bitmap, size, size)
     }
 
+    fun getLargerTileResId(cardId: Int): Int {
+        val string = tileUrls!!.get(cardId) + "_l"
+        val drawableResourceName = string.substring(Types.URI_DRAWABLE.length)
+        return Shared
+                .context
+                .resources
+                .getIdentifier(drawableResourceName,
+                        "drawable", Shared.context.packageName)
+    }
+
     fun isPair(card1: Card, card2: Card): Boolean {
         return card1.pairId == card2.pairId
     }

@@ -137,6 +137,7 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
 
             // putting the image inside the thingy.
             val resId = mBoardArrangement!!.getTileResId(placementId)
+            val largerResId = mBoardArrangement!!.getLargerTileResId(placementId)
             tileView.setTileImage(resId, mSize)
 
             tileView.setOnClickListener {
@@ -152,7 +153,7 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
                         locked = true
                         uiThreadHandler.postDelayed(
                                 {
-                                    enlargeImage.setImageResource(resId)
+                                    enlargeImage.setImageResource(largerResId)
                                     enlargeImage.visibility = View.VISIBLE
 
                                     uiThreadHandler.postDelayed(
