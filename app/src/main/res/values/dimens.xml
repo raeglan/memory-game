@@ -35,6 +35,7 @@
     <dimen name="clock_margin_right">50dp</dimen>
     <dimen name="clock_text_margin_right">35dp</dimen>
     <dimen name="clock_text_size">20sp</dimen>
+    <dimen name="enlarged_image_size">300dp</dimen>
     
     <!-- popup won -->
     <dimen name="popup_button_back">48dp</dimen>

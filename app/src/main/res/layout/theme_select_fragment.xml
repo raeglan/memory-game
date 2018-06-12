@@ -1,56 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:gravity="center_vertical|center"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/theme_padding"
-    android:paddingRight="@dimen/theme_padding" >
+    android:paddingRight="@dimen/theme_padding">
 
-    <RelativeLayout
-        android:id="@+id/theme_animals_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginRight="@dimen/theme_margin"
-        android:layout_weight="1" >
 
-        <ImageView
-            android:id="@+id/theme_animals"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:src="@drawable/theme_animal_normal" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/theme_monsters_container"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/type_normal"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/theme_margin"
-        android:layout_weight="1" >
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/theme_animal_normal"
+        app:layout_constraintBottom_toTopOf="@+id/switch_replay_cheat"
+        app:layout_constraintEnd_toStartOf="@+id/type_auditory"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/theme_monsters"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:src="@drawable/theme_animal_auditory" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/theme_emoji_container"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/type_auditory"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/theme_margin"
-        android:layout_weight="1" >
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/theme_animal_auditory"
+        app:layout_constraintEnd_toStartOf="@+id/type_visual"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/type_normal"
+        app:layout_constraintTop_toTopOf="@+id/type_normal" />
 
-        <ImageView
-            android:id="@+id/theme_emoji"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:src="@drawable/theme_animal_visual" />
-    </RelativeLayout>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/type_visual"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/theme_animal_visual"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/type_auditory"
+        app:layout_constraintTop_toTopOf="@+id/type_auditory" />
+
+    <Switch
+        android:id="@+id/switch_replay_cheat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:fontFamily="@font/grobold"
+        android:text="@string/replay_cheat"
+        android:textColor="@android:color/white"
+        android:textOff="@string/replay_cheat_off_summary"
+        android:textOn="@string/replay_cheat_on_summary"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/switch_zoom_cheat"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/type_normal" />
+
+    <Switch
+        android:id="@+id/switch_zoom_cheat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/grobold"
+        android:text="@string/zoom_cheat"
+        android:textColor="@android:color/white"
+        android:textOff="@string/zoom_cheat_off_summary"
+        android:textOn="@string/zoom_cheat_on_summary"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/switch_replay_cheat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/switch_replay_cheat" />
+
+</android.support.constraint.ConstraintLayout>

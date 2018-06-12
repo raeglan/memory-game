@@ -5,6 +5,8 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.util.SparseArray
 import android.view.Gravity
@@ -12,9 +14,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.BounceInterpolator
+import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.Toast
-import com.squareup.picasso.Picasso
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.events.FlipCardEvent
 import de.rafaelmiranda.memory.model.BoardArrangement
@@ -23,14 +24,9 @@ import de.rafaelmiranda.memory.model.Game
 import de.rafaelmiranda.memory.types.Assistants
 import de.rafaelmiranda.memory.utils.Utils
 import org.greenrobot.eventbus.EventBus
-import java.util.*
 
 open class BoardView @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null) : LinearLayout(context, attributeSet) {
 
-    /**
-     * For cancelling purposes.
-     */
-    private var displayedToast: Toast? = null
     private val mRowLayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
     private var mTileLayoutParams: LinearLayout.LayoutParams? = null
     private val mScreenWidth: Int
@@ -42,9 +38,33 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
     private var locked = false
     private var mSize: Int = 0
     private var assistants: Assistants? = null
+    private lateinit var enlargeImage: ImageView
+
+    /** this saves a list of all previously flipped cards, in order, excluding the ones already out
+    / of the game.
+     **/
+    private val replayCardsList = ArrayList<Int>()
+
+    /**
+     * How long the cards stay up on replay mode
+     */
+    private val replayUpTime by lazy {
+        context.resources.getInteger(R.integer.replay_flip_up_time).toLong()
+    }
+
+    private val zoomUpTime by lazy {
+        context.resources.getInteger(R.integer.zoom_in_time).toLong()
+
+    }
+
+    private val flipDuration by lazy {
+        context.resources.getInteger(R.integer.flip_duration).toLong()
+    }
+
+    private val uiThreadHandler = Handler(Looper.getMainLooper())
+
 
     init {
-
         orientation = LinearLayout.VERTICAL
         gravity = Gravity.CENTER
         val margin = resources.getDimensionPixelSize(R.dimen.margin_top)
@@ -55,10 +75,11 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
         clipToPadding = false
     }
 
-    fun setBoard(game: Game) {
+    fun setBoard(game: Game, enlargeImage: ImageView) {
         mBoardConfiguration = game.boardConfiguration
         mBoardArrangement = game.boardArrangement
         assistants = game.assistants
+        this.enlargeImage = enlargeImage
 
         // Calculating width and height.
         val singleMargin = resources.getDimensionPixelSize(R.dimen.card_margin)
@@ -113,20 +134,39 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
         mTileViews.put(placementId, tileView)
 
         if (placementId < mBoardConfiguration!!.numTiles) {
-            Picasso.get()
-                    .load(mBoardArrangement!!.getTileResId(placementId, mSize))
-                    .resize(mSize, mSize)
-                    .into(tileView.mTileImage)
+
+            // putting the image inside the thingy.
+            val resId = mBoardArrangement!!.getTileResId(placementId)
+            tileView.setTileImage(resId, mSize)
 
             tileView.setOnClickListener {
                 if (!locked && tileView.isFlippedDown) {
                     tileView.flipUp()
                     flippedUp.add(placementId)
+                    replayCardsList.add(placementId)
                     if (flippedUp.size == 2) {
                         locked = true
                     }
+
+                    if (assistants?.zoomInOnFlip == true) {
+                        locked = true
+                        uiThreadHandler.postDelayed(
+                                {
+                                    enlargeImage.setImageResource(resId)
+                                    enlargeImage.visibility = View.VISIBLE
+
+                                    uiThreadHandler.postDelayed(
+                                            {
+                                                enlargeImage.visibility = View.INVISIBLE
+                                                locked = flippedUp.size >= 2
+                                            }, zoomUpTime)
+                                }, flipDuration)
+                    }
+
+                    // sending flips and pirouettes
                     val chosenCard = mBoardArrangement!!.cards!!.get(placementId)
                     EventBus.getDefault().post(FlipCardEvent(chosenCard))
+
                 }
             }
 
@@ -149,12 +189,53 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
             mTileViews[id].flipDown()
         }
         flippedUp.clear()
-        locked = false
+
+        if (assistants?.replayAllFlips == true) {
+            uiThreadHandler.postDelayed({ recursiveNextFlipReplay(0) }, replayUpTime)
+        } else {
+            locked = false
+        }
+    }
+
+    /**
+     * Flips up the given card on the replay list, waits, flips it down and does this to the next
+     * one. When all cards were flipped it changes the lock to false.
+     */
+    private fun recursiveNextFlipReplay(index: Int) {
+        if (index < replayCardsList.size) {
+
+            val nextIndex = index + 1
+
+            // if two following cards are the same then we break the flipping so our best bet is
+            // to skip it.
+            if (nextIndex < replayCardsList.size &&
+                    replayCardsList[index] == replayCardsList[nextIndex]) {
+                recursiveNextFlipReplay(nextIndex)
+            } else {
+                val tile = mTileViews[replayCardsList[index]]
+                tile.flipUp()
+                uiThreadHandler.postDelayed(
+                        {
+                            tile.flipDown()
+                            recursiveNextFlipReplay(index + 1)
+                        },
+                        replayUpTime)
+            }
+        } else {
+            locked = false
+        }
     }
 
     fun hideCards(id1: Int, id2: Int) {
         animateHide(mTileViews.get(id1))
         animateHide(mTileViews.get(id2))
+
+        // removes the enlarged card from view.
+        enlargeImage.visibility = View.INVISIBLE
+
+        // removes all instances of the hidden cards from the card replay.
+        replayCardsList.removeAll { it == id1 || it == id2 }
+
         flippedUp.clear()
         locked = false
     }

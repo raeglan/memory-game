@@ -6,6 +6,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import de.rafaelmiranda.memory.events.SessionStarted
 import de.rafaelmiranda.memory.model.GameState
+import de.rafaelmiranda.memory.types.Assistants
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -30,8 +31,10 @@ object MemoryDb {
     const val FIELD_SESSION_LOGS = "logs" // {GAME_TYPE: LOGS REFERENCE}
     const val FIELD_START_TIME = "startTime" // DATE
     const val FIELD_NAME = "name" // STRING
+    const val FIELD_REPLAY = "replayCheat" // BOOLEAN
+    const val FIELD_ZOOM = "zoomCheat" // BOOLEAN
 
-    // LOGS: GAME_LOG, GAME_TYPE, TIME_LOG, USER, START_TIME, SUM, SUM_USER_ANSWER
+    // LOGS: GAME_LOG, GAME_TYPE, TIME_LOG, USER, START_TIME, SUM, SUM_USER_ANSWER, ZOOM, REPLAY
     // SESSIONS: START_TIME(date), USER(ref), SESSION_LOGS(ref list)
     // USERS: NAME(string)
 
@@ -45,7 +48,7 @@ object MemoryDb {
      * Adds the log of this game to our DB. The log has the timestamp of each action and which
      * card was flipped.
      */
-    fun addGameLog(gameState: GameState, user: String? = null) {
+    fun addGameLog(gameState: GameState, user: String? = null, assistants: Assistants) {
 
         val gameLog = gameState.gameLog
         val gameType = gameState.gameTypeId
@@ -65,6 +68,8 @@ object MemoryDb {
         log[FIELD_START_TIME] = startTime
         log[FIELD_SUM] = gameState.numberSum
         log[FIELD_SUM_USER_ANSWER] = gameState.numberSumUserAnswer
+        log[FIELD_REPLAY] = assistants.replayAllFlips
+        log[FIELD_ZOOM] = assistants.zoomInOnFlip
 
         if (user == null) {
             log[FIELD_USER] = fireDb.collection(COLLECTION_USERS).document(DEFAULT_USER)
@@ -75,8 +80,11 @@ object MemoryDb {
                 .add(log)
                 .addOnSuccessListener {
                     Log.v(TAG, "New log with id ${it.id} added")
-                    if (session != null)
-                        addToSession(gameType, session, it)
+                    if (session != null) {
+                        val sessionName =
+                                "${gameType}Z${assistants.zoomInOnFlip}R${assistants.replayAllFlips}"
+                        addToSession(sessionName, session, it)
+                    }
                 }
                 .addOnFailureListener { e -> e.printStackTrace() }
     }
@@ -84,13 +92,13 @@ object MemoryDb {
     /**
      * If a session is currently in progress we should add this match to it.
      */
-    private fun addToSession(gameType: Int, session: String, logReference: DocumentReference) {
+    private fun addToSession(key: String, session: String, logReference: DocumentReference) {
         FirebaseFirestore
                 .getInstance()
                 .collection(COLLECTION_SESSIONS)
                 .document(session)
                 .update(
-                        "$FIELD_SESSION_LOGS.$gameType", logReference
+                        key, logReference
                 )
                 .addOnSuccessListener {
                     Log.v(TAG, "The log with id ${logReference.id} " +

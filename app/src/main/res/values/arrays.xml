@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_assisted_games_labels">
+        <item>Normal Vanilla</item>
+        <item>Normal with Zoom In</item>
+        <item>Normal with Replay</item>
+        <item>Auditory Vanilla</item>
+        <item>Auditory with Zoom In</item>
+        <item>Auditory with Replay</item>
+        <item>Visual Vanilla</item>
+        <item>Visual with Zoom In</item>
+        <item>Visual with Replay</item>
+    </string-array>
+    <string-array name="pref_assisted_games_values">
+        <item>N</item>
+        <item>NZ</item>
+        <item>NR</item>
+        <item>A</item>
+        <item>AZ</item>
+        <item>AR</item>
+        <item>V</item>
+        <item>VZ</item>
+        <item>VR</item>
+    </string-array>
+    <string-array name="pref_assisted_games_defaults">
+        <item>N</item>
+        <item>A</item>
+        <item>AR</item>
+        <item>V</item>
+        <item>VZ</item>
+    </string-array>
+</resources>

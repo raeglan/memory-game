@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="blink_time">150</integer>
+    <integer name="replay_flip_up_time">1000</integer>
+    <integer name="zoom_in_time">1200</integer>
+    <integer name="flip_duration">700</integer>
 </resources>

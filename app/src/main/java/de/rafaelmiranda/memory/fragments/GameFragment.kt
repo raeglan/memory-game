@@ -28,6 +28,7 @@ class GameFragment : BaseFragment() {
     private lateinit var mTime: Chronometer
     private lateinit var mTimeImage: ImageView
     private lateinit var assistants: Assistants
+    private lateinit var enlargedContainer: ImageView
 
     companion object {
         const val KEY_GAME_ID = "gameID"
@@ -56,6 +57,7 @@ class GameFragment : BaseFragment() {
         // getting views
         mTime = view.findViewById(R.id.time_bar_text) as Chronometer
         mTimeImage = view.findViewById(R.id.time_bar_image) as ImageView
+        enlargedContainer = view.findViewById(R.id.enlarged_image)
         mBoardView = BoardView.fromXml(activity!!.applicationContext, view)
 
         // adding the board
@@ -96,7 +98,7 @@ class GameFragment : BaseFragment() {
     private fun buildBoard() {
         val game = Engine.activeGame
         if (game != null)
-            mBoardView.setBoard(game)
+            mBoardView.setBoard(game, enlargedContainer)
     }
 
     @Suppress("unused")
@@ -107,7 +109,7 @@ class GameFragment : BaseFragment() {
         PopupManager.showPopupWon(event.gameType)
     }
 
-    @Suppress("unused")
+    @Suppress("unused", "UNUSED_PARAMETER")
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onFlipDownCardsEvent(event: FlipDownCardsEvent) {
         mBoardView.flipDownAll()

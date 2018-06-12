@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
+import android.widget.Toast
 import de.rafaelmiranda.memory.R
 import de.rafaelmiranda.memory.common.MemoryDb
 import de.rafaelmiranda.memory.common.Music
@@ -17,12 +18,13 @@ import de.rafaelmiranda.memory.ui.PopupManager
 import de.rafaelmiranda.memory.utils.PreferencesUtil
 import de.rafaelmiranda.memory.utils.Utils
 
-class MenuFragment : Fragment() {
+open class MenuFragment : Fragment() {
 
     private lateinit var mTitle: ImageView
     private lateinit var mStartGameButton: ImageView
     private lateinit var mStartButtonLights: ImageView
     private lateinit var mSettingsGameButton: ImageView
+    private var displayedToast: Toast? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.menu_fragment, container, false)
@@ -33,13 +35,21 @@ class MenuFragment : Fragment() {
         mSettingsGameButton.setOnClickListener { PopupManager.showPopupSettings() }
         mStartButtonLights = view.findViewById(R.id.start_game_button_lights)
         mStartGameButton.setOnClickListener {
-            // animate title from place and navigation buttons from place
-            animateAllAssetsOff(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    val directedGame = PreferencesUtil(context!!).isDirectedGame()
-                    Engine.onStartPressed(fragmentManager!!, directedGame)
-                }
-            })
+            // getting the up to date preferences
+            val directedGame = PreferencesUtil(context!!).isDirectedGame()
+            val gamesList = PreferencesUtil(context!!).getGuidedGameList()
+
+            // some games need to be selected on directed mode
+            if (directedGame && gamesList.isEmpty()) {
+                displayToast(R.string.directed_games_empty_hint)
+            } else {
+                // animate title from place and navigation buttons from place
+                animateAllAssetsOff(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        Engine.onStartPressed(fragmentManager!!, directedGame, gamesList)
+                    }
+                })
+            }
         }
 
         // the wonderful mesmerizing lights animation
@@ -55,7 +65,7 @@ class MenuFragment : Fragment() {
         return view
     }
 
-    protected fun animateAllAssetsOff(adapter: AnimatorListenerAdapter) {
+    private fun animateAllAssetsOff(adapter: AnimatorListenerAdapter) {
         // title
         // 120dp + 50dp + buffer(30dp)
         val titleAnimator = ObjectAnimator.ofFloat(mTitle,
@@ -96,6 +106,15 @@ class MenuFragment : Fragment() {
         animator.repeatCount = ValueAnimator.INFINITE
         mStartButtonLights.setLayerType(View.LAYER_TYPE_HARDWARE, null)
         animator.start()
+    }
+
+    /**
+     * Cancels the previous one and displays a toast. Yummy.
+     */
+    private fun displayToast(message: Int) {
+        displayedToast?.cancel()
+        displayedToast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
+        displayedToast?.show()
     }
 
 }

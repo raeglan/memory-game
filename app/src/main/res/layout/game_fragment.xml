@@ -45,7 +45,18 @@
             android:id="@+id/game_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"></FrameLayout>
+            android:layout_weight="1"/>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/enlarged_image"
+        android:layout_width="@dimen/enlarged_image_size"
+        android:layout_height="@dimen/enlarged_image_size"
+        android:layout_marginTop="@dimen/margin_top"
+        android:layout_marginBottom="@dimen/margin_top"
+        android:background="@drawable/tile"
+        android:layout_gravity="center"
+        android:src="@drawable/animals_blur_1"
+        android:visibility="invisible"/>
 
 </FrameLayout>

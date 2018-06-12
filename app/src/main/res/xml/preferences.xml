@@ -11,6 +11,13 @@
         android:summaryOn="@string/pref_guided_hint_on"
         android:title="Guided Game" />
 
+    <MultiSelectListPreference
+        android:defaultValue="@array/pref_assisted_games_defaults"
+        android:entries="@array/pref_assisted_games_labels"
+        android:entryValues="@array/pref_assisted_games_values"
+        android:key="@string/pref_selected_games"
+        android:title="Selected Games" />
+
     <PreferenceCategory android:title="Select a player" />
 
     <DropDownPreference

@@ -1,7 +1,6 @@
 package de.rafaelmiranda.memory.ui
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Camera
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -13,6 +12,7 @@ import android.view.animation.Transformation
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import com.squareup.picasso.Picasso
 import de.rafaelmiranda.memory.R
 
 class TileView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
@@ -29,8 +29,11 @@ class TileView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         mTileImage = findViewById<View>(R.id.image) as ImageView
     }
 
-    fun setTileImage(bitmap: Bitmap) {
-        mTileImage!!.setImageBitmap(bitmap)
+    fun setTileImage(resId: Int, size: Int) {
+        Picasso.get()
+                .load(resId)
+                .resize(size, size)
+                .into(mTileImage)
     }
 
     fun flipUp() {
@@ -69,8 +72,7 @@ class TileView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         private var forward = true
 
         init {
-
-            duration = 700
+            duration = context.resources.getInteger(R.integer.flip_duration).toLong()
             fillAfter = false
             interpolator = AccelerateDecelerateInterpolator()
         }
@@ -117,6 +119,8 @@ class TileView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             matrix.preTranslate(-centerX, -centerY)
             matrix.postTranslate(centerX, centerY)
         }
+
+
     }
 
     companion object {

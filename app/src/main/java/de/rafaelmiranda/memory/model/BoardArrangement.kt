@@ -26,7 +26,7 @@ class BoardArrangement {
      * this gameType
      * @return The Bitmap of the tile
      */
-    fun getTileResId(id: Int, size: Int): Int {
+    fun getTileResId(id: Int): Int {
         val string = tileUrls!!.get(id)
         val drawableResourceName = string.substring(Types.URI_DRAWABLE.length)
         return Shared

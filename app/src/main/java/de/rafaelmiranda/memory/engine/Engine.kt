@@ -42,7 +42,8 @@ object Engine {
     /**
      * The order in which things will play out when in directed mode.
      */
-    private val directedGameList = ArrayList<Int>()
+    private val directedGameList = ArrayList<AssistedGame>()
+
     private var directedGame: Boolean = false
 
     /**
@@ -50,11 +51,12 @@ object Engine {
      */
     private var gameState: GameState? = null
 
-    init {
-        mHandler = Handler()
+    private val zoomTime: Long by lazy {
+        Shared.context.resources.getInteger(R.integer.zoom_in_time).toLong()
     }
 
     fun start() {
+        mHandler = Handler()
         EventBus.getDefault().register(this)
     }
 
@@ -116,20 +118,17 @@ object Engine {
         activeGame!!.boardArrangement = boardArrangement
     }
 
-    fun onStartPressed(fragmentManager: FragmentManager, directed: Boolean = false) {
+    fun onStartPressed(fragmentManager: FragmentManager, directed: Boolean, gamesList: List<AssistedGame>) {
         directedGame = directed
         if (directedGame) {
+
             MemoryDb.startSession()
             directedGameList.clear()
-            directedGameList.addAll(listOf(
-                    GameType.ID_NORMAL,
-                    GameType.ID_AUDITORY,
-                    GameType.ID_VISUAL_BLUR)
-                    .shuffled())
+            directedGameList.addAll(gamesList.shuffled())
             val firstGame = directedGameList.removeAt(0)
-            val gameType = Types.createType(firstGame)
+            val gameType = Types.createType(firstGame.gameId)
 
-            startGame(fragmentManager, gameType, newGame = true)
+            startGame(fragmentManager, gameType, newGame = true, assistants = firstGame.assistants)
         } else {
             ScreenController.openFragment(fragmentManager, GameSelectFragment(), true)
         }
@@ -145,7 +144,8 @@ object Engine {
             directedGame -> {
                 if (directedGameList.isNotEmpty()) {
                     val nextGame = directedGameList.removeAt(0)
-                    startGame(fragmentManager, Types.createType(nextGame), newGame = false)
+                    startGame(fragmentManager, Types.createType(nextGame.gameId),
+                            newGame = false, assistants = nextGame.assistants)
                 } else {
                     MemoryDb.endSession()
                     EventBus.getDefault().post(BackEvent())
@@ -171,7 +171,8 @@ object Engine {
         // setting the active game
         val game = Game()
         game.boardConfiguration = BoardConfiguration()
-        game.gameType = selectedGameType!!
+        game.gameType = gameType
+        game.assistants = assistants ?: Assistants()
         mToFlip = game.boardConfiguration.numTiles
         activeGame = game
 
@@ -225,6 +226,9 @@ object Engine {
                 ?: throw IllegalStateException("Game State should not be null")
         val card = event.card
 
+        // for the surplus time that should be added, maybe.
+        val surplus = if (activeGame?.assistants?.zoomInOnFlip == true) zoomTime else 0L
+
         Shared.activity.blinkEegLight()
 
         // adding the event to the log
@@ -244,23 +248,23 @@ object Engine {
             if (activeGame!!.boardArrangement.isPair(previouslyFlippedCard, card)) {
 
                 // send event - hide id1, id2
-                mHandler?.postDelayed(1000) {
+                mHandler?.postDelayed(1000 + surplus) {
                     EventBus.getDefault().post(HidePairCardsEvent(previouslyFlippedCard.placementId,
                             card.placementId))
                 }
 
                 // play music
-                mHandler!!.postDelayed({ Music.playCorrect() }, 1000)
+                mHandler!!.postDelayed({ Music.playCorrect() }, 1000 + surplus)
                 mToFlip -= 2
                 if (mToFlip == 0) {
-                    mHandler?.postDelayed(1200) {
+                    mHandler?.postDelayed(1200 + surplus) {
                         EventBus.getDefault().post(GameWonEvent(currentGameState.gameTypeId))
                     }
                 }
             } else {
                 // Log.i("my_tag", "Flip: all down");
                 // send event - flip all down
-                mHandler?.postDelayed(1000) {
+                mHandler?.postDelayed(1000 + surplus) {
                     EventBus.getDefault().post(FlipDownCardsEvent())
                 }
             }
@@ -279,7 +283,8 @@ object Engine {
                 ?: throw IllegalStateException("Game state should not be null")
         currentGameState.numberSumUserAnswer = event.sumAnswer
         // and save the logs as well
-        MemoryDb.addGameLog(currentGameState)
+        val assistants = activeGame?.assistants ?: Assistants()
+        MemoryDb.addGameLog(currentGameState, assistants = assistants)
     }
 
     fun setBackgroundImageView(backgroundImage: ImageView) {

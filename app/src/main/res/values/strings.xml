@@ -44,5 +44,13 @@
 
     <string name="number_sum">Number sum:</string>
     <string name="please_answer_sum_hint">Please fill out the sum</string>
+    <string name="zoom_cheat">Zoom Cheat</string>
+    <string name="zoom_cheat_off_summary">Cards flip while staying the same size</string>
+    <string name="zoom_cheat_on_summary">Cards zoom on flip</string>
+    <string name="replay_cheat">Replay Cheat</string>
+    <string name="replay_cheat_off_summary">Failed matches just flip back down.</string>
+    <string name="replay_cheat_on_summary">Every card replays after a failed match.</string>
+    <string name="pref_selected_games">pref_selected_games</string>
+    <string name="directed_games_empty_hint">For directed mode please select some games</string>
 
 </resources>
