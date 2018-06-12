@@ -2,16 +2,13 @@ package de.rafaelmiranda.memory.utils
 
 import android.content.Context
 import android.graphics.Typeface
-import android.util.SparseArray
+import android.support.v4.content.res.ResourcesCompat
 import android.widget.TextView
 import de.rafaelmiranda.memory.R
 
 object FontLoader {
 
     const val GROBOLD = R.font.grobold
-
-    private val fonts = SparseArray<Typeface>()
-    private var fontsLoaded = false
 
     enum class Font constructor(val intValue: Int) {
         GROBOLD(FontLoader.GROBOLD);
@@ -30,9 +27,7 @@ object FontLoader {
     }
 
     private fun setTypeFaceToTextViews(context: Context, textViews: Array<TextView>, font: Font, fontStyle: Int) {
-
-        val currentFont = context.resources.getFont(font.intValue)
-
+        val currentFont = ResourcesCompat.getFont(context, font.intValue)
         for (i in textViews.indices) {
             textViews[i].setTypeface(currentFont, fontStyle)
         }
