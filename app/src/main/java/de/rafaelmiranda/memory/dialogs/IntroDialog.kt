@@ -25,9 +25,10 @@ class IntroDialog : DialogFragment() {
         const val KEY_GAME_ID = "gameID"
         const val KEY_ASSISTANTS = "assistants"
 
-        fun newInstance(@GameType.GameId gameId: Int): IntroDialog {
+        fun newInstance(@GameType.GameId gameId: Int, assistants: Assistants): IntroDialog {
             val bundle = Bundle(1)
             bundle.putInt(KEY_GAME_ID, gameId)
+            bundle.putParcelable(KEY_ASSISTANTS, assistants)
             return IntroDialog().apply { this.arguments = bundle }
         }
     }
