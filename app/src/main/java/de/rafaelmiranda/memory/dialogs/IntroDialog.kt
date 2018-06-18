@@ -1,5 +1,6 @@
 package de.rafaelmiranda.memory.dialogs
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
@@ -33,6 +34,7 @@ class IntroDialog : DialogFragment() {
         }
     }
 
+    @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = LayoutInflater.from(context)
                 .inflate(R.layout.popup_intro, null)

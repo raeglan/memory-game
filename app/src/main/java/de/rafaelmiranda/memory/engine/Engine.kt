@@ -189,7 +189,7 @@ object Engine {
         arrangeBoard()
 
         // Open the fragment
-        val gameFragment = GameFragment.newInstance(gameType.id, null)
+        val gameFragment = GameFragment.newInstance(gameType.id, assistants)
         ScreenController.openFragment(fragmentManager, gameFragment, addToBackStack = newGame)
 
         if (gameType.backgroundImageUrl != selectedGameType?.backgroundImageUrl) {
