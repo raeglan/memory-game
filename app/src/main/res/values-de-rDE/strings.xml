@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Memory Game</string>
+    <string name="app_name">Memory Spiel</string>
     <string name="information">Information</string>
     <string name="app_info_hint">Auf basis vom memory-game bei sromku für die CSL in Bremen.</string>
     <string name="sound_off">Ton an</string>
@@ -10,11 +10,32 @@
     <string name="new_user">Neues Spieler</string>
     <string name="new_user_hint">Diese Name wird schon benutzt.</string>
     <string name="stage_clear">Geschafft</string>
-    <string name="normal_game">Einfache Modus</string>
-    <string name="normal_game_description">Ein einfaches Memory Spiel. Immer zwei Karten umdrehen und falls die ein Paar sind, verschwinden beide. Man gewinnt wenn keine Karte mehr im Spiel steht.\n\nViel Spaß!</string>
+    <string name="normal_game">Der klassischer Modus</string>
+    <string name="normal_game_description">Hier musst Du immer zwei gleiche Paare finden. Wenn alle Kartenpaare gefunden wurden, hat man gewonnen.\n\nViel Spaß!</string>
     <string name="pref_guided_hint_off">Es wird immer abgefragt welcher Modus man spielt</string>
     <string name="visual_blur_game">Gedächnisnebel</string>
     <string name="visual_blur_game_description">"Ein einfaches Spiel, aber was ist das?! Alle Karten sind verschwommen. Und sogar schwarz-weiß. Mach dein Bestes um die richtige Paare zu finden in dieses Spiel voller Täuschungen und Rätseln.\n\nWähle weise. "</string>
     <string name="auditory_distraction_game">Spiel der Ablenkungen</string>
     <string name="auditory_distraction_game_description">"Es ist Mathe-Zeit, juhuu! Immer wenn man eine Karte umdreht, wird ein Zahl laut gesprochen von unsere "</string>
+    <string name="normal_with_replay">Der unterstützende Modus</string>
+    <string name="normal_with_replay_description">Hier musst Du immer zwei gleiche Paare finden. Wenn alle Kartenpaare gefunden wurden, hat man gewonnen.\nUm Dir das Spiel zu vereinfachen, werden Dir alle Karten, in der Reihenfolge in der Du sie ausgewählt hast, noch mal angezeigt,\nfalls Du in dem Zug kein Paar gefunden hast.\n\nHave fun!</string>
+    <string name="normal_with_zoom">Der visuelle Modus</string>
+    <string name="normal_with_zoom_description">Hier musst Du immer zwei gleiche Paare finden. Wenn alle Kartenpaare gefunden wurden, hat man gewonnen.\nUm Dir das Spiel zu vereinfachen, wird nach jeder Auswahl die Karte vergrößert angezeigt.\n\nViel Spaß!</string>
+    <string name="visual_blur_replay">Der weis(s)e Nebel</string>
+    <string name="visual_blur_replay_description">Du musst wie beim klassischen Memoryspiel immer zwei Kartenpaare finden, jedoch sind die Bilder durch den ganzen Nebel nicht mehr so deutlich zu erkennen. Geb Dein bestes um das Spiel schnell zu gewinnen.\nUm Dir das Spiel zu vereinfachen, werden Dir alle Karten, in der Reihenfolge in der Du sie ausgewählt hast, noch mal angezeigt, falls Du in dem Zug kein Paar gefunden hast.\n\nWähle weise!</string>
+    <string name="visual_blur_zoom">Der Nebel löst sich auf</string>
+    <string name="visual_blur_zoom_description">Du musst wie beim klassischen Memoryspiel immer zwei Kartenpaare finden, jedoch sind die Bilder durch den ganzen Nebel nicht mehr so deutlich zu erkennen. Geb Dein bestes um das Spiel schnell zu gewinnen.\nUm Dir das Spiel zu vereinfachen, wird nach jeder Auswahl die Karte vergrößert angezeigt.\n\nWähle weise!</string>
+    <string name="auditory_distraction_replay">Das vereinfachte Zahlen-Memory</string>
+    <string name="auditory_distraction_replay_description">Es wird Zeit deine Mathefähigkeiten zu verbessern. Du musst wie beim klassischen Memoryspiel immer zwei Kartenpaare finden, jedoch hörst Du nach jedem Aufdecken einer Karte eine Zahl. Diese musst Du alle zusammen addieren und am Ende des Spiels in ein\nTextfeld eingeben. \nUm Dir das Spiel zu vereinfachen, werden Dir alle Karten, in der Reihenfolge in der Du sie ausgewählt hast, noch mal angezeigt,falls Du in dem Zug kein Paar gefunden hast.\n\nViel Erfolg!</string>
+    <string name="auditory_distraction_zoom">Das visuelle Zahlen-Memory</string>
+    <string name="auditory_distraction_zoom_description">Es wird Zeit deine Mathefähigkeiten zu verbessern. Du musst wie beim klassischen Memoryspiel immer zwei Kartenpaare finden, jedoch hörst Du nach jedem Aufdecken einer Karte eine Zahl. Diese musst Du alle zusammen addieren und am Ende des Spiels in ein Textfeld eingeben.\nUm Dir das Spiel zu vereinfachen, wird nach jeder Auswahl die Karte vergrößert angezeigt.\n\nViel Erfolg!</string>
+    <string name="number_sum">Summe</string>
+    <string name="please_answer_sum_hint">Summe bitte eingeben</string>
+    <string name="zoom_cheat">Zoom Cheat</string>
+    <string name="zoom_cheat_off_summary">Karten behalten beim umdrehen deren Große</string>
+    <string name="zoom_cheat_on_summary">Beim umdrehen werden Karten reingezoomt</string>
+    <string name="replay_cheat">Schnelles Wiederholen</string>
+    <string name="replay_cheat_off_summary">Flops werden einfach zurück gedeckt</string>
+    <string name="replay_cheat_on_summary">Bei Flops werden alle Züge wiederholt</string>
+    <string name="directed_games_empty_hint">Fürs geführte Modus bitte Spiele unter die Einstellungen wählen.</string>
 </resources>

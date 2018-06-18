@@ -11,6 +11,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import de.rafaelmiranda.memory.R
+import de.rafaelmiranda.memory.types.Assistants
 import de.rafaelmiranda.memory.types.GameType
 
 
@@ -22,6 +23,7 @@ class IntroDialog : DialogFragment() {
     companion object {
 
         const val KEY_GAME_ID = "gameID"
+        const val KEY_ASSISTANTS = "assistants"
 
         fun newInstance(@GameType.GameId gameId: Int): IntroDialog {
             val bundle = Bundle(1)
@@ -35,6 +37,7 @@ class IntroDialog : DialogFragment() {
                 .inflate(R.layout.popup_intro, null)
 
         val gameId = arguments?.getInt(KEY_GAME_ID)
+        val assistants: Assistants = arguments?.getParcelable(KEY_ASSISTANTS) ?: Assistants()
 
         // getting text views.
         val name: TextView = view.findViewById(R.id.name)
@@ -43,16 +46,52 @@ class IntroDialog : DialogFragment() {
         // setting them up with wonderfully written text.
         when (gameId) {
             GameType.ID_NORMAL -> {
-                name.setText(R.string.normal_game)
-                description.setText(R.string.normal_game_description)
+                when {
+                    !assistants.isAssisted() -> {
+                        name.setText(R.string.normal_game)
+                        description.setText(R.string.normal_game_description)
+                    }
+                    assistants.replayAllFlips -> {
+                        name.setText(R.string.normal_with_replay)
+                        description.setText(R.string.normal_with_replay_description)
+                    }
+                    assistants.zoomInOnFlip -> {
+                        name.setText(R.string.normal_with_zoom)
+                        description.setText(R.string.normal_with_zoom_description)
+                    }
+                }
             }
             GameType.ID_AUDITORY -> {
-                name.setText(R.string.auditory_distraction_game)
-                description.setText(R.string.auditory_distraction_game_description)
+                when {
+                    !assistants.isAssisted() -> {
+                        name.setText(R.string.auditory_distraction_game)
+                        description.setText(R.string.auditory_distraction_game_description)
+                    }
+                    assistants.replayAllFlips -> {
+                        name.setText(R.string.auditory_distraction_replay)
+                        description.setText(R.string.auditory_distraction_replay_description)
+                    }
+                    assistants.zoomInOnFlip -> {
+                        name.setText(R.string.auditory_distraction_zoom)
+                        description.setText(R.string.auditory_distraction_zoom_description)
+                    }
+                }
             }
             GameType.ID_VISUAL_BLUR -> {
-                name.setText(R.string.visual_blur_game)
-                description.setText(R.string.visual_blur_game_description)
+                when {
+                    !assistants.isAssisted() -> {
+                        name.setText(R.string.visual_blur_game)
+                        description.setText(R.string.visual_blur_game_description)
+                    }
+                    assistants.replayAllFlips -> {
+                        name.setText(R.string.visual_blur_replay)
+                        description.setText(R.string.visual_blur_replay_description)
+                    }
+                    assistants.zoomInOnFlip -> {
+                        name.setText(R.string.visual_blur_zoom)
+                        description.setText(R.string.visual_blur_zoom_description)
+                    }
+                }
             }
             else -> throw IllegalArgumentException("GameId $gameId not found.")
         }

@@ -26,7 +26,7 @@
 
     <View
         android:id="@+id/v_eeg_blink"
-        android:layout_gravity="bottom|end"
+        android:layout_gravity="top|start"
         android:background="@android:color/black"
         android:layout_width="@dimen/eeg_blink_size"
         android:layout_height="@dimen/eeg_blink_size" />

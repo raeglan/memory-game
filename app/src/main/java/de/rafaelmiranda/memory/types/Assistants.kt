@@ -21,6 +21,11 @@ class Assistants() : Parcelable {
      */
     var zoomInOnFlip: Boolean = false
 
+    /**
+     * If any assist is on.
+     */
+    fun isAssisted() = !(zoomInOnFlip || replayAllFlips)
+
     constructor(parcel: Parcel) : this() {
         replayAllFlips = parcel.readByte() != 0.toByte()
         zoomInOnFlip = parcel.readByte() != 0.toByte()

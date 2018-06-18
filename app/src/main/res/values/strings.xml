@@ -29,11 +29,19 @@
     <string name="normal_game_description">
         Just a normal game of memory. Flip two cards at a time and if they are a match both will be
         taken out of the game, you win when there are no cards left at the board.\n\nHave fun!"</string>
+    <string name="normal_with_replay">Instant Replay</string>
+    <string name="normal_with_replay_description">Just a normal game of memory. Flip two cards at a time and if they are a match both will vanish, you win when there are no cards left in the board.\nWith each unsuccessful turn all cards will flip in the order you chose them before.\n\nHave fun!</string>
+    <string name="normal_with_zoom">Zooming Normality</string>
+    <string name="normal_with_zoom_description">Just a normal game of memory. Flip two cards at a time and if they are a match both will vanish, you win when there are no cards left in the board. To help you out, every card will be zoomed on flip!  Have fun!</string>
     <string name="visual_blur_game">Memory Fog</string>
     <string name="visual_blur_game_description">
         A simple game, but what is that? All the cards are blurry. And black and white. Do you best
         to find pairs in this game of deception and mystery.\n\nChoose wisely.
     </string>
+    <string name="visual_blur_replay">Blurry Replay</string>
+    <string name="visual_blur_replay_description">A simple game, but what is that? All the cards are blurry. And black and white. Do you best to find pairs in this game of deception and mystery.\nEach unsuccessful match, flop if you will, will replay all the previous actions to help you out.\n\nChoose wisely.</string>
+    <string name="visual_blur_zoom">Adjusting Glasses</string>
+    <string name="visual_blur_zoom_description">A simple game, but what is that? All the cards are blurry. And black and white. Do you best to find pairs in this game of deception and mystery.\nTo help navigate in this blurry sea, all the cards will zoom on flip.\n\nChoose wisely.</string>
     <string name="auditory_distraction_game">Game of Distractions</string>
     <string name="auditory_distraction_game_description">
         It is time to amp up your math game. Every time you flip a card our highly advanced AI will
@@ -42,6 +50,10 @@
         10. You need to remember 19. After the game you will be asked to give the answer.
         \n\nGood Luck! You're gonna need it…
     </string>
+    <string name="auditory_distraction_replay">Distracting Replays</string>
+    <string name="auditory_distraction_replay_description">It is time to amp up your math game. Every time you flip a card our highly advanced AI will read a number out loud. You should always remember the sum of all the numbers said until this point. With each unsuccessful flip all moves will replay in order. After the game you will be asked to give the answer.\n\nGood Luck! You're gonna need it…</string>
+    <string name="auditory_distraction_zoom">Zooms and Distractions</string>
+    <string name="auditory_distraction_zoom_description">It is time to amp up your math game. Every time you flip a card our highly advanced AI will read a number out loud. You should always remember the sum of all the numbers said until this point. Every flip will zoom in the cards. After the game you will be asked to give the answer.\n\nGood Luck! You're gonna need it…</string>
 
     <string name="number_sum">Number sum:</string>
     <string name="please_answer_sum_hint">Please fill out the sum</string>
@@ -51,6 +63,6 @@
     <string name="replay_cheat">Replay Cheat</string>
     <string name="replay_cheat_off_summary">Failed matches just flip back down.</string>
     <string name="replay_cheat_on_summary">Every card replays after a failed match.</string>
-    <string name="pref_selected_games">pref_selected_games</string>
+    <string name="pref_selected_games" translatable="false">pref_selected_games</string>
     <string name="directed_games_empty_hint">For directed mode please select some games</string>
 </resources>
