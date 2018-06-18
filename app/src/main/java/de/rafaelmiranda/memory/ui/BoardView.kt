@@ -218,7 +218,9 @@ open class BoardView @JvmOverloads constructor(context: Context, attributeSet: A
                 uiThreadHandler.postDelayed(
                         {
                             tile.flipDown()
-                            recursiveNextFlipReplay(index + 1)
+                            uiThreadHandler.postDelayed({
+                                recursiveNextFlipReplay(index + 1)
+                            }, flipDuration)
                         },
                         replayUpTime)
             }

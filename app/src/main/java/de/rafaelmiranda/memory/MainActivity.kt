@@ -106,6 +106,13 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }).start()
     }
 
+    /**
+     * Displays or hides the eeg light from view.
+     */
+    fun showEegLight(show: Boolean) {
+        eegBlinkView.visibility = if (show) View.VISIBLE else View.INVISIBLE
+    }
+
     private fun setBackgroundImage() {
         var bitmap = Utils.scaleDown(R.drawable.background, Utils.screenWidth(), Utils.screenHeight())
         bitmap = Utils.crop(bitmap, Utils.screenHeight(), Utils.screenWidth())
