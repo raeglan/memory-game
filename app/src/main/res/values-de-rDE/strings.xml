@@ -15,8 +15,8 @@
     <string name="pref_guided_hint_off">Es wird immer abgefragt welcher Modus man spielt</string>
     <string name="visual_blur_game">Gedächnisnebel</string>
     <string name="visual_blur_game_description">"Ein einfaches Spiel, aber was ist das?! Alle Karten sind verschwommen. Und sogar schwarz-weiß. Mach dein Bestes um die richtige Paare zu finden in dieses Spiel voller Täuschungen und Rätseln.\n\nWähle weise. "</string>
-    <string name="auditory_distraction_game">Spiel der Ablenkungen</string>
-    <string name="auditory_distraction_game_description">"Es ist Mathe-Zeit, juhuu! Immer wenn man eine Karte umdreht, wird ein Zahl laut gesprochen von unsere "</string>
+    <string name="auditory_distraction_game">Das Zahlen-Memory</string>
+    <string name="auditory_distraction_game_description">Es wird Zeit deine Mathefähigkeiten zu verbessern. Du musst wie beim klassischen Memoryspiel immer zwei Kartenpaare finden, jedoch hörst Du nach jedem Aufdecken einer Karte eine Zahl. Diese musst Du alle zusammen addieren und am Ende des Spiels in ein Textfeld eingeben.\n \nViel Erfolg!</string>
     <string name="normal_with_replay">Der unterstützende Modus</string>
     <string name="normal_with_replay_description">Hier musst Du immer zwei gleiche Paare finden. Wenn alle Kartenpaare gefunden wurden, hat man gewonnen.\nUm Dir das Spiel zu vereinfachen, werden Dir alle Karten, in der Reihenfolge in der Du sie ausgewählt hast, noch mal angezeigt,\nfalls Du in dem Zug kein Paar gefunden hast.\n\nHave fun!</string>
     <string name="normal_with_zoom">Der visuelle Modus</string>
