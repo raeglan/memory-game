@@ -127,18 +127,19 @@ object MemoryDb {
 
         val sessionDocument = db.collection(COLLECTION_SESSIONS).document()
 
-
         sessionId = sessionDocument.id
         Log.v(TAG, "Session started with the id: ${sessionDocument.id}")
 
         sessionDocument
                 .set(session)
                 .addOnSuccessListener {
-                    EventBus.getDefault().post(SessionStarted())
+                    Log.v(TAG, "Session ${sessionDocument.id} set.")
                 }
                 .addOnFailureListener {
                     it.printStackTrace()
                 }
+
+        EventBus.getDefault().post(SessionStarted())
     }
 
     /**
