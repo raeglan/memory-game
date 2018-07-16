@@ -138,7 +138,6 @@ object MemoryDb {
                 }
                 .addOnFailureListener {
                     it.printStackTrace()
-                    SessionStarted(false)
                 }
     }
 
