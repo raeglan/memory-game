@@ -125,11 +125,15 @@ object MemoryDb {
         session[FIELD_USER] = userReference
         session[FIELD_START_TIME] = startTime
 
-        db.collection(COLLECTION_SESSIONS)
-                .add(session)
+        val sessionDocument = db.collection(COLLECTION_SESSIONS).document()
+
+
+        sessionId = sessionDocument.id
+        Log.v(TAG, "Session started with the id: ${sessionDocument.id}")
+
+        sessionDocument
+                .set(session)
                 .addOnSuccessListener {
-                    sessionId = it.id
-                    Log.v(TAG, "Session started with the id: ${it.id}")
                     EventBus.getDefault().post(SessionStarted())
                 }
                 .addOnFailureListener {
